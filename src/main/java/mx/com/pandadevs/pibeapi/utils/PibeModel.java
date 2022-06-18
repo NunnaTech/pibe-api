@@ -1,11 +1,18 @@
 package mx.com.pandadevs.pibeapi.utils;
 
+// Java
 import java.time.LocalDateTime;
 
+// Persistence
 import javax.persistence.Column;
 
+// Hibernate
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+// Lombok
+import lombok.Getter;
+import lombok.Setter;
 
 /**
  * Pibe base model.
@@ -15,6 +22,8 @@ import org.hibernate.annotations.UpdateTimestamp;
  *  + created_at (LocalDateTime): Store the LocalDateTime the object was created.
  *  + updated_at (LocalDateTime): Store the last LocalDateTime the object was modified.
  */
+@Getter
+@Setter
 public class PibeModel {
     @CreationTimestamp
     @Column(
