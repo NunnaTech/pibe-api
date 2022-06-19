@@ -5,12 +5,8 @@ import java.io.Serializable;
 
 // Persistence
 import javax.persistence.Column;
-import javax.persistence.Embeddable;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
@@ -46,7 +42,7 @@ public class UserNotification extends PibeModel implements Serializable {
 
     // Relationship
     @ManyToOne
-    @MapsId("idCompra")
+    @MapsId("user_id")
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 
