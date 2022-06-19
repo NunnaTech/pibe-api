@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.models.users;
+package mx.com.pandadevs.pibeapi.models.users.dto;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -10,7 +10,9 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class USerDTO {
+public class UserDTO {
+
+    private Long id;
     @NotNull
     @NotBlank
     @Size(

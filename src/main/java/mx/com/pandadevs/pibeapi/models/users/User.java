@@ -12,14 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 // Validations
-import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 // Lombok
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 // Models
