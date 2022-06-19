@@ -10,9 +10,9 @@ public interface ServiceInterface<T>{
      *  methods of a CRUD.
     */
     List<T> getAll();
-    Optional<T> getById(int id);
+    Optional<T> getById(Long id);
     T save(T entity);
     Optional<T> update(T entity);
-    Optional<T> partialUpdate(Integer id, Map<Object, Object> fields);
-    Boolean delete(int id);
+    Optional<T> partialUpdate(Long id, Map<Object, Object> fields);
+    Boolean delete(Long id);
 }

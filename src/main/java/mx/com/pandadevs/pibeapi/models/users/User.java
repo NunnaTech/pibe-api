@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.models;
+package mx.com.pandadevs.pibeapi.models.users;
 
 // Java
 import java.io.Serializable;
@@ -27,7 +27,6 @@ import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
 @Table(name = "USERS")
-@NoArgsConstructor
 @Setter
 @Getter
 public class User extends PibeModel implements Serializable {
@@ -36,14 +35,8 @@ public class User extends PibeModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_user")
-    private Integer id;
+    private Long id;
     
-    @NotNull
-    @NotBlank
-    @Size(
-        min = 5,
-        max = 50)
-    @Email
     @Column(
         unique = true,
         nullable = false,
@@ -74,9 +67,5 @@ public class User extends PibeModel implements Serializable {
         name = "link_activate_email",
         unique = true, columnDefinition = "varchar(150)")
     private String linkActivateEmail;
-
-    public static void main(String[] args) {
-        User a = new User();
-    }
 
 }

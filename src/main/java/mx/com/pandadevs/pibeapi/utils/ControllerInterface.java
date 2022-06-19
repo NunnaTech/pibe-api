@@ -13,10 +13,10 @@ public interface ControllerInterface<T> {
      * the response through the Object ResponseEntity accompanied by an HTTP status.
      */
     ResponseEntity<List<T>> getAll();
-    ResponseEntity<T> getOne(Integer id);
+    ResponseEntity<T> getOne(Long id);
     ResponseEntity<T> save(T entity);
     ResponseEntity<T> update(T entity);
-    ResponseEntity<T> partialUpdate(Integer id, Map<Object,Object> fields);
-    ResponseEntity<Boolean> delete(Integer id);
+    ResponseEntity<T> partialUpdate(Long id, Map<Object,Object> fields);
+    ResponseEntity<Boolean> delete(Long id);
 
 }
