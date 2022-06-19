@@ -2,6 +2,8 @@ package mx.com.pandadevs.pibeapi.models.users;
 
 // Java
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 // Persistence
 import javax.persistence.Column;
@@ -9,12 +11,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.CascadeType;
+import javax.persistence.JoinColumn;
 
-// Validations
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 // Lombok
 import lombok.Getter;
@@ -22,6 +25,8 @@ import lombok.Setter;
 
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
+import mx.com.pandadevs.pibeapi.models.notifications.UserNotification;
+import mx.com.pandadevs.pibeapi.models.roles.Role;
 
 @Entity
 @Table(name = "USERS")
@@ -41,11 +46,6 @@ public class User extends PibeModel implements Serializable {
         columnDefinition = "varchar(50)")
     private String email;
 
-    @NotNull
-    @NotBlank
-    @Size(
-        min = 5,
-        max = 100)
     @Column(
         nullable = false,
         columnDefinition = "varchar(100)")
@@ -65,5 +65,26 @@ public class User extends PibeModel implements Serializable {
         name = "link_activate_email",
         unique = true, columnDefinition = "varchar(150)")
     private String linkActivateEmail;
+
+    // Relationships
+
+    // Roles
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "USER_ROLES",
+        joinColumns = @JoinColumn(name = "user_id"),
+        inverseJoinColumns = @JoinColumn(name = "rol_id"))
+    private Set<Role> roles;
+
+    public void addRole() {
+        roles = new HashSet<>();
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+    
+    // Notifications
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    private Set<UserNotification> notifications;
 
 }
