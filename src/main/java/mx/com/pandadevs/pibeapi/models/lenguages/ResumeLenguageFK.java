@@ -1,5 +1,4 @@
-package mx.com.pandadevs.pibeapi.models.notifications;
-
+package mx.com.pandadevs.pibeapi.models.lenguages;
 // Java
 import java.io.Serializable;
 
@@ -14,13 +13,13 @@ import lombok.Setter;
 @Embeddable
 @Setter
 @Getter
-public class UserNotificationPK implements Serializable {
+public class ResumeLenguageFK implements Serializable {
     private static final long serialVersionUID = 1L;
+    
+    @Column(name = "resume_id")
+    private Integer  resumeId;
 
-    @Column(name = "notification_id")
-    private Integer  notificacitionId;
-
-    @Column(name = "user_id")
-    private Long  userId;    
+    @Column(name = "lenguage_id")
+    private Long  lenguageId;    
 
 }

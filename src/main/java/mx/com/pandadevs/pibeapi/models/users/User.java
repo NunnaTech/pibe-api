@@ -3,6 +3,7 @@ package mx.com.pandadevs.pibeapi.models.users;
 // Java
 import java.io.Serializable;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 // Persistence
@@ -14,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
@@ -26,7 +28,9 @@ import lombok.Setter;
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.notifications.UserNotification;
+import mx.com.pandadevs.pibeapi.models.profile.Profile;
 import mx.com.pandadevs.pibeapi.models.roles.Role;
+import mx.com.pandadevs.pibeapi.models.vacants.Vacant;
 
 @Entity
 @Table(name = "USERS")
@@ -87,4 +91,31 @@ public class User extends PibeModel implements Serializable {
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     private Set<UserNotification> notifications;
 
+    // Profile
+    @OneToOne(mappedBy="user")
+    private Profile profile;
+
+    // Vacants
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    private Set<Vacant> vacants;
+
+    // vacants favorites
+    @ManyToMany(cascade = {
+        CascadeType.PERSIST,
+        CascadeType.MERGE
+    })
+    @JoinTable(name = "VACANTS_FAVORITES",
+            joinColumns = @JoinColumn(name = "id_vacant"),
+            inverseJoinColumns = @JoinColumn(name = "id_user"))
+    private List<Vacant> favoitesVacants;
+
+    public void addToFavorite(Vacant vacant) {
+        favoitesVacants.add(vacant);
+        vacant.getUsers().add(this);
+    }
+
+    public void removeFromFavorite(Vacant vacant) {
+        favoitesVacants.remove(vacant);
+        vacant.getUsers().remove(this);
+    }
 }
