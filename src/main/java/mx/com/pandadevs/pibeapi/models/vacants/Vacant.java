@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 // Persistence
 import javax.persistence.Column;
@@ -15,6 +16,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.CascadeType;
 
@@ -128,4 +130,9 @@ public class Vacant extends PibeModel implements Serializable {
         benefits.remove(benefit);
         benefit.getVacants().remove(this);
     }
+
+    // User Vacants
+    @OneToMany(mappedBy = "vacant", cascade = {CascadeType.ALL})
+    private Set<UserVacant> userVacants;
+    
 }

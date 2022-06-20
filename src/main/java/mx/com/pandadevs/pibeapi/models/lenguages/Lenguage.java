@@ -17,7 +17,7 @@ import javax.persistence.CascadeType;
 // Lombok
 import lombok.Getter;
 import lombok.Setter;
-import mx.com.pandadevs.pibeapi.models.vacants.Vacant;
+
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 

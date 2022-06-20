@@ -1,7 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.lenguages;
 // Java
 import java.io.Serializable;
-import java.util.Set;
 
 // Persistence
 import javax.persistence.Column;
@@ -9,24 +8,19 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.CascadeType;
 
 // Lombok
 import lombok.Getter;
 import lombok.Setter;
-import mx.com.pandadevs.pibeapi.models.resumes.Resume;
-import mx.com.pandadevs.pibeapi.models.vacants.Vacant;
-import mx.com.pandadevs.pibeapi.utils.Level;
+
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
+import mx.com.pandadevs.pibeapi.utils.enums.Level;
+import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 
 @Entity
 @Table(name = "RESUME_LEGUAGES")
@@ -48,13 +42,13 @@ public class ResumeLenguage extends PibeModel implements Serializable {
 
     // Relationship
     
-    // User
+    // Resume
     @ManyToOne
     @MapsId("resume_id")
     @JoinColumn(name = "resume_id", insertable = false, updatable = false)
     private Resume resume;
 
-    // Notification
+    // Lenguage
     @ManyToOne
     @JoinColumn(name = "language_id", insertable = false, updatable = false)
     private Lenguage lenguage;

@@ -27,9 +27,11 @@ import lombok.Setter;
 
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
+import mx.com.pandadevs.pibeapi.models.logs.Log;
 import mx.com.pandadevs.pibeapi.models.notifications.UserNotification;
 import mx.com.pandadevs.pibeapi.models.profile.Profile;
 import mx.com.pandadevs.pibeapi.models.roles.Role;
+import mx.com.pandadevs.pibeapi.models.vacants.UserVacant;
 import mx.com.pandadevs.pibeapi.models.vacants.Vacant;
 
 @Entity
@@ -49,6 +51,12 @@ public class User extends PibeModel implements Serializable {
         nullable = false,
         columnDefinition = "varchar(50)")
     private String email;
+
+    @Column(
+        unique = true,
+        nullable = false,
+        columnDefinition = "varchar(50)")
+    private String username;
 
     @Column(
         nullable = false,
@@ -118,4 +126,12 @@ public class User extends PibeModel implements Serializable {
         favoitesVacants.remove(vacant);
         vacant.getUsers().remove(this);
     }
+
+    // User Vacants
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    private Set<UserVacant> userVacants;
+
+    // Logs
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    private Set<Log> logs;
 }

@@ -1,8 +1,8 @@
-package mx.com.pandadevs.pibeapi.models.aptitudes;
+package mx.com.pandadevs.pibeapi.models.processes;
+
 // Java
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Set;
 
 // Persistence
 import javax.persistence.Column;
@@ -10,27 +10,28 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.CascadeType;
 
 // Lombok
 import lombok.Getter;
 import lombok.Setter;
-import mx.com.pandadevs.pibeapi.models.resumes.Resume;
+import mx.com.pandadevs.pibeapi.models.vacants.UserVacant;
 
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
-@Table(name = "APTITUDES")
+@Table(name = "PROCESSES")
 @Setter
 @Getter
-public class Aptitudes extends PibeModel implements Serializable {
+public class Process extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_aptitudes")
+    @Column(name = "id_period")
     private Integer id;
     
     @Column(
@@ -39,10 +40,12 @@ public class Aptitudes extends PibeModel implements Serializable {
         columnDefinition = "varchar(40)")
     private String name;
 
-    // Relationships
+    @Column(
+        nullable = false,
+        columnDefinition = "tinyint default 1")
+    private Boolean active;
 
-    // VACANTS FAVORITES
-    @ManyToMany(mappedBy = "aptitudes")
-    private List<Resume> resumes = new ArrayList<>();
-
+    // User Vacants
+    @OneToMany(mappedBy = "process", cascade = {CascadeType.ALL})
+    private Set<UserVacant> userVacants;
 }

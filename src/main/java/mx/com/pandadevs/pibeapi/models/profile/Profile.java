@@ -24,10 +24,10 @@ import lombok.Getter;
 import lombok.Setter;
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
+import mx.com.pandadevs.pibeapi.utils.enums.Gender;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 import mx.com.pandadevs.pibeapi.models.states.RepublicState;
 import mx.com.pandadevs.pibeapi.models.users.User;
-import mx.com.pandadevs.pibeapi.utils.Gender;
 
 @Entity
 @Table(name = "PROFIELS")

@@ -13,12 +13,9 @@ import org.springframework.util.ReflectionUtils;
 // Mapper
 import mx.com.pandadevs.pibeapi.models.users.mapper.UserMapper;
 
-// Interface
-import mx.com.pandadevs.pibeapi.utils.ServiceInterface;
-
 // Models
 import mx.com.pandadevs.pibeapi.models.users.dto.UserDTO;
-
+import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 @Service
 public class UserService implements ServiceInterface<UserDTO> {
 

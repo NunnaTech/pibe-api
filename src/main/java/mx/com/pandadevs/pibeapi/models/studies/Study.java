@@ -19,8 +19,6 @@ import lombok.Setter;
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
-import mx.com.pandadevs.pibeapi.models.vacants.Vacant;
-
 @Entity
 @Table(name = "STUDIES")
 @Setter

@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.utils;
+package mx.com.pandadevs.pibeapi.utils.interfaces;
 
 import java.util.List;
 import java.util.Map;

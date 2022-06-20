@@ -1,22 +1,27 @@
-package mx.com.pandadevs.pibeapi.models.tables;
+package mx.com.pandadevs.pibeapi.models.contacts;
 
+// Java
 import java.io.Serializable;
 
+// Persistence
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
+// Lombok
 import lombok.Getter;
 import lombok.Setter;
+
+// Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
-@Table(name = "TABLES")
+@Table(name = "CONTACTS")
 @Setter
 @Getter
-public class Tables extends PibeModel implements Serializable{
-    
+public class Contact extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
-    @Id
-    private String name;
+    
+    @EmbeddedId
+    private ContactFk id;
 }

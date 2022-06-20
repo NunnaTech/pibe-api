@@ -41,11 +41,14 @@ public class UserNotification extends PibeModel implements Serializable {
     private Boolean seen;
 
     // Relationship
+    
+    // User
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id", insertable = false, updatable = false)
     private User user;
 
+    // Notification
     @ManyToOne
     @JoinColumn(name = "notification_id", insertable = false, updatable = false)
     private Notification notification;
