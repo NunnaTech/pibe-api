@@ -26,7 +26,7 @@ import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.aptitudes.Aptitudes;
 import mx.com.pandadevs.pibeapi.models.certifications.Certification;
 import mx.com.pandadevs.pibeapi.models.courses.Course;
-import mx.com.pandadevs.pibeapi.models.lenguages.ResumeLenguage;
+import mx.com.pandadevs.pibeapi.models.languages.ResumeLanguage;
 import mx.com.pandadevs.pibeapi.models.profile.Profile;
 import mx.com.pandadevs.pibeapi.models.studies.Study;
 import mx.com.pandadevs.pibeapi.models.styles.Style;
@@ -81,8 +81,8 @@ public class Resume extends PibeModel implements Serializable {
         CascadeType.MERGE
     })
     @JoinTable(name = "RESUME_APTITUDES",
-            joinColumns = @JoinColumn(name = "id_aptitude"),
-            inverseJoinColumns = @JoinColumn(name = "id_resume"))
+            joinColumns = @JoinColumn(name = "aptitude_id"),
+            inverseJoinColumns = @JoinColumn(name = "resume_id"))
     private List<Aptitudes> aptitudes;
 
     public void addToFavorite(Aptitudes aptitude) {
@@ -97,7 +97,7 @@ public class Resume extends PibeModel implements Serializable {
 
     // Resume Lenguage
     @OneToMany(mappedBy = "resume", cascade = {CascadeType.ALL})
-    private Set<ResumeLenguage> lenguages;
+    private Set<ResumeLanguage> lenguages;
 
     // Studies
     @OneToMany(mappedBy = "resume", cascade = {CascadeType.ALL})

@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.models.lenguages;
+package mx.com.pandadevs.pibeapi.models.languages;
 // Java
 import java.io.Serializable;
 
@@ -23,14 +23,14 @@ import mx.com.pandadevs.pibeapi.utils.enums.Level;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 
 @Entity
-@Table(name = "RESUME_LEGUAGES")
+@Table(name = "RESUME_LANGUAGES")
 @Setter
 @Getter
-public class ResumeLenguage extends PibeModel implements Serializable {
+public class ResumeLanguage extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @EmbeddedId
-    private ResumeLenguageFK id;
+    private ResumeLanguageFK id;
     
     @Column(
         name="level",
@@ -51,6 +51,6 @@ public class ResumeLenguage extends PibeModel implements Serializable {
     // Lenguage
     @ManyToOne
     @JoinColumn(name = "language_id", insertable = false, updatable = false)
-    private Lenguage lenguage;
+    private Language lenguage;
 
 }

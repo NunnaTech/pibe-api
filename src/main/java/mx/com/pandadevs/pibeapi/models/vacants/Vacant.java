@@ -51,7 +51,7 @@ public class Vacant extends PibeModel implements Serializable {
     private String title;
     @Column(
         nullable = false,
-        columnDefinition = "text")
+        columnDefinition = "TEXT")
     private String description;
 
     @Column(
@@ -117,8 +117,8 @@ public class Vacant extends PibeModel implements Serializable {
         CascadeType.MERGE
     })
     @JoinTable(name = "VACANTS_BENEFITS",
-            joinColumns = @JoinColumn(name = "id_benefits"),
-            inverseJoinColumns = @JoinColumn(name = "id_vacant"))
+            joinColumns = @JoinColumn(name = "benefit_id"),
+            inverseJoinColumns = @JoinColumn(name = "vacant_id"))
     private List<Benefit> benefits;
 
     public void addToFavorite(Benefit benefit) {

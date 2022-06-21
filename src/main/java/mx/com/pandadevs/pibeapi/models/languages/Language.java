@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.models.lenguages;
+package mx.com.pandadevs.pibeapi.models.languages;
 
 // Java
 import java.io.Serializable;
@@ -22,15 +22,15 @@ import lombok.Setter;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
-@Table(name = "LEGUAGES")
+@Table(name = "LANGUAGES")
 @Setter
 @Getter
-public class Lenguage extends PibeModel implements Serializable {
+public class Language extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_lenguage")
+    @Column(name = "id_language")
     private Integer id;
     
     @Column(
@@ -53,6 +53,6 @@ public class Lenguage extends PibeModel implements Serializable {
     // Relationship
 
     // Resume Lenguage
-    @OneToMany(mappedBy = "lenguages", cascade = {CascadeType.ALL})
-    private Set<ResumeLenguage> resumes;
+    @OneToMany(mappedBy = "lenguage", cascade = {CascadeType.ALL})
+    private Set<ResumeLanguage> resumes;
 }

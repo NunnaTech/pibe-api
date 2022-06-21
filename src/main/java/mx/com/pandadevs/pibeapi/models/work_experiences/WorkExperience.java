@@ -38,21 +38,21 @@ public class WorkExperience extends PibeModel implements Serializable {
     private String position;
     
     @Column(
-        name = "start_periode",
+        name = "start_period",
         nullable = false,
         columnDefinition = "TIMESTAMP"
     )
     private LocalDateTime startPeriode;
 
     @Column(
-        name = "end_periode",
+        name = "end_period",
         columnDefinition = "TIMESTAMP"
     )
     private LocalDateTime endPeriode;
    
     @Column(
         nullable = false,
-        columnDefinition = "text")
+        columnDefinition = "TEXT")
     private String activities;
     
     @Column(

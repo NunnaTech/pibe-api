@@ -25,7 +25,7 @@ import mx.com.pandadevs.pibeapi.models.vacants.Vacant;
 
 
 @Entity
-@Table(name = "REPUBLIC_STATE")
+@Table(name = "REPUBLIC_STATES")
 @Setter
 @Getter
 public class RepublicState extends PibeModel implements Serializable {

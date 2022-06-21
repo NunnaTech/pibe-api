@@ -38,14 +38,14 @@ public class Study extends PibeModel implements Serializable {
     private String name;
 
     @Column(
-        name = "start_date",
+        name = "start_period",
         nullable = false,
         columnDefinition = "TIMESTAMP"
     )
     private LocalDateTime startPeriod;
 
     @Column(
-        name = "end_date",
+        name = "end_period",
         columnDefinition = "TIMESTAMP"
     )
     private LocalDateTime endPeriod;

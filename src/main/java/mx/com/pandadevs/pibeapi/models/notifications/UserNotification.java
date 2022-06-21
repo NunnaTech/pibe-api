@@ -20,7 +20,7 @@ import mx.com.pandadevs.pibeapi.models.users.User;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
-@Table(name = "USER_NOTIFICATIONS")
+@Table(name = "USERS_NOTIFICATIONS")
 @Setter
 @Getter
 public class UserNotification extends PibeModel implements Serializable {
@@ -30,9 +30,8 @@ public class UserNotification extends PibeModel implements Serializable {
     private UserNotificationPK id;
 
     @Column(
-        unique = true,
         nullable = false,
-        columnDefinition = "text")
+        columnDefinition = "TEXT")
     private String action;
 
     @Column(

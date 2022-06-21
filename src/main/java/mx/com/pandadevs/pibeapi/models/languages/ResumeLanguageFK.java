@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.models.lenguages;
+package mx.com.pandadevs.pibeapi.models.languages;
 // Java
 import java.io.Serializable;
 
@@ -13,13 +13,13 @@ import lombok.Setter;
 @Embeddable
 @Setter
 @Getter
-public class ResumeLenguageFK implements Serializable {
+public class ResumeLanguageFK implements Serializable {
     private static final long serialVersionUID = 1L;
     
     @Column(name = "resume_id")
     private Integer  resumeId;
 
-    @Column(name = "lenguage_id")
+    @Column(name = "language_id")
     private Long  lenguageId;    
 
 }

@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 
 // Persistence
 import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 
 // Hibernate
 import org.hibernate.annotations.CreationTimestamp;
@@ -24,6 +25,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
+@MappedSuperclass
 public class PibeModel {
     @CreationTimestamp
     @Column(

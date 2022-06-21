@@ -43,7 +43,7 @@ public class Course extends PibeModel implements Serializable {
     private Integer hours;
 
     @Column(
-        name = "training_istitution",
+        name = "training_institution",
         nullable = false,
         columnDefinition = "varchar(50)")
     private String trainingIstitution;

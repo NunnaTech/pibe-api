@@ -19,7 +19,7 @@ import lombok.Setter;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
-@Table(name = "ROLES")
+@Table(name = "NOTIFICATIONS")
 @Setter
 @Getter
 public class Notification extends PibeModel implements Serializable {

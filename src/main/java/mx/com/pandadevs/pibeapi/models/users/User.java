@@ -82,9 +82,9 @@ public class User extends PibeModel implements Serializable {
 
     // Roles
     @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "USER_ROLES",
+    @JoinTable(name = "USERS_ROLES",
         joinColumns = @JoinColumn(name = "user_id"),
-        inverseJoinColumns = @JoinColumn(name = "rol_id"))
+        inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles;
 
     public void addRole() {
@@ -113,8 +113,8 @@ public class User extends PibeModel implements Serializable {
         CascadeType.MERGE
     })
     @JoinTable(name = "VACANTS_FAVORITES",
-            joinColumns = @JoinColumn(name = "id_vacant"),
-            inverseJoinColumns = @JoinColumn(name = "id_user"))
+            joinColumns = @JoinColumn(name = "vacant_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<Vacant> favoitesVacants;
 
     public void addToFavorite(Vacant vacant) {

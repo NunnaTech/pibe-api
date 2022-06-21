@@ -30,7 +30,7 @@ import mx.com.pandadevs.pibeapi.models.states.RepublicState;
 import mx.com.pandadevs.pibeapi.models.users.User;
 
 @Entity
-@Table(name = "PROFIELS")
+@Table(name = "PROFILES")
 @Setter
 @Getter
 public class Profile extends PibeModel implements Serializable {
@@ -65,7 +65,7 @@ public class Profile extends PibeModel implements Serializable {
     
     @Column(
         columnDefinition = "varchar(200)")
-    private String imagen;
+    private String image;
 
     @Column(
         name = "phone_number",

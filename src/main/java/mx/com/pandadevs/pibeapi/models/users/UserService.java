@@ -21,8 +21,7 @@ public class UserService implements ServiceInterface<UserDTO> {
 
     @Autowired
     private UserRepository userRepository;
-
-    @Autowired
+    
     private UserMapper mapper;
 
     @Override
