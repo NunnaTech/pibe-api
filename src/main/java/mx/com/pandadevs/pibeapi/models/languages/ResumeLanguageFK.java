@@ -6,13 +6,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-// Lombok
-import lombok.Getter;
-import lombok.Setter;
 
 @Embeddable
-@Setter
-@Getter
 public class ResumeLanguageFK implements Serializable {
     private static final long serialVersionUID = 1L;
     
@@ -20,6 +15,24 @@ public class ResumeLanguageFK implements Serializable {
     private Integer  resumeId;
 
     @Column(name = "language_id")
-    private Long  lenguageId;    
+    private Long  lenguageId;
 
+    // Getters & Setters
+    public Integer getResumeId() {
+        return resumeId;
+    }
+
+    public void setResumeId(Integer resumeId) {
+        this.resumeId = resumeId;
+    }
+
+    public Long getLenguageId() {
+        return lenguageId;
+    }
+
+    public void setLenguageId(Long lenguageId) {
+        this.lenguageId = lenguageId;
+    }    
+
+    
 }

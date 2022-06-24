@@ -13,9 +13,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-// Lombok
-import lombok.Getter;
-import lombok.Setter;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 
 // Models
@@ -23,8 +22,6 @@ import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
 @Table(name = "APTITUDES")
-@Setter
-@Getter
 public class Aptitudes extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -44,5 +41,32 @@ public class Aptitudes extends PibeModel implements Serializable {
     // VACANTS FAVORITES
     @ManyToMany(mappedBy = "aptitudes")
     private List<Resume> resumes = new ArrayList<>();
+
+
+    // Getters & Setters
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public List<Resume> getResumes() {
+        return resumes;
+    }
+
+    public void setResumes(List<Resume> resumes) {
+        this.resumes = resumes;
+    }
 
 }

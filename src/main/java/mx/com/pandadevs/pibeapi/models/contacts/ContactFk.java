@@ -7,13 +7,8 @@ import java.io.Serializable;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
-// Lombok
-import lombok.Getter;
-import lombok.Setter;
 
 @Embeddable
-@Setter
-@Getter
 
 public class ContactFk implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -22,5 +17,23 @@ public class ContactFk implements Serializable {
     private Long  userId;
 
     @Column(name = "contact_id")
-    private Long  contact_id;    
+    private Long  contact_id;
+
+    // Getters & Setters
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
+    }
+
+    public Long getContact_id() {
+        return contact_id;
+    }
+
+    public void setContact_id(Long contact_id) {
+        this.contact_id = contact_id;
+    }    
+    
 }

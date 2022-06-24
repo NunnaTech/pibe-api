@@ -34,6 +34,10 @@ public class UserController implements ControllerInterface<UserDTO> {
         return new ResponseEntity(userService.getAll(), HttpStatus.OK);
     }
 
+    @GetMapping("a")
+    public ResponseEntity<List<User>> get() {
+        return new ResponseEntity(userService.get(), HttpStatus.OK);
+    }
 
     @Override
     @GetMapping("/{id}")

@@ -14,18 +14,15 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-// Lombok
-import lombok.Getter;
-import lombok.Setter;
-
 // Models
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 
 @Entity
 @Table(name = "CERTIFICATIONS")
-@Setter
-@Getter
 public class Certification extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -66,4 +63,63 @@ public class Certification extends PibeModel implements Serializable {
     @ManyToOne
     @JoinColumn(name = "resume_id", insertable = false, updatable = false)
     private Resume resume;
+
+    // Getters & Setters
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getCompany() {
+        return company;
+    }
+
+    public void setCompany(String company) {
+        this.company = company;
+    }
+
+    public LocalDateTime getObtainedDate() {
+        return obtainedDate;
+    }
+
+    public void setObtainedDate(LocalDateTime obtainedDate) {
+        this.obtainedDate = obtainedDate;
+    }
+
+    public LocalDateTime getExpirationDate() {
+        return expirationDate;
+    }
+
+    public void setExpirationDate(LocalDateTime expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Resume getResume() {
+        return resume;
+    }
+
+    public void setResume(Resume resume) {
+        this.resume = resume;
+    }
+
+    
 }

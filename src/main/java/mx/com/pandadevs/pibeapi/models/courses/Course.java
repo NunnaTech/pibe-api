@@ -13,17 +13,18 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-// Lombok
-import lombok.Getter;
-import lombok.Setter;
 // Models
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id_course")
 @Table(name = "COURSES")
-@Setter
-@Getter
 public class Course extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -69,4 +70,72 @@ public class Course extends PibeModel implements Serializable {
     @ManyToOne
     @JoinColumn(name = "resume_id", insertable = false, updatable = false)
     private Resume resume;
+
+    // Getters & Setters
+    
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getHours() {
+        return hours;
+    }
+
+    public void setHours(Integer hours) {
+        this.hours = hours;
+    }
+
+    public String getTrainingIstitution() {
+        return trainingIstitution;
+    }
+
+    public void setTrainingIstitution(String trainingIstitution) {
+        this.trainingIstitution = trainingIstitution;
+    }
+
+    public LocalDateTime getRealizationDate() {
+        return realizationDate;
+    }
+
+    public void setRealizationDate(LocalDateTime realizationDate) {
+        this.realizationDate = realizationDate;
+    }
+
+    public LocalDateTime getFinishedDate() {
+        return finishedDate;
+    }
+
+    public void setFinishedDate(LocalDateTime finishedDate) {
+        this.finishedDate = finishedDate;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Resume getResume() {
+        return resume;
+    }
+
+    public void setResume(Resume resume) {
+        this.resume = resume;
+    }
+
+    
 }

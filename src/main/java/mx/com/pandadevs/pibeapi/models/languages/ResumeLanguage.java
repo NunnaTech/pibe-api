@@ -13,19 +13,15 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
-// Lombok
-import lombok.Getter;
-import lombok.Setter;
 
 // Models
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.utils.enums.Level;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 
 @Entity
 @Table(name = "RESUME_LANGUAGES")
-@Setter
-@Getter
 public class ResumeLanguage extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -44,7 +40,6 @@ public class ResumeLanguage extends PibeModel implements Serializable {
     
     // Resume
     @ManyToOne
-    @MapsId("resume_id")
     @JoinColumn(name = "resume_id", insertable = false, updatable = false)
     private Resume resume;
 
@@ -53,4 +48,38 @@ public class ResumeLanguage extends PibeModel implements Serializable {
     @JoinColumn(name = "language_id", insertable = false, updatable = false)
     private Language lenguage;
 
+    // Getters & Setters
+    public ResumeLanguageFK getId() {
+        return id;
+    }
+
+    public void setId(ResumeLanguageFK id) {
+        this.id = id;
+    }
+
+    public Level getLevel() {
+        return level;
+    }
+
+    public void setLevel(Level level) {
+        this.level = level;
+    }
+
+    public Resume getResume() {
+        return resume;
+    }
+
+    public void setResume(Resume resume) {
+        this.resume = resume;
+    }
+
+    public Language getLenguage() {
+        return lenguage;
+    }
+
+    public void setLenguage(Language lenguage) {
+        this.lenguage = lenguage;
+    }
+
+    
 }

@@ -14,17 +14,16 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.CascadeType;
 
-// Lombok
-import lombok.Getter;
-import lombok.Setter;
 
 // Models
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
 @Table(name = "LANGUAGES")
-@Setter
-@Getter
 public class Language extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -53,6 +52,50 @@ public class Language extends PibeModel implements Serializable {
     // Relationship
 
     // Resume Lenguage
-    @OneToMany(mappedBy = "lenguage", cascade = {CascadeType.ALL})
+    @JsonIgnore
+    @OneToMany(mappedBy = "lenguage")
     private Set<ResumeLanguage> resumes;
+
+    // Getters & Setters
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getAbbreviation() {
+        return abbreviation;
+    }
+
+    public void setAbbreviation(String abbreviation) {
+        this.abbreviation = abbreviation;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Set<ResumeLanguage> getResumes() {
+        return resumes;
+    }
+
+    public void setResumes(Set<ResumeLanguage> resumes) {
+        this.resumes = resumes;
+    }
+
+
 }
