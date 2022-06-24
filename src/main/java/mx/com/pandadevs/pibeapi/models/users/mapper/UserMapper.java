@@ -19,16 +19,17 @@ public interface UserMapper {
     UserMapper MAPPER = Mappers.getMapper( UserMapper.class );
     
     @Mappings({
-        @Mapping(source = "id_user", target = "id_user"),
+        @Mapping(source = "id", target = "id"),
         @Mapping(source = "email", target = "email"),
         @Mapping(source = "password", target = "password"),
         @Mapping(source = "active", target = "active"),
     })
-    User toUser(UserDTO userDTO);
-    
+    UserDTO toUserDTO(User user);
 
     @InheritInverseConfiguration
-    @Mapping(target = "linkRestorePassword,linkActivateEmail", ignore = true)
-    UserDTO toUserDTO(User user);
+    @Mapping(target = "linkRestorePassword", ignore = true)
+    @Mapping(target = "linkActivateEmail", ignore = true)
+    User toUser(UserDTO userDTO);
+
     List<UserDTO> toUsersDTO(List<User> users);
 }

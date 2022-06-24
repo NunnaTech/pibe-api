@@ -11,9 +11,6 @@ import javax.persistence.MappedSuperclass;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-// Lombok
-import lombok.Getter;
-import lombok.Setter;
 
 /**
  * Pibe base model.
@@ -23,8 +20,6 @@ import lombok.Setter;
  *  + created_at (LocalDateTime): Store the LocalDateTime the object was created.
  *  + updated_at (LocalDateTime): Store the last LocalDateTime the object was modified.
  */
-@Getter
-@Setter
 @MappedSuperclass
 public class PibeModel {
     @CreationTimestamp
@@ -43,4 +38,19 @@ public class PibeModel {
     )
     private LocalDateTime updatedAt;
 
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public LocalDateTime getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
 }

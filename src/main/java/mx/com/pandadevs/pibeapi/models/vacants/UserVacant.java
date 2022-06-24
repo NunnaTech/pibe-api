@@ -12,18 +12,20 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-// Lombok
-import lombok.Getter;
-import lombok.Setter;
+// Json
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.processes.Process;
 import mx.com.pandadevs.pibeapi.models.users.User;
 
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id_user_vacant")
 @Table(name = "USERS_VACANTS")
-@Setter
-@Getter
 public class UserVacant extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -43,4 +45,36 @@ public class UserVacant extends PibeModel implements Serializable {
     @ManyToOne
     @JoinColumn(name = "process_id", insertable = false, updatable = false)
     private Process process;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Vacant getVacant() {
+        return vacant;
+    }
+
+    public void setVacant(Vacant vacant) {
+        this.vacant = vacant;
+    }
+
+    public Process getProcess() {
+        return process;
+    }
+
+    public void setProcess(Process process) {
+        this.process = process;
+    }
 }

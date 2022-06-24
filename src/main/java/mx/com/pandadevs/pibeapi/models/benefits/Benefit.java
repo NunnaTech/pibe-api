@@ -12,17 +12,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-// Lombok
-import lombok.Getter;
-import lombok.Setter;
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.vacants.Vacant;
 
 @Entity
 @Table(name = "BENEFITS")
-@Setter
-@Getter
 public class Benefit extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -42,5 +37,20 @@ public class Benefit extends PibeModel implements Serializable {
     // VACANTS BENEFITS
     @ManyToMany(mappedBy = "benefits")
     private List<Vacant> vacants = new ArrayList<>();
+    
+    // Getters & Setters
 
+    public Integer getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public List<Vacant> getVacants() {
+        return vacants;
+    }
+
+    
 }

@@ -21,10 +21,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.JoinColumn;
 
 
-// Lombok
-import lombok.Getter;
-import lombok.Setter;
-
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.logs.Log;
@@ -36,8 +32,6 @@ import mx.com.pandadevs.pibeapi.models.vacants.Vacant;
 
 @Entity
 @Table(name = "USERS")
-@Setter
-@Getter
 public class User extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
@@ -101,6 +95,7 @@ public class User extends PibeModel implements Serializable {
 
     // Profile
     @OneToOne(mappedBy="user")
+
     private Profile profile;
 
     // Vacants
@@ -132,6 +127,115 @@ public class User extends PibeModel implements Serializable {
     private Set<UserVacant> userVacants;
 
     // Logs
+
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     private Set<Log> logs;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public String getLinkRestorePassword() {
+        return linkRestorePassword;
+    }
+
+    public void setLinkRestorePassword(String linkRestorePassword) {
+        this.linkRestorePassword = linkRestorePassword;
+    }
+
+    public String getLinkActivateEmail() {
+        return linkActivateEmail;
+    }
+
+    public void setLinkActivateEmail(String linkActivateEmail) {
+        this.linkActivateEmail = linkActivateEmail;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public Set<UserNotification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(Set<UserNotification> notifications) {
+        this.notifications = notifications;
+    }
+
+    public Profile getProfile() {
+        return profile;
+    }
+
+    public void setProfile(Profile profile) {
+        this.profile = profile;
+    }
+
+    public Set<Vacant> getVacants() {
+        return vacants;
+    }
+
+    public void setVacants(Set<Vacant> vacants) {
+        this.vacants = vacants;
+    }
+
+    public List<Vacant> getFavoitesVacants() {
+        return favoitesVacants;
+    }
+
+    public void setFavoitesVacants(List<Vacant> favoitesVacants) {
+        this.favoitesVacants = favoitesVacants;
+    }
+
+    public Set<UserVacant> getUserVacants() {
+        return userVacants;
+    }
+
+    public void setUserVacants(Set<UserVacant> userVacants) {
+        this.userVacants = userVacants;
+    }
+
+    public Set<Log> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(Set<Log> logs) {
+        this.logs = logs;
+    }
 }

@@ -19,16 +19,22 @@ import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 @Service
 public class UserService implements ServiceInterface<UserDTO> {
 
+    private  final UserMapper mapper;
     @Autowired
     private UserRepository userRepository;
-    
-    private UserMapper mapper;
+
+    public UserService(UserMapper mapper){
+        this.mapper = mapper;
+    }
 
     @Override
     public List<UserDTO> getAll() {
         return mapper.toUsersDTO(userRepository.findAll());
     }
 
+    public List<User> get() {
+        return userRepository.findAll();
+    }
     @Override
     public Optional<UserDTO> getById(Long id) {
         Optional<User> user = userRepository.findById(id);

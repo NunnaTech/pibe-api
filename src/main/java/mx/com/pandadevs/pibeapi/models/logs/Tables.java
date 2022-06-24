@@ -10,17 +10,16 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-// Lombok
-import lombok.Getter;
-import lombok.Setter;
 
 // Models
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
 @Table(name = "TABLES")
-@Setter
-@Getter
 public class Tables extends PibeModel implements Serializable{
     
     private static final long serialVersionUID = 1L;
@@ -28,6 +27,26 @@ public class Tables extends PibeModel implements Serializable{
     private String name;
 
     // Logs
+    @JsonIgnore
     @OneToMany(mappedBy = "table", cascade = {CascadeType.ALL})
     private Set<Log> logs;
+
+    // Getters & Setters
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Set<Log> getLogs() {
+        return logs;
+    }
+
+    public void setLogs(Set<Log> logs) {
+        this.logs = logs;
+    }
+
+    
 }

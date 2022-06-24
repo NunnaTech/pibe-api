@@ -13,23 +13,25 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-// Lombok
-import lombok.Getter;
-import lombok.Setter;
-import mx.com.pandadevs.pibeapi.models.resumes.Resume;
+// Json
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
+import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 
 @Entity
+@JsonIdentityInfo(
+        generator = ObjectIdGenerators.PropertyGenerator.class,
+        property = "id_work_experience")
 @Table(name = "WORK_EXPERIENCES")
-@Setter
-@Getter
 public class WorkExperience extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_work_experiences")
+    @Column(name = "id_work_experience")
     private Integer id;
     
     @Column(
