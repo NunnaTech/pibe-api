@@ -7,26 +7,44 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class UserDTO {
-
+public class UserBaseDTO {
     private Long id;
     @NotNull
     @NotBlank
     @Size(
-        min = 5,
-        max = 50)
+            min = 5,
+            max = 50)
     @Email
     private String email;
+
+    @NotNull
+    @NotBlank
+    @Size(
+            min = 5,
+            max = 50)
+    private String username;
+
 
     @JsonIgnore
     @NotNull
     @NotBlank
     @Size(
-        min = 5,
-        max = 100)
+            min = 5,
+            max = 100)
     private String password;
 
     private Boolean active;
+
+    public UserBaseDTO(UserBaseDTO baseDTO) {
+        this.id = baseDTO.getId();
+        this.email = baseDTO.getEmail();
+        this.username = baseDTO.getUsername();
+        this.password = baseDTO.getPassword();
+        this.active = baseDTO.active;
+    }
+
+    public UserBaseDTO() {
+    }
 
 
     // Getters & Setters
@@ -62,5 +80,11 @@ public class UserDTO {
         this.active = active;
     }
 
-    
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

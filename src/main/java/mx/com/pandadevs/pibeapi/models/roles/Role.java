@@ -1,18 +1,16 @@
 package mx.com.pandadevs.pibeapi.models.roles;
 // Java
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 // Persistence
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 // Models
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import mx.com.pandadevs.pibeapi.models.users.User;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
@@ -39,6 +37,13 @@ public class Role extends PibeModel implements Serializable {
         nullable = false,
         columnDefinition = "tinyint default 1")
     private Boolean active;
+
+    // Relationships
+
+    // VACANTS FAVORITES
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users = new ArrayList<>();
+
 
     // Getters & Setters
     public Integer getId() {

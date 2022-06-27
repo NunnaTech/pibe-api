@@ -4,6 +4,10 @@ import java.util.List;
 import java.util.Map;
 
 // Spring
+import mx.com.pandadevs.pibeapi.models.profile.ProfileService;
+import mx.com.pandadevs.pibeapi.models.profile.dto.ProfileDto;
+import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
+import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,20 +21,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import mx.com.pandadevs.pibeapi.models.users.dto.UserDTO;
 // Models
 import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
 
 @RestController
 @RequestMapping("user/")
-public class UserController implements ControllerInterface<UserDTO> {
+public class UserController implements ControllerInterface<UserDto> {
 
     @Autowired
     private UserService userService;
 
     @Override
     @GetMapping("")
-    public ResponseEntity<List<UserDTO>> getAll() {
+    public ResponseEntity<List<UserDto>> getAll() {
         return new ResponseEntity(userService.getAll(), HttpStatus.OK);
     }
 
@@ -40,22 +43,28 @@ public class UserController implements ControllerInterface<UserDTO> {
     }
 
     @Override
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getOne(@PathVariable("id") Long id) {
+    @GetMapping("/id/{id}")
+    public ResponseEntity<UserDto> getOne(@PathVariable("id") Long id) {
         return userService.getById(id)
                 .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @GetMapping("/{username}")
+    public ResponseEntity<UserProfileDto> getOneByUsername(@PathVariable("username") String username) {
+        return userService.getByUsername(username)
+                .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
     @Override
     @PostMapping("/")
-    public ResponseEntity<UserDTO> save(@RequestBody UserDTO entity) {
+    public ResponseEntity<UserDto> save(@RequestBody UserDto entity) {
         return new ResponseEntity<>(userService.save(entity), HttpStatus.CREATED);
     }
 
     @Override
     @PutMapping("/")
-    public ResponseEntity<UserDTO> update(@RequestBody UserDTO entity) {
+    public ResponseEntity<UserDto> update(@RequestBody UserDto entity) {
         return userService.update(entity)
                 .map(updatedEntity -> new ResponseEntity<>(updatedEntity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -63,7 +72,7 @@ public class UserController implements ControllerInterface<UserDTO> {
 
     @Override
     @PatchMapping("/{id}")
-    public ResponseEntity<UserDTO> partialUpdate(@PathVariable("id") Long id, @RequestBody Map<Object, Object> fields) {
+    public ResponseEntity<UserDto> partialUpdate(@PathVariable("id") Long id, @RequestBody Map<Object, Object> fields) {
         return userService.partialUpdate(id, fields)
                 .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));

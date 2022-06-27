@@ -35,7 +35,7 @@ public class Profile extends PibeModel implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_profile")
-    private Integer id;
+    private Long id;
     
     @Column(
         nullable = false,
@@ -46,7 +46,7 @@ public class Profile extends PibeModel implements Serializable {
         name = "first_name",
         nullable = false,
         columnDefinition = "varchar(40)")
-    private String fisrtName;
+    private String firstName;
 
     @Column(
         name = "second_name",
@@ -104,11 +104,11 @@ public class Profile extends PibeModel implements Serializable {
 
     // Getters & Setters
     
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
@@ -120,12 +120,12 @@ public class Profile extends PibeModel implements Serializable {
         this.name = name;
     }
 
-    public String getFisrtName() {
-        return fisrtName;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFisrtName(String fisrtName) {
-        this.fisrtName = fisrtName;
+    public void setFirstName(String fisrtName) {
+        this.firstName = fisrtName;
     }
 
     public String getSecondName() {

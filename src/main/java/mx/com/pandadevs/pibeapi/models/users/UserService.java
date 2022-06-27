@@ -6,6 +6,9 @@ import java.util.Optional;
 import java.lang.reflect.Field;
 
 // Spring
+import mx.com.pandadevs.pibeapi.models.profile.mapper.ProfileMapper;
+import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
+import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -14,53 +17,61 @@ import org.springframework.util.ReflectionUtils;
 import mx.com.pandadevs.pibeapi.models.users.mapper.UserMapper;
 
 // Models
-import mx.com.pandadevs.pibeapi.models.users.dto.UserDTO;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 @Service
-public class UserService implements ServiceInterface<UserDTO> {
+public class UserService implements ServiceInterface<UserDto> {
 
     private  final UserMapper mapper;
+    private  final ProfileMapper profileMapper;
     @Autowired
     private UserRepository userRepository;
 
-    public UserService(UserMapper mapper){
+    public UserService(UserMapper mapper, ProfileMapper profileMapper){
         this.mapper = mapper;
+        this.profileMapper = profileMapper;
     }
 
     @Override
-    public List<UserDTO> getAll() {
-        return mapper.toUsersDTO(userRepository.findAll());
+    public List<UserDto> getAll() {
+        return mapper.toUsersDto(userRepository.findAll());
     }
 
     public List<User> get() {
         return userRepository.findAll();
     }
     @Override
-    public Optional<UserDTO> getById(Long id) {
+    public Optional<UserDto> getById(Long id) {
         Optional<User> user = userRepository.findById(id);
         return user.map(entity -> {
-            return Optional.of(mapper.toUserDTO(entity));
+            return Optional.of(mapper.toUserDto(entity));
+        }).orElse(Optional.empty());
+    }
+
+    public Optional<UserProfileDto> getByUsername(String username) {
+        Optional<User> user = userRepository.findByUsernameAndActiveTrue(username);
+        return user.map(entity -> {
+            return Optional.of(mapper.toUserProfileDto(entity));
         }).orElse(Optional.empty());
     }
 
     @Override
-    public UserDTO save(UserDTO entity) {
+    public UserDto save(UserDto entity) {
         User user = mapper.toUser(entity);
-        return mapper.toUserDTO(userRepository.saveAndFlush(user));
+        return mapper.toUserDto(userRepository.saveAndFlush(user));
     }
 
     @Override
-    public Optional<UserDTO> update(UserDTO entity) {
+    public Optional<UserDto> update(UserDto entity) {
         User user = mapper.toUser(entity);
         Optional<User> updatedEntity = userRepository.findById(user.getId());
         return updatedEntity.map(updated -> {
             userRepository.saveAndFlush(updated);
-            return Optional.of(mapper.toUserDTO(updated));
+            return Optional.of(mapper.toUserDto(updated));
         }).orElse(Optional.empty());
     }
 
     @Override
-    public Optional<UserDTO> partialUpdate(Long id, Map<Object, Object> fields) {
+    public Optional<UserDto> partialUpdate(Long id, Map<Object, Object> fields) {
         Optional<User> updatedEntity = Optional.empty();
         try {
             updatedEntity = userRepository.findById(id);
@@ -72,7 +83,7 @@ public class UserService implements ServiceInterface<UserDTO> {
                     ReflectionUtils.setField(field, updated, value);
                 });
                 userRepository.saveAndFlush(updated);
-                return Optional.of(mapper.toUserDTO(updated));
+                return Optional.of(mapper.toUserDto(updated));
             }).orElse(Optional.empty());
         } catch (Exception exception) {
             

@@ -2,9 +2,8 @@ package mx.com.pandadevs.pibeapi.models.users;
 
 // Java
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 // Persistence
 import javax.persistence.Column;
@@ -79,19 +78,19 @@ public class User extends PibeModel implements Serializable {
     @JoinTable(name = "USERS_ROLES",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private List<Role> roles;
 
     public void addRole() {
-        roles = new HashSet<>();
+        roles = new ArrayList<>();
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
     
     // Notifications
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
-    private Set<UserNotification> notifications;
+    private List<UserNotification> notifications;
 
     // Profile
     @OneToOne(mappedBy="user")
@@ -100,7 +99,7 @@ public class User extends PibeModel implements Serializable {
 
     // Vacants
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
-    private Set<Vacant> vacants;
+    private List<Vacant> vacants;
 
     // vacants favorites
     @ManyToMany(cascade = {
@@ -124,12 +123,12 @@ public class User extends PibeModel implements Serializable {
 
     // User Vacants
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
-    private Set<UserVacant> userVacants;
+    private List<UserVacant> userVacants;
 
     // Logs
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
-    private Set<Log> logs;
+    private List<Log> logs;
 
     public Long getId() {
         return id;
@@ -187,15 +186,15 @@ public class User extends PibeModel implements Serializable {
         this.linkActivateEmail = linkActivateEmail;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public List<Role> getRoles() {
+        return (List<Role>) roles;
     }
 
-    public Set<UserNotification> getNotifications() {
+    public List<UserNotification> getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(Set<UserNotification> notifications) {
+    public void setNotifications(List<UserNotification> notifications) {
         this.notifications = notifications;
     }
 
@@ -207,11 +206,11 @@ public class User extends PibeModel implements Serializable {
         this.profile = profile;
     }
 
-    public Set<Vacant> getVacants() {
+    public List<Vacant> getVacants() {
         return vacants;
     }
 
-    public void setVacants(Set<Vacant> vacants) {
+    public void setVacants(List<Vacant> vacants) {
         this.vacants = vacants;
     }
 
@@ -223,19 +222,19 @@ public class User extends PibeModel implements Serializable {
         this.favoitesVacants = favoitesVacants;
     }
 
-    public Set<UserVacant> getUserVacants() {
+    public List<UserVacant> getUserVacants() {
         return userVacants;
     }
 
-    public void setUserVacants(Set<UserVacant> userVacants) {
+    public void setUserVacants(List<UserVacant> userVacants) {
         this.userVacants = userVacants;
     }
 
-    public Set<Log> getLogs() {
+    public List<Log> getLogs() {
         return logs;
     }
 
-    public void setLogs(Set<Log> logs) {
+    public void setLogs(List<Log> logs) {
         this.logs = logs;
     }
 }
