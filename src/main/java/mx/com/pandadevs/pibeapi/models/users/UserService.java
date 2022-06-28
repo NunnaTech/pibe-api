@@ -6,7 +6,9 @@ import java.util.Optional;
 import java.lang.reflect.Field;
 
 // Spring
-import mx.com.pandadevs.pibeapi.models.profile.mapper.ProfileMapper;
+import mx.com.pandadevs.pibeapi.models.notifications.dto.UserNotificationDto;
+import mx.com.pandadevs.pibeapi.models.notifications.services.NotificationService;
+import mx.com.pandadevs.pibeapi.models.notifications.services.UserNotificationService;
 import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
 import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,13 +24,14 @@ import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 public class UserService implements ServiceInterface<UserDto> {
 
     private  final UserMapper mapper;
-    private  final ProfileMapper profileMapper;
     @Autowired
     private UserRepository userRepository;
 
-    public UserService(UserMapper mapper, ProfileMapper profileMapper){
+    @Autowired
+    private UserNotificationService notificationService;
+
+    public UserService(UserMapper mapper){
         this.mapper = mapper;
-        this.profileMapper = profileMapper;
     }
 
     @Override
@@ -47,11 +50,22 @@ public class UserService implements ServiceInterface<UserDto> {
         }).orElse(Optional.empty());
     }
 
+    public Optional<UserProfileDto> getByProfileById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        return user.map(entity -> {
+            return Optional.of(mapper.toUserProfileDto(entity));
+        }).orElse(Optional.empty());
+    }
+
     public Optional<UserProfileDto> getByUsername(String username) {
         Optional<User> user = userRepository.findByUsernameAndActiveTrue(username);
         return user.map(entity -> {
             return Optional.of(mapper.toUserProfileDto(entity));
         }).orElse(Optional.empty());
+    }
+
+    public List<UserNotificationDto> getNotificationsByUsername(String username) {
+        return notificationService.getAllByUser(username);
     }
 
     @Override

@@ -1,19 +1,13 @@
-package mx.com.pandadevs.pibeapi.models.notifications;
+package mx.com.pandadevs.pibeapi.models.notifications.entities;
 
 // Java
 import java.io.Serializable;
+import java.util.List;
 
 // Persistence
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 // Models
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
@@ -40,6 +34,12 @@ public class Notification extends PibeModel implements Serializable {
         nullable = false,
         columnDefinition = "tinyint default 1")
     private Boolean active;
+
+    // Relationships
+
+    // Notifications
+    @OneToMany(mappedBy = "notification", cascade = {CascadeType.ALL})
+    private List<UserNotification> notifications;
 
     // Getters & Setters
     public Integer getId() {
@@ -73,6 +73,12 @@ public class Notification extends PibeModel implements Serializable {
     public void setActive(Boolean active) {
         this.active = active;
     }
-    
-    
+
+    public List<UserNotification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<UserNotification> notifications) {
+        this.notifications = notifications;
+    }
 }

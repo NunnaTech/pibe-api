@@ -23,7 +23,7 @@ import javax.persistence.JoinColumn;
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.logs.Log;
-import mx.com.pandadevs.pibeapi.models.notifications.UserNotification;
+import mx.com.pandadevs.pibeapi.models.notifications.entities.UserNotification;
 import mx.com.pandadevs.pibeapi.models.profile.Profile;
 import mx.com.pandadevs.pibeapi.models.roles.Role;
 import mx.com.pandadevs.pibeapi.models.vacants.UserVacant;

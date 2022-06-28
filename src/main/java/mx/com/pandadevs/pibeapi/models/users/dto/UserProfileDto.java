@@ -5,7 +5,7 @@ import mx.com.pandadevs.pibeapi.models.roles.dto.RoleDto;
 
 import java.util.List;
 
-public class UserProfileDto extends UserBaseDTO {
+public class UserProfileDto extends UserBaseDto {
     private ProfileDto profile;
     private List<RoleDto> authorities;
 

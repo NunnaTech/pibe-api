@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.models.notifications;
+package mx.com.pandadevs.pibeapi.models.notifications.entities;
 
 // Java
 import java.io.Serializable;

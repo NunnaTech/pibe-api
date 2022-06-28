@@ -7,7 +7,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
-public class UserBaseDTO {
+public class UserBaseDto {
     private Long id;
     @NotNull
     @NotBlank
@@ -35,7 +35,7 @@ public class UserBaseDTO {
 
     private Boolean active;
 
-    public UserBaseDTO(UserBaseDTO baseDTO) {
+    public UserBaseDto(UserBaseDto baseDTO) {
         this.id = baseDTO.getId();
         this.email = baseDTO.getEmail();
         this.username = baseDTO.getUsername();
@@ -43,7 +43,7 @@ public class UserBaseDTO {
         this.active = baseDTO.active;
     }
 
-    public UserBaseDTO() {
+    public UserBaseDto() {
     }
 
 

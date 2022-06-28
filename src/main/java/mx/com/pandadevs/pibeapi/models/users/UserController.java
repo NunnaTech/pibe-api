@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 // Spring
-import mx.com.pandadevs.pibeapi.models.profile.ProfileService;
-import mx.com.pandadevs.pibeapi.models.profile.dto.ProfileDto;
+import mx.com.pandadevs.pibeapi.models.notifications.dto.UserNotificationDto;
 import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
 import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,19 +42,27 @@ public class UserController implements ControllerInterface<UserDto> {
     }
 
     @Override
-    @GetMapping("/id/{id}")
     public ResponseEntity<UserDto> getOne(@PathVariable("id") Long id) {
         return userService.getById(id)
                 .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-
+    @GetMapping("/id/{id}")
+    public ResponseEntity<UserProfileDto> getOneById(@PathVariable("id") Long id) {
+        return userService.getByProfileById(id)
+                .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
     @GetMapping("/{username}")
     public ResponseEntity<UserProfileDto> getOneByUsername(@PathVariable("username") String username) {
         return userService.getByUsername(username)
                 .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    } @GetMapping("/{username}/notifications")
+    public ResponseEntity<List<UserNotificationDto>> getNotificationsByUsername(@PathVariable("username") String username) {
+        return new ResponseEntity(userService.getNotificationsByUsername(username), HttpStatus.OK);
     }
+
     @Override
     @PostMapping("/")
     public ResponseEntity<UserDto> save(@RequestBody UserDto entity) {

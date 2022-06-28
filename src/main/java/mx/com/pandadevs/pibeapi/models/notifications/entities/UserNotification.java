@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.models.notifications;
+package mx.com.pandadevs.pibeapi.models.notifications.entities;
 
 // Java
 import java.io.Serializable;
@@ -12,9 +12,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import mx.com.pandadevs.pibeapi.models.notifications.entities.UserNotificationPK;
+import mx.com.pandadevs.pibeapi.models.notifications.entities.Notification;
 import mx.com.pandadevs.pibeapi.models.users.User;
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
