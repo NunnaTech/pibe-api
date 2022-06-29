@@ -13,8 +13,6 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 
 // Models
@@ -22,7 +20,7 @@ import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
 @Table(name = "APTITUDES")
-public class Aptitudes extends PibeModel implements Serializable {
+public class Aptitude extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id

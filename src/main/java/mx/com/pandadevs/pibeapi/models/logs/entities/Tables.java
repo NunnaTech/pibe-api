@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.models.logs;
+package mx.com.pandadevs.pibeapi.models.logs.entities;
 // Java
 import java.io.Serializable;
 import java.util.Set;
@@ -12,10 +12,7 @@ import javax.persistence.Table;
 
 
 // Models
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity

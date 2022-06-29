@@ -45,8 +45,9 @@ public class Process extends PibeModel implements Serializable {
         columnDefinition = "tinyint default 1")
     private Boolean active;
 
+    // Relationships
+
     // User Vacants
-    @JsonIgnore
     @OneToMany(mappedBy = "process", cascade = {CascadeType.ALL})
     private Set<UserVacant> userVacants;
 

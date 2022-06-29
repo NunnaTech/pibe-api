@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.models.languages;
+package mx.com.pandadevs.pibeapi.models.languages.entity;
 // Java
 import java.io.Serializable;
 
@@ -15,7 +15,7 @@ public class ResumeLanguageFK implements Serializable {
     private Integer  resumeId;
 
     @Column(name = "language_id")
-    private Long  lenguageId;
+    private Long  languageId;
 
     // Getters & Setters
     public Integer getResumeId() {
@@ -26,12 +26,12 @@ public class ResumeLanguageFK implements Serializable {
         this.resumeId = resumeId;
     }
 
-    public Long getLenguageId() {
-        return lenguageId;
+    public Long getLanguageId() {
+        return languageId;
     }
 
-    public void setLenguageId(Long lenguageId) {
-        this.lenguageId = lenguageId;
+    public void setLanguageId(Long languageId) {
+        this.languageId = languageId;
     }    
 
     

@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.models.logs;
+package mx.com.pandadevs.pibeapi.models.logs.entities;
 // Java
 import java.io.Serializable;
 
@@ -15,9 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 // Models
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import mx.com.pandadevs.pibeapi.models.logs.entities.Tables;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.utils.enums.Action;
 import mx.com.pandadevs.pibeapi.models.users.User;

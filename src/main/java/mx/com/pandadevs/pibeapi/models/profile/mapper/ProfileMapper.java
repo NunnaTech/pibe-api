@@ -21,7 +21,6 @@ public interface ProfileMapper {
     ProfileMapper MAPPER = Mappers.getMapper( ProfileMapper.class );
     
     @Mappings({
-        @Mapping(source = "id", target = "id"),
         @Mapping(source = "name", target = "name"),
         @Mapping(source = "firstName", target = "firstName"),
         @Mapping(source = "secondName", target = "secondName"),

@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 
 public class ProfileDto {
 
-    private Long id;
     @NotNull
     @NotBlank
     @Size(
@@ -48,25 +47,8 @@ public class ProfileDto {
     private RepublicStateDto state ;
 
     private String position;
-//
-//    private User user;
-//
-//    // Getters & Setters
-//    public User getUser() {
-//        return user;
-//    }
-//
-//    public void setUser(User user) {
-//        this.user = user;
-//    }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    // Getters && Setters
 
     public String getName() {
         return name;

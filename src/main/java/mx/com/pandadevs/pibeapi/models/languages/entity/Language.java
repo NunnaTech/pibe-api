@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.models.languages;
+package mx.com.pandadevs.pibeapi.models.languages.entity;
 
 // Java
 import java.io.Serializable;
@@ -12,14 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.persistence.CascadeType;
 
 
 // Models
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
@@ -52,8 +47,7 @@ public class Language extends PibeModel implements Serializable {
     // Relationship
 
     // Resume Lenguage
-    @JsonIgnore
-    @OneToMany(mappedBy = "lenguage")
+    @OneToMany(mappedBy = "language")
     private Set<ResumeLanguage> resumes;
 
     // Getters & Setters

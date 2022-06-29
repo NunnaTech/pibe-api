@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.models.languages;
+package mx.com.pandadevs.pibeapi.models.languages.entity;
 // Java
 import java.io.Serializable;
 
@@ -10,12 +10,10 @@ import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.MapsId;
 import javax.persistence.Table;
 
 
 // Models
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.utils.enums.Level;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
@@ -36,8 +34,6 @@ public class ResumeLanguage extends PibeModel implements Serializable {
     @Enumerated(value = EnumType.STRING)
     private Level level;
 
-    // Relationship
-    
     // Resume
     @ManyToOne
     @JoinColumn(name = "resume_id", insertable = false, updatable = false)
@@ -46,7 +42,7 @@ public class ResumeLanguage extends PibeModel implements Serializable {
     // Lenguage
     @ManyToOne
     @JoinColumn(name = "language_id", insertable = false, updatable = false)
-    private Language lenguage;
+    private Language language;
 
     // Getters & Setters
     public ResumeLanguageFK getId() {
@@ -73,12 +69,12 @@ public class ResumeLanguage extends PibeModel implements Serializable {
         this.resume = resume;
     }
 
-    public Language getLenguage() {
-        return lenguage;
+    public Language getLanguage() {
+        return language;
     }
 
-    public void setLenguage(Language lenguage) {
-        this.lenguage = lenguage;
+    public void setLanguage(Language language) {
+        this.language = language;
     }
 
     
