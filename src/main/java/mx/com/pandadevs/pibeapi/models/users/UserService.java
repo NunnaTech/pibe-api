@@ -23,7 +23,7 @@ import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 @Service
 public class UserService implements ServiceInterface<UserDto> {
 
-    private  final UserMapper mapper;
+    private final UserMapper mapper;
     @Autowired
     private UserRepository userRepository;
 

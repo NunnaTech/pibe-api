@@ -1,6 +1,5 @@
 package mx.com.pandadevs.pibeapi.models.users;
 // Java
-import java.util.List;
 import java.util.Optional;
 // Spring
 import org.springframework.data.jpa.repository.JpaRepository;

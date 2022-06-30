@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.models.contacts;
+package mx.com.pandadevs.pibeapi.models.contacts.entity;
 
 // Java
 import java.io.Serializable;

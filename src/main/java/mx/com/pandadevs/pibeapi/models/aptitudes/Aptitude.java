@@ -2,16 +2,11 @@ package mx.com.pandadevs.pibeapi.models.aptitudes;
 // Java
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 
 // Persistence
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 
@@ -37,8 +32,8 @@ public class Aptitude extends PibeModel implements Serializable {
     // Relationships
 
     // VACANTS FAVORITES
-    @ManyToMany(mappedBy = "aptitudes")
-    private List<Resume> resumes = new ArrayList<>();
+    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL,mappedBy = "aptitudes")
+    private List<Resume> resumes  = new ArrayList<>();
 
 
     // Getters & Setters

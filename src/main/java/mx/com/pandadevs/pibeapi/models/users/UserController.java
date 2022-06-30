@@ -5,6 +5,8 @@ import java.util.Map;
 
 // Spring
 import mx.com.pandadevs.pibeapi.models.notifications.dto.UserNotificationDto;
+import mx.com.pandadevs.pibeapi.models.resumes.ResumeService;
+import mx.com.pandadevs.pibeapi.models.resumes.dto.ResumeDto;
 import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
 import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,6 +31,9 @@ public class UserController implements ControllerInterface<UserDto> {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private ResumeService resumeService;
 
     @Override
     @GetMapping("")
@@ -58,7 +63,14 @@ public class UserController implements ControllerInterface<UserDto> {
         return userService.getByUsername(username)
                 .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    } @GetMapping("/{username}/notifications")
+    }
+    @GetMapping("/{username}/resume")
+    public ResponseEntity<ResumeDto> getResumeByUsername(@PathVariable("username") String username) {
+        return resumeService.getByUsername(username)
+                .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+    @GetMapping("/{username}/notifications")
     public ResponseEntity<List<UserNotificationDto>> getNotificationsByUsername(@PathVariable("username") String username) {
         return new ResponseEntity(userService.getNotificationsByUsername(username), HttpStatus.OK);
     }

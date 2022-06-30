@@ -16,6 +16,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", uses = {
         AptitudeMapper.class,
         StyleMapper.class,
@@ -39,11 +41,12 @@ public interface ResumeMapper {
         @Mapping(source = "languages", target = "languages"),
         @Mapping(source = "studies", target = "studies"),
         @Mapping(source = "courses", target = "courses"),
-        @Mapping(source = "workExperiences", target = "workExperiences"),
+        @Mapping(source = "experiences", target = "experiences"),
         @Mapping(source = "certifications", target = "certifications"),
     })
-    ResumeDto toResumeDto(ResumeDto resumeDto);
+    ResumeDto toResumeDto(Resume resume);
 
+    List<ResumeDto> toResumesDto(List<Resume> resumes);
 
     @InheritInverseConfiguration
     Resume toResume(ResumeDto resumeDto);

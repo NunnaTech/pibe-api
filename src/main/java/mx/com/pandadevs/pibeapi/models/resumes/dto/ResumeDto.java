@@ -24,7 +24,7 @@ public class ResumeDto {
     private Set<ResumeLanguageDto> languages;
     private Set<StudyDto> studies;
     private Set<CourseDto> courses;
-    private Set<WorkExperienceDto> workExperiences;
+    private Set<WorkExperienceDto> experiences;
     private Set<CertificationDto> certifications;
 
     // Getters && Setters
@@ -109,12 +109,12 @@ public class ResumeDto {
         this.courses = courses;
     }
 
-    public Set<WorkExperienceDto> getWorkExperiences() {
-        return workExperiences;
+    public Set<WorkExperienceDto> getExperiences() {
+        return experiences;
     }
 
-    public void setWorkExperiences(Set<WorkExperienceDto> workExperiences) {
-        this.workExperiences = workExperiences;
+    public void setExperiences(Set<WorkExperienceDto> experiences) {
+        this.experiences = experiences;
     }
 
     public Set<CertificationDto> getCertifications() {

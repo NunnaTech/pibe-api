@@ -6,7 +6,7 @@ import mx.com.pandadevs.pibeapi.utils.enums.Level;
 public class ResumeLanguageDto {
 
     private LanguageDto language;
-    private Level level;
+    private String level;
     // Getter && Setters
     public LanguageDto getLanguage() {
         return language;
@@ -16,11 +16,11 @@ public class ResumeLanguageDto {
         this.language = language;
     }
 
-    public Level getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(Level level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 }

@@ -31,8 +31,8 @@ public class ResumeLanguage extends PibeModel implements Serializable {
         nullable = false,
         length = 10 
         )
-    @Enumerated(value = EnumType.STRING)
-    private Level level;
+//    @Enumerated(value = EnumType.STRING)
+    private String level;
 
     // Resume
     @ManyToOne
@@ -53,11 +53,11 @@ public class ResumeLanguage extends PibeModel implements Serializable {
         this.id = id;
     }
 
-    public Level getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(Level level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 
