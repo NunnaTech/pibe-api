@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.models.vacants;
+package mx.com.pandadevs.pibeapi.models.vacants.entities;
 // Java
 import java.io.Serializable;
 import java.time.LocalDateTime;
@@ -24,6 +24,7 @@ import javax.persistence.CascadeType;
 import com.fasterxml.jackson.annotation.*;
 
 // Models
+import mx.com.pandadevs.pibeapi.models.vacants.entities.UserVacant;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.benefits.Benefit;
 import mx.com.pandadevs.pibeapi.models.modes.Mode;
@@ -129,9 +130,10 @@ public class Vacant extends PibeModel implements Serializable {
     }
 
     // User Vacants
-    @JsonIgnore
     @OneToMany(mappedBy = "vacant", cascade = {CascadeType.ALL})
     private Set<UserVacant> userVacants;
+
+    // Getters && Setters
 
     public Integer getId() {
         return id;

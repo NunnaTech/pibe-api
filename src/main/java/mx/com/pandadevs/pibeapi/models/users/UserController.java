@@ -4,6 +4,9 @@ import java.util.List;
 import java.util.Map;
 
 // Spring
+import mx.com.pandadevs.pibeapi.models.contacts.dto.ContactDto;
+import mx.com.pandadevs.pibeapi.models.contacts.repository.ContactRepository;
+import mx.com.pandadevs.pibeapi.models.contacts.service.ContactService;
 import mx.com.pandadevs.pibeapi.models.notifications.dto.UserNotificationDto;
 import mx.com.pandadevs.pibeapi.models.resumes.ResumeService;
 import mx.com.pandadevs.pibeapi.models.resumes.dto.ResumeDto;
@@ -34,6 +37,8 @@ public class UserController implements ControllerInterface<UserDto> {
 
     @Autowired
     private ResumeService resumeService;
+    @Autowired
+    private ContactService contactService;
 
     @Override
     @GetMapping("")
@@ -58,6 +63,11 @@ public class UserController implements ControllerInterface<UserDto> {
                 .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+    @GetMapping("/{username}/contacts")
+    public ResponseEntity<ContactDto> getContactsById(@PathVariable("username") String username) {
+        return new ResponseEntity(contactService.getAllByUserid(username), HttpStatus.OK);
+    }
+
     @GetMapping("/{username}")
     public ResponseEntity<UserProfileDto> getOneByUsername(@PathVariable("username") String username) {
         return userService.getByUsername(username)

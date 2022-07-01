@@ -1,4 +1,4 @@
-package mx.com.pandadevs.pibeapi.models.vacants;
+package mx.com.pandadevs.pibeapi.models.vacants.entities;
 // Java
 import java.io.Serializable;
 
@@ -13,18 +13,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 // Json
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.processes.Process;
 import mx.com.pandadevs.pibeapi.models.users.User;
 
 @Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id_user_vacant")
 @Table(name = "USERS_VACANTS")
 public class UserVacant extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;

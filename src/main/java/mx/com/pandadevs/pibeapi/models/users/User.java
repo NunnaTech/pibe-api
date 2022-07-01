@@ -21,13 +21,14 @@ import javax.persistence.JoinColumn;
 
 
 // Models
+import mx.com.pandadevs.pibeapi.models.contacts.entity.Contact;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.logs.entities.Log;
 import mx.com.pandadevs.pibeapi.models.notifications.entities.UserNotification;
 import mx.com.pandadevs.pibeapi.models.profile.Profile;
 import mx.com.pandadevs.pibeapi.models.roles.Role;
-import mx.com.pandadevs.pibeapi.models.vacants.UserVacant;
-import mx.com.pandadevs.pibeapi.models.vacants.Vacant;
+import mx.com.pandadevs.pibeapi.models.vacants.entities.UserVacant;
+import mx.com.pandadevs.pibeapi.models.vacants.entities.Vacant;
 
 @Entity
 @Table(name = "USERS")
@@ -87,7 +88,11 @@ public class User extends PibeModel implements Serializable {
     public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
-    
+
+    // Contacts
+    @OneToMany(mappedBy = "contact", cascade = {CascadeType.ALL})
+    private List<Contact> contacts;
+
     // Notifications
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     private List<UserNotification> notifications;
@@ -237,4 +242,13 @@ public class User extends PibeModel implements Serializable {
     public void setLogs(List<Log> logs) {
         this.logs = logs;
     }
+
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
+    }
+
 }

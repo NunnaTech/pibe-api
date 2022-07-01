@@ -4,11 +4,10 @@ package mx.com.pandadevs.pibeapi.models.contacts.entity;
 import java.io.Serializable;
 
 // Persistence
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 // Models
+import mx.com.pandadevs.pibeapi.models.users.User;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
@@ -18,9 +17,35 @@ public class Contact extends PibeModel implements Serializable {
     
     @EmbeddedId
     private ContactFk id;
+    // Relationship
+    @ManyToOne
+    @MapsId("user_id")
+    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    private User user;
+
+    @ManyToOne
+    @MapsId("contact_id")
+    @JoinColumn(name = "contact_id", insertable = false, updatable = false)
+    private User contact;
 
     // Getters & Setters
-    
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public User getContact() {
+        return contact;
+    }
+
+    public void setContact(User contact) {
+        this.contact = contact;
+    }
+
     public ContactFk getId() {
         return id;
     }
