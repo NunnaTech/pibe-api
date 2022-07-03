@@ -1,21 +1,19 @@
 package mx.com.pandadevs.pibeapi.models.certifications;
 
-import mx.com.pandadevs.pibeapi.models.aptitudes.Aptitude;
-import mx.com.pandadevs.pibeapi.models.aptitudes.AptitudeRepository;
-import mx.com.pandadevs.pibeapi.models.aptitudes.dto.AptitudeDto;
-import mx.com.pandadevs.pibeapi.models.aptitudes.mapper.AptitudeMapper;
-import mx.com.pandadevs.pibeapi.models.certifications.dto.CertificationDto;
-import mx.com.pandadevs.pibeapi.models.certifications.mapper.CertificationMapper;
-import mx.com.pandadevs.pibeapi.models.users.User;
-import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.util.ReflectionUtils;
-
+// Java
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+// Spring
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
+// Models
+import mx.com.pandadevs.pibeapi.models.certifications.dto.CertificationDto;
+import mx.com.pandadevs.pibeapi.models.certifications.mapper.CertificationMapper;
+import mx.com.pandadevs.pibeapi.models.users.User;
+import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 
 @Service
 public class CertificationService implements ServiceInterface<Integer, CertificationDto> {

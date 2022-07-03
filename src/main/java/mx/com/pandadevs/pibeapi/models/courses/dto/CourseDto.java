@@ -6,6 +6,8 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class CourseDto {
+
+    private Integer id;
     @NotNull
     @NotBlank
     @Size(
@@ -22,6 +24,14 @@ public class CourseDto {
     private LocalDateTime finishedDate;
 
     // Getters && Setters
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
