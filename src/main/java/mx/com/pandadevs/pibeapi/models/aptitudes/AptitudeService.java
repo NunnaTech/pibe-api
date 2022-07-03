@@ -9,12 +9,12 @@ import java.util.Optional;
 import mx.com.pandadevs.pibeapi.models.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
 
 // Models
 import mx.com.pandadevs.pibeapi.models.aptitudes.dto.AptitudeDto;
 import mx.com.pandadevs.pibeapi.models.aptitudes.mapper.AptitudeMapper;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
-import org.springframework.util.ReflectionUtils;
 
 @Service
 public class AptitudeService implements ServiceInterface<Integer,AptitudeDto> {
@@ -48,7 +48,6 @@ public class AptitudeService implements ServiceInterface<Integer,AptitudeDto> {
 
     @Override
     public Optional<AptitudeDto> update(AptitudeDto entity) {
-        Aptitude aptitude = mapper.toAptitude(entity);
         Optional<Aptitude> updatedEntity = aptitudeRepository.findById(entity.getId());
         return updatedEntity.map(updated -> {
             aptitudeRepository.saveAndFlush(updated);
