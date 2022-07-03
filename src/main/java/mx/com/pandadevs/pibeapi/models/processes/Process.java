@@ -15,14 +15,10 @@ import javax.persistence.Table;
 import javax.persistence.CascadeType;
 
 // Lombok
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
-import mx.com.pandadevs.pibeapi.models.vacants.UserVacant;
+import mx.com.pandadevs.pibeapi.models.vacants.entities.UserVacant;
 
 @Entity
 @Table(name = "PROCESSES")
@@ -45,8 +41,9 @@ public class Process extends PibeModel implements Serializable {
         columnDefinition = "tinyint default 1")
     private Boolean active;
 
+    // Relationships
+
     // User Vacants
-    @JsonIgnore
     @OneToMany(mappedBy = "process", cascade = {CascadeType.ALL})
     private Set<UserVacant> userVacants;
 

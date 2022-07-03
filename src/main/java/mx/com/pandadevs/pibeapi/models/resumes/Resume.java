@@ -21,10 +21,10 @@ import javax.persistence.Table;
 // Models
 import com.fasterxml.jackson.annotation.*;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
-import mx.com.pandadevs.pibeapi.models.aptitudes.Aptitudes;
+import mx.com.pandadevs.pibeapi.models.aptitudes.Aptitude;
 import mx.com.pandadevs.pibeapi.models.certifications.Certification;
 import mx.com.pandadevs.pibeapi.models.courses.Course;
-import mx.com.pandadevs.pibeapi.models.languages.ResumeLanguage;
+import mx.com.pandadevs.pibeapi.models.languages.entity.ResumeLanguage;
 import mx.com.pandadevs.pibeapi.models.profile.Profile;
 import mx.com.pandadevs.pibeapi.models.studies.Study;
 import mx.com.pandadevs.pibeapi.models.styles.Style;
@@ -79,14 +79,14 @@ public class Resume extends PibeModel implements Serializable {
     @JoinTable(name = "RESUME_APTITUDES",
             joinColumns = @JoinColumn(name = "aptitude_id"),
             inverseJoinColumns = @JoinColumn(name = "resume_id"))
-    private List<Aptitudes> aptitudes;
+    private List<Aptitude> aptitudes;
 
-    public void addToFavorite(Aptitudes aptitude) {
+    public void addAptitude(Aptitude aptitude) {
         aptitudes.add(aptitude);
         aptitude.getResumes().add(this);
     }
 
-    public void removeFromFavorite(Aptitudes aptitude) {
+    public void removeAptitude(Aptitude aptitude) {
         aptitudes.remove(aptitude);
         aptitude.getResumes().remove(this);
     }
@@ -94,7 +94,7 @@ public class Resume extends PibeModel implements Serializable {
     // Resume Lenguage
     @JsonIgnore
     @OneToMany(mappedBy = "resume", cascade = {CascadeType.ALL})
-    private Set<ResumeLanguage> lenguages;
+    private Set<ResumeLanguage> languages;
 
     // Studies
     @JsonIgnore
@@ -173,20 +173,20 @@ public class Resume extends PibeModel implements Serializable {
         this.style = style;
     }
 
-    public List<Aptitudes> getAptitudes() {
+    public List<Aptitude> getAptitudes() {
         return aptitudes;
     }
 
-    public void setAptitudes(List<Aptitudes> aptitudes) {
+    public void setAptitudes(List<Aptitude> aptitudes) {
         this.aptitudes = aptitudes;
     }
 
-    public Set<ResumeLanguage> getLenguages() {
-        return lenguages;
+    public Set<ResumeLanguage> getLanguages() {
+        return languages;
     }
 
-    public void setLenguages(Set<ResumeLanguage> lenguages) {
-        this.lenguages = lenguages;
+    public void setLanguages(Set<ResumeLanguage> languages) {
+        this.languages = languages;
     }
 
     public Set<Study> getStudies() {

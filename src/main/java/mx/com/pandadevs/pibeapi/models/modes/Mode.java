@@ -13,11 +13,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.CascadeType;
 
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
-import mx.com.pandadevs.pibeapi.models.vacants.Vacant;
+import mx.com.pandadevs.pibeapi.models.vacants.entities.Vacant;
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 

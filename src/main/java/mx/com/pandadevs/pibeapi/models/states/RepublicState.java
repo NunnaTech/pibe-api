@@ -15,13 +15,10 @@ import javax.persistence.Table;
 import javax.persistence.CascadeType;
 
 // Models
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.profile.Profile;
-import mx.com.pandadevs.pibeapi.models.vacants.Vacant;
+import mx.com.pandadevs.pibeapi.models.vacants.entities.Vacant;
 
 
 @Entity
