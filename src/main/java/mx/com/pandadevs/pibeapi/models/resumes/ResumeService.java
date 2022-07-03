@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 @Service
-public class ResumeService implements ServiceInterface<ResumeDto> {
+public class ResumeService implements ServiceInterface<Integer,ResumeDto> {
     private final ResumeMapper mapper;
     @Autowired
     private ResumeRepository resumeRepository;
@@ -28,7 +28,7 @@ public class ResumeService implements ServiceInterface<ResumeDto> {
     }
 
     @Override
-    public Optional<ResumeDto> getById(Long id) {
+    public Optional<ResumeDto> getById(Integer id) {
         return Optional.empty();
 
     }
@@ -48,12 +48,12 @@ public class ResumeService implements ServiceInterface<ResumeDto> {
     }
 
     @Override
-    public Optional<ResumeDto> partialUpdate(Long id, Map<Object, Object> fields) {
+    public Optional<ResumeDto> partialUpdate(Integer id, Map<Object, Object> fields) {
         return Optional.empty();
     }
 
     @Override
-    public Boolean delete(Long id) {
+    public Boolean delete(Integer id) {
         return null;
     }
 }

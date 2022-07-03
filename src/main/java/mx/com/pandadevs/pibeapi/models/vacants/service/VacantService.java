@@ -13,7 +13,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class VacantService implements ServiceInterface<VacantDto> {
+public class VacantService implements ServiceInterface<Integer, VacantDto> {
 
     private final VacantMapper mapper;
     @Autowired
@@ -25,7 +25,7 @@ public class VacantService implements ServiceInterface<VacantDto> {
     }
 
     @Override
-    public Optional<VacantDto> getById(Long id) {
+    public Optional<VacantDto> getById(Integer id) {
         return Optional.empty();
     }
 
@@ -40,12 +40,12 @@ public class VacantService implements ServiceInterface<VacantDto> {
     }
 
     @Override
-    public Optional<VacantDto> partialUpdate(Long id, Map<Object, Object> fields) {
+    public Optional<VacantDto> partialUpdate(Integer id, Map<Object, Object> fields) {
         return Optional.empty();
     }
 
     @Override
-    public Boolean delete(Long id) {
+    public Boolean delete(Integer id) {
         return null;
     }
 }

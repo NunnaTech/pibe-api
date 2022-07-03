@@ -1,6 +1,7 @@
 package mx.com.pandadevs.pibeapi.models.contacts.service;
 
 import mx.com.pandadevs.pibeapi.models.contacts.dto.ContactDto;
+import mx.com.pandadevs.pibeapi.models.contacts.entity.ContactFk;
 import mx.com.pandadevs.pibeapi.models.contacts.mapper.ContactMapper;
 import mx.com.pandadevs.pibeapi.models.contacts.repository.ContactRepository;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 @Service
-public class ContactService implements ServiceInterface<ContactDto> {
+public class ContactService implements ServiceInterface<ContactFk,ContactDto> {
     private final ContactMapper mapper;
     @Autowired
     private ContactRepository contactRepository;
@@ -29,7 +30,7 @@ public class ContactService implements ServiceInterface<ContactDto> {
     }
 
     @Override
-    public Optional<ContactDto> getById(Long id) {
+    public Optional<ContactDto> getById(ContactFk id) {
         return Optional.empty();
     }
 
@@ -44,12 +45,12 @@ public class ContactService implements ServiceInterface<ContactDto> {
     }
 
     @Override
-    public Optional<ContactDto> partialUpdate(Long id, Map<Object, Object> fields) {
+    public Optional<ContactDto> partialUpdate(ContactFk id, Map<Object, Object> fields) {
         return Optional.empty();
     }
 
     @Override
-    public Boolean delete(Long id) {
+    public Boolean delete(ContactFk id) {
         return null;
     }
 }
