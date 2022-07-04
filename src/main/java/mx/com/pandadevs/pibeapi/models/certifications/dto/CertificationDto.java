@@ -6,6 +6,9 @@ import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class CertificationDto {
+
+    private Integer id;
+
     @NotNull
     @NotBlank
     @Size(
@@ -22,7 +25,13 @@ public class CertificationDto {
     private LocalDateTime obtainedDate;
 
     // Getters && Setters
+    public Integer getId() {
+        return id;
+    }
 
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getCompany() {
         return company;

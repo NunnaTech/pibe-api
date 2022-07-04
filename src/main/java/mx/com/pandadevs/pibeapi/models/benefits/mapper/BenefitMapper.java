@@ -11,6 +11,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface BenefitMapper {
 
@@ -21,6 +23,7 @@ public interface BenefitMapper {
         @Mapping(source = "name", target = "name"),
     })
     BenefitDto toBenefitDto(Benefit benefit);
+    List<BenefitDto> toBenefitsDto(List<Benefit> benefits);
 
     @InheritInverseConfiguration
     @Mappings({

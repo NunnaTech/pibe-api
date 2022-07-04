@@ -45,12 +45,6 @@ public class UserController implements ControllerInterface<UserDto> {
     public ResponseEntity<List<UserDto>> getAll() {
         return new ResponseEntity(userService.getAll(), HttpStatus.OK);
     }
-
-    @GetMapping("a")
-    public ResponseEntity<List<User>> get() {
-        return new ResponseEntity(userService.get(), HttpStatus.OK);
-    }
-
     @Override
     public ResponseEntity<UserDto> getOne(@PathVariable("id") Long id) {
         return userService.getById(id)

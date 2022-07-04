@@ -12,6 +12,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring", uses = {UserMapper.class,TableMapper.class})
 public interface LogMapper {
 
@@ -26,7 +28,7 @@ public interface LogMapper {
         @Mapping(source = "table", target = "table"),
     })
     LogDto toLogDto(Log log);
-
+    List<LogDto> toLogsDto(List<Log> logs);
     @InheritInverseConfiguration
     Log toLog(LogDto logDto);
 

@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 @Service
-public class ProfileService implements ServiceInterface<ProfileDto> {
+public class ProfileService implements ServiceInterface<Long,ProfileDto> {
 
     private  final ProfileMapper mapper;
     @Autowired
