@@ -12,7 +12,6 @@ import org.springframework.util.ReflectionUtils;
 // Models
 import mx.com.pandadevs.pibeapi.models.benefits.dto.BenefitDto;
 import mx.com.pandadevs.pibeapi.models.benefits.mapper.BenefitMapper;
-import mx.com.pandadevs.pibeapi.models.users.User;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 
 @Service
@@ -59,7 +58,7 @@ public class BenefitService implements ServiceInterface<Integer, BenefitDto> {
             return updatedEntity.map(updated -> {
                 fields.forEach((updatedfield, value) -> {
                     // use reflection to get fields updatedfield on manager and set it to value updatedfield
-                    Field field = ReflectionUtils.findField(User.class, (String) updatedfield);
+                    Field field = ReflectionUtils.findField(Benefit.class, (String) updatedfield);
                     field.setAccessible(true);
                     ReflectionUtils.setField(field, updated, value);
                 });

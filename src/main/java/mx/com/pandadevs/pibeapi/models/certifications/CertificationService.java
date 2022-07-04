@@ -12,7 +12,6 @@ import org.springframework.util.ReflectionUtils;
 // Models
 import mx.com.pandadevs.pibeapi.models.certifications.dto.CertificationDto;
 import mx.com.pandadevs.pibeapi.models.certifications.mapper.CertificationMapper;
-import mx.com.pandadevs.pibeapi.models.users.User;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 
 @Service
@@ -61,7 +60,7 @@ public class CertificationService implements ServiceInterface<Integer, Certifica
             return updatedEntity.map(updated -> {
                 fields.forEach((updatedfield, value) -> {
                     // use reflection to get fields updatedfield on manager and set it to value updatedfield
-                    Field field = ReflectionUtils.findField(User.class, (String) updatedfield);
+                    Field field = ReflectionUtils.findField(Certification.class, (String) updatedfield);
                     field.setAccessible(true);
                     ReflectionUtils.setField(field, updated, value);
                 });

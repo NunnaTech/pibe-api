@@ -11,6 +11,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface TableMapper {
 
@@ -20,7 +22,7 @@ public interface TableMapper {
         @Mapping(source = "name", target = "name"),
     })
     TableDto toTableDto(Tables tables);
-
+    List<TableDto> toTablesDto(List<Tables> tables);
     @InheritInverseConfiguration
     @Mappings({
             @Mapping(target = "logs", ignore = true)

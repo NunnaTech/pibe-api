@@ -6,7 +6,6 @@ import java.util.Map;
 import java.util.Optional;
 
 // Spring
-import mx.com.pandadevs.pibeapi.models.users.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -62,7 +61,7 @@ public class AptitudeService implements ServiceInterface<Integer,AptitudeDto> {
             return updatedEntity.map(updated -> {
                 fields.forEach((updatedfield, value) -> {
                     // use reflection to get fields updatedfield on manager and set it to value updatedfield
-                    Field field = ReflectionUtils.findField(User.class, (String) updatedfield);
+                    Field field = ReflectionUtils.findField(Aptitude.class, (String) updatedfield);
                     field.setAccessible(true);
                     ReflectionUtils.setField(field, updated, value);
                 });

@@ -1,21 +1,18 @@
 package mx.com.pandadevs.pibeapi.models.courses;
-
-import mx.com.pandadevs.pibeapi.models.aptitudes.Aptitude;
-import mx.com.pandadevs.pibeapi.models.aptitudes.AptitudeRepository;
-import mx.com.pandadevs.pibeapi.models.aptitudes.dto.AptitudeDto;
-import mx.com.pandadevs.pibeapi.models.aptitudes.mapper.AptitudeMapper;
-import mx.com.pandadevs.pibeapi.models.courses.dto.CourseDto;
-import mx.com.pandadevs.pibeapi.models.courses.mapper.CourseMapper;
-import mx.com.pandadevs.pibeapi.models.users.User;
-import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.ReflectionUtils;
-
+// Java
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
+// Spring
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.util.ReflectionUtils;
+// Models
+import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
+import mx.com.pandadevs.pibeapi.models.courses.dto.CourseDto;
+import mx.com.pandadevs.pibeapi.models.courses.mapper.CourseMapper;
+@Service
 public class CourseService implements ServiceInterface<Integer, CourseDto> {
     private final CourseMapper mapper;
 
@@ -61,7 +58,7 @@ public class CourseService implements ServiceInterface<Integer, CourseDto> {
             return updatedEntity.map(updated -> {
                 fields.forEach((updatedfield, value) -> {
                     // use reflection to get fields updatedfield on manager and set it to value updatedfield
-                    Field field = ReflectionUtils.findField(User.class, (String) updatedfield);
+                    Field field = ReflectionUtils.findField(Course.class, (String) updatedfield);
                     field.setAccessible(true);
                     ReflectionUtils.setField(field, updated, value);
                 });
