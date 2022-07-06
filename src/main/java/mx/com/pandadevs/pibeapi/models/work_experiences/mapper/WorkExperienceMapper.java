@@ -19,6 +19,7 @@ public interface WorkExperienceMapper {
     WorkExperienceMapper MAPPER = Mappers.getMapper( WorkExperienceMapper.class);
     
     @Mappings({
+        @Mapping(source = "id", target = "id"),
         @Mapping(source = "position", target = "position"),
         @Mapping(source = "startPeriod", target = "startPeriod"),
         @Mapping(source = "endPeriod", target = "endPeriod"),
