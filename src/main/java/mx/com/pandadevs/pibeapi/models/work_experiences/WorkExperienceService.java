@@ -30,8 +30,8 @@ public class WorkExperienceService implements ServiceInterface<Integer, WorkExpe
 
     @Override
     public Optional<WorkExperienceDto> getById(Integer id) {
-        Optional<WorkExperience> WorkExperience = workExperienceRepository.findById(id);
-        return WorkExperience.map(entity -> {
+        Optional<WorkExperience> workExperience = workExperienceRepository.findById(id);
+        return workExperience.map(entity -> {
             return Optional.of(mapper.toWorkExperienceDto(entity));
         }).orElse(Optional.empty());
     }
