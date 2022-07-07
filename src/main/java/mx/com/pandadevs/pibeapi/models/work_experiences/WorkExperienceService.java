@@ -38,8 +38,8 @@ public class WorkExperienceService implements ServiceInterface<Integer, WorkExpe
 
     @Override
     public WorkExperienceDto save(WorkExperienceDto entity) {
-        WorkExperience WorkExperience = mapper.toWorkExperience(entity);
-        return mapper.toWorkExperienceDto(workExperienceRepository.saveAndFlush(WorkExperience));
+        WorkExperience workExperience = mapper.toWorkExperience(entity);
+        return mapper.toWorkExperienceDto(workExperienceRepository.saveAndFlush(workExperience));
     }
 
     @Override

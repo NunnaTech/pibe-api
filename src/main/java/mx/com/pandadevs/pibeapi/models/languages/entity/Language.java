@@ -48,7 +48,7 @@ public class Language extends PibeModel implements Serializable {
 
     // Resume Lenguage
     @OneToMany(mappedBy = "language")
-    private Set<ResumeLanguage> resumes;
+    private Set<ResumeLanguage> resumeLanguages;
 
     // Getters & Setters
     public Integer getId() {
@@ -83,13 +83,11 @@ public class Language extends PibeModel implements Serializable {
         this.active = active;
     }
 
-    public Set<ResumeLanguage> getResumes() {
-        return resumes;
+    public Set<ResumeLanguage> getResumeLanguages() {
+        return resumeLanguages;
     }
 
-    public void setResumes(Set<ResumeLanguage> resumes) {
-        this.resumes = resumes;
+    public void setResumeLanguages(Set<ResumeLanguage> resumeLanguages) {
+        this.resumeLanguages = resumeLanguages;
     }
-
-
 }
