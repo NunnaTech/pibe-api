@@ -17,13 +17,9 @@ public class JwtAuth {
 
     public String createToken(UserDetails userDetails){
 
-        //Adding subject firm
-        Claims userRoleClaims = Jwts.claims().setSubject(userDetails.getUsername());
-        //Adding authority roles to jwt claims
-        userRoleClaims.put("authorities", userDetails.getAuthorities());
-
         return Jwts.builder()
                 .setIssuer("PIBE")
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis()+ 1000 * 60 * 60 * 60))
                 .signWith(SignatureAlgorithm.HS256, KEY)

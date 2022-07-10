@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.security.middleware;
 
+import mx.com.pandadevs.pibeapi.models.auth.AuthDetailService;
 import mx.com.pandadevs.pibeapi.models.users.UserService;
 import mx.com.pandadevs.pibeapi.security.JwtAuth;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,7 +25,7 @@ public class JwtFilter extends OncePerRequestFilter {
     private JwtAuth jwtAuth;
 
     @Autowired
-    private UserService userDetailService;
+    private AuthDetailService authDetailService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
@@ -37,19 +38,17 @@ public class JwtFilter extends OncePerRequestFilter {
 
             //Getting raw token
             String encodedToken = authHeader.substring(7);
+            System.out.println(encodedToken);
             String username =  jwtAuth.getUsername(encodedToken);
 
             //idk what the heck is securityContexHolder
             if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
-                UserDetails userDetails = userDetailService.loadUserByUsername(username);
+                UserDetails userDetails = authDetailService.loadUserByUsername(username);
 
                 if(jwtAuth.validarToken(encodedToken, userDetails)){
 
-                    UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(
-                            userDetails,
-                            null,
-                            userDetails.getAuthorities()
-                    );
+                    UsernamePasswordAuthenticationToken token;
+                    token = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
 
                     token.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(token);

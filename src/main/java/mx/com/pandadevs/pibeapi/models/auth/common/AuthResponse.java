@@ -1,38 +1,25 @@
 package mx.com.pandadevs.pibeapi.models.auth.common;
 
-import mx.com.pandadevs.pibeapi.models.profile.Profile;
-import mx.com.pandadevs.pibeapi.models.users.User;
+import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;
 
 import java.util.Optional;
 
 public class AuthResponse {
-    private User user;
-    private Optional<Profile> profile;
+
+    private Optional<UserProfileDto> profile;
     private String token;
 
-    public AuthResponse(User user, Optional<Profile> profile, String token) {
-        this.user = user;
+    public AuthResponse(Optional<UserProfileDto> profile, String token) {
         this.profile = profile;
         this.token = token;
     }
 
-    public AuthResponse() {
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
-    public Optional<Profile> getProfile() {
+    public Optional<UserProfileDto> getProfile() {
         return profile;
     }
 
-    public void setProfile(Optional<Profile> profile) {
-        this.profile = profile;
+    public void setProfile(UserProfileDto profile) {
+        this.profile = Optional.ofNullable(profile);
     }
 
     public String getToken() {

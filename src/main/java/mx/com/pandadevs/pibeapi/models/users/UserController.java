@@ -41,7 +41,7 @@ public class UserController implements ControllerInterface<UserDto> {
     private ContactService contactService;
 
     @Override
-    @GetMapping("")
+    @GetMapping("/")
     public ResponseEntity<List<UserDto>> getAll() {
         return new ResponseEntity(userService.getAll(), HttpStatus.OK);
     }
