@@ -1,9 +1,7 @@
 package mx.com.pandadevs.pibeapi.models.modes;
-// Java
+
 import java.io.Serializable;
 import java.util.Set;
-
-// Persistence
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,8 +12,7 @@ import javax.persistence.Table;
 import javax.persistence.CascadeType;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import mx.com.pandadevs.pibeapi.models.vacants.Vacant;
-// Models
+import mx.com.pandadevs.pibeapi.models.vacants.entities.Vacant;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
@@ -27,27 +24,30 @@ public class Mode extends PibeModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_period")
     private Integer id;
-    
+
     @Column(
-        unique = true,
-        nullable = false,
-        columnDefinition = "varchar(40)")
+            unique = true,
+            nullable = false,
+            columnDefinition = "varchar(40)")
     private String name;
 
     @Column(
-        nullable = false,
-        columnDefinition = "tinyint default 1")
-    private Boolean active;
+            nullable = false,
+            columnDefinition = "tinyint default 1")
+    private Boolean active = true;
 
-    // Relationships
-    
-    // Vacants
     @JsonIgnore
     @OneToMany(mappedBy = "mode", cascade = {CascadeType.ALL})
     private Set<Vacant> vacants;
 
-    // Getters & Setters
-    
+    public Mode(String name) {
+        this.name = name;
+        this.active = true;
+    }
+
+    public Mode() {
+    }
+
     public Integer getId() {
         return id;
     }
@@ -79,7 +79,4 @@ public class Mode extends PibeModel implements Serializable {
     public void setVacants(Set<Vacant> vacants) {
         this.vacants = vacants;
     }
-
-    
-    
 }

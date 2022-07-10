@@ -14,7 +14,7 @@ import javax.persistence.Table;
 
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
-import mx.com.pandadevs.pibeapi.models.vacants.Vacant;
+import mx.com.pandadevs.pibeapi.models.vacants.entities.Vacant;
 
 @Entity
 @Table(name = "BENEFITS")
