@@ -11,6 +11,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Mappings;
 import org.mapstruct.factory.Mappers;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface PeriodMapper {
 
@@ -27,5 +29,7 @@ public interface PeriodMapper {
             @Mapping(target = "vacants", ignore = true)
     })
     Period toPeriod(PeriodDto periodDto);
+
+    List<PeriodDto> toPeriodsDto(List<Period> periods);
 
 }
