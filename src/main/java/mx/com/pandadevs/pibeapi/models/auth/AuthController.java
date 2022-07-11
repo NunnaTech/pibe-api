@@ -18,6 +18,9 @@ public class AuthController {
     @Autowired
     private AuthDetailService authDetailService;
 
+    @Autowired
+    private EmailService emailService;
+
     @Autowired AuthService authService;
 
     @PostMapping("/login")
@@ -34,7 +37,7 @@ public class AuthController {
 
     @PostMapping("/reset-password")
     public ResponseEntity<Boolean> reset_password(@RequestBody AuthRequest request){
-        return  new ResponseEntity<>(true, HttpStatus.OK);
+        return  new ResponseEntity<>(emailService.sendEmailPasswordRecovery(request), HttpStatus.OK);
     }
 
 }
