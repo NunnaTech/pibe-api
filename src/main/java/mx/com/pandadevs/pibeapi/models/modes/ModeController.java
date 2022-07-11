@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/mode")
+@RequestMapping(value = "/modes")
 public class ModeController implements ControllerInterface<Integer, ModeDto> {
 
     @Autowired
