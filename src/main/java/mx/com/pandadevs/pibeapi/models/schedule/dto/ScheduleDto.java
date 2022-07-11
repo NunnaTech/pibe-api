@@ -13,7 +13,13 @@ public class ScheduleDto {
             max = 40)
     private String name;
 
-    // Getters && Setters
+    public ScheduleDto() {
+    }
+
+    public ScheduleDto(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Integer getId() {
         return id;
