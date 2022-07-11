@@ -1,11 +1,9 @@
 package mx.com.pandadevs.pibeapi.security.middleware;
 
 import mx.com.pandadevs.pibeapi.models.auth.AuthDetailService;
-import mx.com.pandadevs.pibeapi.models.users.UserService;
 import mx.com.pandadevs.pibeapi.security.JwtAuth;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;

@@ -9,9 +9,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class PibeApiApplication  {
-
 	public static void main(String[] args) {
 		SpringApplication.run(PibeApiApplication.class, args);
 	}
-
 }
