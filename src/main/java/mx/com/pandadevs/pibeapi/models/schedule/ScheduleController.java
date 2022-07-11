@@ -21,7 +21,6 @@ public class ScheduleController implements ControllerInterface<Integer, Schedule
     @Override
     public ResponseEntity<List<ScheduleDto>> getAll() {
         try {
-            scheduleService.fillInitialData();
             return new ResponseEntity(scheduleService.getAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);

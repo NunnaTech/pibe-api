@@ -21,7 +21,7 @@ public class ModeController implements ControllerInterface<Integer, ModeDto> {
     @Override
     public ResponseEntity<List<ModeDto>> getAll() {
         try {
-            return new ResponseEntity<>(modeService.getAll(), HttpStatus.OK);
+            return new ResponseEntity(modeService.getAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }

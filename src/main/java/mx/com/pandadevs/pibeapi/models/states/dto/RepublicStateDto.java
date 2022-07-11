@@ -14,9 +14,6 @@ public class RepublicStateDto {
             max = 40)
     private String name;
 
-    // Getters & Setters
-
-
     public String getName() {
         return name;
     }
