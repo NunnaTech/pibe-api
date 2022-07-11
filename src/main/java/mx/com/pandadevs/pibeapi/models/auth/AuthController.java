@@ -18,10 +18,23 @@ public class AuthController {
     @Autowired
     private AuthDetailService authDetailService;
 
+    @Autowired AuthService authService;
+
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request){
         return authDetailService.login(request)
                 .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
+    @PostMapping("/change-password")
+    public ResponseEntity<Boolean> changePassword(@RequestBody AuthRequest request){
+        return  new ResponseEntity<>(authService.changePassword(request), HttpStatus.OK);
+    }
+
+    @PostMapping("/reset-password")
+    public ResponseEntity<Boolean> reset_password(@RequestBody AuthRequest request){
+        return  new ResponseEntity<>(true, HttpStatus.OK);
+    }
+
 }

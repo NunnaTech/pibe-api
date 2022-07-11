@@ -87,6 +87,12 @@
 			<artifactId>spring-security-crypto</artifactId>
 			<version>5.5.0</version>
 		</dependency>
+		<!-- sendgrid -->
+		<dependency>
+			<groupId>com.sendgrid</groupId>
+			<artifactId>sendgrid-java</artifactId>
+			<version>4.0.1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
