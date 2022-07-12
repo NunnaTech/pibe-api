@@ -1,15 +1,15 @@
 package mx.com.pandadevs.pibeapi.models.benefits;
 
-// Java
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-// Spring
+
+import mx.com.pandadevs.pibeapi.models.periods.Period;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
-// Models
 import mx.com.pandadevs.pibeapi.models.benefits.dto.BenefitDto;
 import mx.com.pandadevs.pibeapi.models.benefits.mapper.BenefitMapper;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
@@ -19,18 +19,20 @@ public class BenefitService implements ServiceInterface<Integer, BenefitDto> {
 
     private final BenefitMapper mapper;
     @Autowired
-    private BenefitRepository benefitRepository;
+    private BenefitRepository repository;
 
-    public BenefitService(BenefitMapper mapper){this.mapper = mapper;}
+    public BenefitService(BenefitMapper mapper) {
+        this.mapper = mapper;
+    }
 
     @Override
     public List<BenefitDto> getAll() {
-        return mapper.toBenefitsDto(benefitRepository.findAll());
+        return mapper.toBenefitsDto(repository.findAllByActiveIsTrue());
     }
 
     @Override
     public Optional<BenefitDto> getById(Integer id) {
-        Optional<Benefit> benefit = benefitRepository.findById(id);
+        Optional<Benefit> benefit = repository.findByIdAndActiveIsTrue(id);
         return benefit.map(entity -> {
             return Optional.of(mapper.toBenefitDto(entity));
         }).orElse(Optional.empty());
@@ -39,22 +41,22 @@ public class BenefitService implements ServiceInterface<Integer, BenefitDto> {
     @Override
     public BenefitDto save(BenefitDto entity) {
         Benefit benefit = mapper.toBenefit(entity);
-        return mapper.toBenefitDto(benefitRepository.saveAndFlush(benefit));
+        return mapper.toBenefitDto(repository.saveAndFlush(benefit));
     }
 
     @Override
     public Optional<BenefitDto> update(BenefitDto entity) {
-        Optional<Benefit> updatedEntity = benefitRepository.findById(entity.getId());
-        return updatedEntity.map(updated -> {
-            benefitRepository.saveAndFlush(updated);
-            return Optional.of(mapper.toBenefitDto(updated));
-        }).orElse(Optional.empty());
+        Optional<Benefit> updated = repository.findByIdAndActiveIsTrue(entity.getId());
+        if (updated.isPresent()) {
+            return Optional.of(mapper.toBenefitDto(repository.save(mapper.toBenefit(entity))));
+        }
+        return Optional.empty();
     }
 
     @Override
     public Optional<BenefitDto> partialUpdate(Integer id, Map<Object, Object> fields) {
         try {
-            Optional<Benefit> updatedEntity = benefitRepository.findById(id);
+            Optional<Benefit> updatedEntity = repository.findByIdAndActiveIsTrue(id);
             return updatedEntity.map(updated -> {
                 fields.forEach((updatedfield, value) -> {
                     // use reflection to get fields updatedfield on manager and set it to value updatedfield
@@ -62,9 +64,9 @@ public class BenefitService implements ServiceInterface<Integer, BenefitDto> {
                     field.setAccessible(true);
                     ReflectionUtils.setField(field, updated, value);
                 });
-                return Optional.of(mapper.toBenefitDto(benefitRepository.saveAndFlush(updated)));
+                return Optional.of(mapper.toBenefitDto(repository.saveAndFlush(updated)));
             }).orElse(Optional.empty());
-        } catch (Exception exception) {
+        } catch (Exception ignored) {
 
         }
         return Optional.empty();
@@ -72,9 +74,23 @@ public class BenefitService implements ServiceInterface<Integer, BenefitDto> {
 
     @Override
     public Boolean delete(Integer id) {
-        return benefitRepository.findById(id).map(entity -> {
-            benefitRepository.delete(entity);
+        return repository.findByIdAndActiveIsTrue(id).map(entity -> {
+            entity.setActive(false);
+            repository.save(entity);
             return true;
         }).orElse(false);
+    }
+
+    public void fillInitialData() {
+        if (repository.count() > 0) return;
+        ArrayList<Benefit> list = new ArrayList<Benefit>() {{
+            add(new Benefit("Certificaciones"));
+            add(new Benefit("Seguro médico"));
+            add(new Benefit("Vacaciones"));
+            add(new Benefit("Préstamos"));
+            add(new Benefit("Cursos"));
+            add(new Benefit("Vales de despensa"));
+        }};
+        repository.saveAll(list);
     }
 }

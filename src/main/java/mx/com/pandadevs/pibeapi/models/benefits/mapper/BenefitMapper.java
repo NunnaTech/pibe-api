@@ -1,10 +1,7 @@
 package mx.com.pandadevs.pibeapi.models.benefits.mapper;
-// Mappers
 
 import mx.com.pandadevs.pibeapi.models.benefits.Benefit;
 import mx.com.pandadevs.pibeapi.models.benefits.dto.BenefitDto;
-import mx.com.pandadevs.pibeapi.models.modes.Mode;
-import mx.com.pandadevs.pibeapi.models.modes.dto.ModeDto;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -30,5 +27,4 @@ public interface BenefitMapper {
             @Mapping(target = "vacants", ignore = true)
     })
     Benefit toBenefit(BenefitDto benefitDto);
-
 }
