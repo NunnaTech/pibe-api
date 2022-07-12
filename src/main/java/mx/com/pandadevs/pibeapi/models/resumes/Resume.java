@@ -53,6 +53,7 @@ public class Resume extends PibeModel implements Serializable {
 
     @Column(
         nullable = false,
+        insertable = false,
         columnDefinition = "tinyint default 0")
     private Boolean completed;
 
