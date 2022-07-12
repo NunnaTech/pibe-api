@@ -55,8 +55,9 @@ public class ResumeService implements ServiceInterface<Integer,ResumeDto> {
     public Optional<ResumeDto> update(ResumeDto entity) {
         Optional<Resume> updatedEntity = resumeRepository.findById(entity.getId());
         return updatedEntity.map(updated -> {
-            resumeRepository.saveAndFlush(updated);
-            return Optional.of(mapper.toResumeDto(updated));
+            return Optional.of(mapper.toResumeDto(
+                    resumeRepository.saveAndFlush(
+                            mapper.toResume(entity))));
         }).orElse(Optional.empty());
     }
 
@@ -81,8 +82,9 @@ public class ResumeService implements ServiceInterface<Integer,ResumeDto> {
 
     @Override
     public Boolean delete(Integer id) {
-        return resumeRepository.findById(id).map(entity -> {
-            resumeRepository.delete(entity);
+        return resumeRepository.findResumeByIdAndActiveTrue(id).map(entity -> {
+            entity.setActive(false);
+            resumeRepository.save(entity);
             return true;
         }).orElse(false);
     }

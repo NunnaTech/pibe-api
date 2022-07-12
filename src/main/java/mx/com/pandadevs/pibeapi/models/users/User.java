@@ -98,7 +98,7 @@ public class User extends PibeModel implements Serializable {
     private List<UserNotification> notifications;
 
     // Profile
-    @OneToOne(mappedBy="user")
+    @OneToOne(cascade = {CascadeType.ALL},mappedBy="user")
 
     private Profile profile;
 

@@ -32,7 +32,7 @@ public interface StudyMapper {
     @InheritInverseConfiguration
     @Mappings({
             @Mapping(target = "active", ignore = true),
-            @Mapping(target = "resume", ignore = true)
+            @Mapping(target = "resume", ignore = true),
     })
     Study toStudy(StudyDto studyDto);
 

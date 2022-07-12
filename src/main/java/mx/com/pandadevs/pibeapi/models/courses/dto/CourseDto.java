@@ -16,6 +16,7 @@ public class CourseDto {
     private String name;
 
     private Integer hours;
+    private Boolean active;
 
     private String trainingInstitution;
 
@@ -31,6 +32,14 @@ public class CourseDto {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getName() {

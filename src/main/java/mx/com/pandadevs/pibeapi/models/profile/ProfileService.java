@@ -2,10 +2,6 @@ package mx.com.pandadevs.pibeapi.models.profile;
 
 import mx.com.pandadevs.pibeapi.models.profile.dto.ProfileDto;
 import mx.com.pandadevs.pibeapi.models.profile.mapper.ProfileMapper;
-import mx.com.pandadevs.pibeapi.models.users.User;
-import mx.com.pandadevs.pibeapi.models.users.UserRepository;
-import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
-import mx.com.pandadevs.pibeapi.models.users.mapper.UserMapper;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -45,11 +41,11 @@ public class ProfileService implements ServiceInterface<Long,ProfileDto> {
 
     @Override
     public Optional<ProfileDto> update(ProfileDto entity) {
-        Profile user = mapper.toProfile(entity);
-        Optional<Profile> updatedEntity = profileRepository.findById(user.getId());
+        Profile profile = mapper.toProfile(entity);
+        Optional<Profile> updatedEntity = profileRepository.findById(profile.getId());
         return updatedEntity.map(updated -> {
-            profileRepository.saveAndFlush(updated);
-            return Optional.of(mapper.toProfileDto(updated));
+            return Optional.of(mapper.toProfileDto(
+                    profileRepository.save(profile)));
         }).orElse(Optional.empty());
     }
 

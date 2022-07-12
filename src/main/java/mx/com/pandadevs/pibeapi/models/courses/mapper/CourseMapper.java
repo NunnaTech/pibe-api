@@ -21,6 +21,7 @@ public interface CourseMapper {
     @Mappings({
         @Mapping(source = "name", target = "name"),
         @Mapping(source = "hours", target = "hours"),
+        @Mapping(source = "active", target = "active"),
         @Mapping(source = "trainingInstitution", target = "trainingInstitution"),
         @Mapping(source = "realizationDate", target = "realizationDate"),
         @Mapping(source = "finishedDate", target = "finishedDate"),
@@ -31,7 +32,6 @@ public interface CourseMapper {
     @InheritInverseConfiguration
     @Mappings({
             @Mapping(target = "id", ignore = true),
-            @Mapping(target = "active", ignore = true),
             @Mapping(target = "resume", ignore = true)
     })
     Course toCourse(CourseDto courseDto);

@@ -30,7 +30,8 @@ public interface WorkExperienceMapper {
 
     @InheritInverseConfiguration
     @Mappings({
-            @Mapping(target = "resume", ignore = true)
+            @Mapping(target = "resume", ignore = true),
+            @Mapping(target = "active", ignore = true)
     })
     WorkExperience toWorkExperience(WorkExperienceDto workExperienceDto);
 

@@ -8,4 +8,6 @@ import java.util.Optional;
 @Repository
 public interface ResumeRepository extends JpaRepository<Resume, Integer> {
     Optional<Resume> findResumeByProfileUserUsernameAndActiveTrue(String username);
+    Optional<Resume> findResumeByIdAndActiveTrue(Integer id);
+
 }
