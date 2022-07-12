@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -127,18 +128,19 @@ public class EmailService {
     public boolean sendEmailPasswordRecovery(AuthRequest request){
         String token = UUID.randomUUID().toString();
         boolean flag = false;
-        User user = userRepository.findByEmail(request.getEmail());
-        if (user== null) return  false;
+        Optional<User> user = userRepository.findByEmailAndActiveTrue(request.getEmail());
+        if (user== null|| !user.get().getActive()) return  false;
         try {
-            user.setLinkRestorePassword(token);
+            user.get().setLinkRestorePassword(token);
             SendGrid sg = new SendGrid(EMAIL_KEY);
-            Mail mail = getMail(user.getEmail());
+            Mail mail = getMail(user.get().getEmail());
             mail.setTemplateId(TEMPLATE_EMAIL_PASSWORD_RECOVERY);
-            mail.personalization.get(0).addDynamicTemplateData("url", token);
+            mail.personalization.get(0).addDynamicTemplateData("codigo", token);
             Request mailRequest = getRequest(mail);
             Response response = sg.api(mailRequest);
             System.out.println(response.getStatusCode());
             flag = response.getStatusCode() == 202;
+            userRepository.save(user.get());
         } catch (Exception e) {
             logger.error(e.getMessage());
         }

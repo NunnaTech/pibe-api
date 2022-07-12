@@ -35,9 +35,13 @@ public class AuthController {
         return  new ResponseEntity<>(authService.changePassword(request), HttpStatus.OK);
     }
 
-    @PostMapping("/reset-password")
-    public ResponseEntity<Boolean> reset_password(@RequestBody AuthRequest request){
+    @PostMapping("/forgot-password")
+    public ResponseEntity<Boolean> forgotPassword(@RequestBody AuthRequest request){
         return  new ResponseEntity<>(emailService.sendEmailPasswordRecovery(request), HttpStatus.OK);
     }
 
+    @PostMapping("/reset-password")
+    public ResponseEntity<Boolean> resetPassword(@RequestBody AuthRequest request){
+        return  new ResponseEntity<>(authService.resetPassword(request),HttpStatus.OK);
+    }
 }

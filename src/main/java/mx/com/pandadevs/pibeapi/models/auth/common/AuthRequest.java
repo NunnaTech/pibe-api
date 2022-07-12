@@ -5,6 +5,15 @@ public class AuthRequest {
     private String password;
     private String currentPassword;
     private  String newPassword;
+    private String key;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
 
     private String email;
 

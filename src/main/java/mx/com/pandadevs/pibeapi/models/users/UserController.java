@@ -8,6 +8,7 @@ import mx.com.pandadevs.pibeapi.models.contacts.dto.ContactDto;
 import mx.com.pandadevs.pibeapi.models.contacts.repository.ContactRepository;
 import mx.com.pandadevs.pibeapi.models.contacts.service.ContactService;
 import mx.com.pandadevs.pibeapi.models.notifications.dto.UserNotificationDto;
+import mx.com.pandadevs.pibeapi.models.profile.ProfileController;
 import mx.com.pandadevs.pibeapi.models.resumes.ResumeService;
 import mx.com.pandadevs.pibeapi.models.resumes.dto.ResumeDto;
 import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
@@ -30,7 +31,7 @@ import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
 
 @RestController
 @RequestMapping("user/")
-public class UserController implements ControllerInterface<UserDto> {
+public class UserController extends ProfileController implements ControllerInterface<UserDto> {
 
     @Autowired
     private UserService userService;

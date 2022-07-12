@@ -10,5 +10,7 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByUsernameAndActiveTrue(String username);
 
-    User findByEmail(String username);
+    Optional<User> findByEmailAndActiveTrue(String email);
+
+    Optional<User> findByLinkRestorePasswordAndActiveTrue(String key);
 }

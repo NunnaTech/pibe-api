@@ -4,8 +4,6 @@ import mx.com.pandadevs.pibeapi.models.profile.dto.ProfileDto;
 import mx.com.pandadevs.pibeapi.models.profile.mapper.ProfileMapper;
 import mx.com.pandadevs.pibeapi.models.users.User;
 import mx.com.pandadevs.pibeapi.models.users.UserRepository;
-import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
-import mx.com.pandadevs.pibeapi.models.users.mapper.UserMapper;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +20,9 @@ public class ProfileService implements ServiceInterface<ProfileDto> {
     @Autowired
     private ProfileRepository profileRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
     public ProfileService(ProfileMapper profileMapper){
         this.mapper = profileMapper;
     }
@@ -29,6 +30,13 @@ public class ProfileService implements ServiceInterface<ProfileDto> {
     @Override
     public List<ProfileDto> getAll() {
         return mapper.toProfilesDto(profileRepository.findAll());
+    }
+
+    public Optional<ProfileDto> getByUsername(String username){
+        Optional<Profile> profile = profileRepository.findByUserUsernameAndUserActiveTrue(username);
+        return  profile.map( entity -> {
+            return  Optional.of(mapper.toProfileDto(entity));
+        }).orElse(Optional.empty());
     }
     @Override
     public Optional<ProfileDto> getById(Long id) {
@@ -41,6 +49,15 @@ public class ProfileService implements ServiceInterface<ProfileDto> {
     public ProfileDto save(ProfileDto entity) {
         Profile user = mapper.toProfile(entity);
         return mapper.toProfileDto(profileRepository.saveAndFlush(user));
+    }
+
+    public  ProfileDto saveAndSetProfile(String username, ProfileDto request){
+        Profile profile = mapper.toProfile(request);
+        Optional<User> user = userRepository.findByUsernameAndActiveTrue(username);
+        if (!user.isPresent()) return null;
+        user.get().setProfile(profile);
+        userRepository.saveAndFlush(user.get());
+        return mapper.toProfileDto(profile);
     }
 
     @Override

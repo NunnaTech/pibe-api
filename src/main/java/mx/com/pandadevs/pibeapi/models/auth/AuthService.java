@@ -31,4 +31,16 @@ public class AuthService {
         userRepository.save(user.get());
         return true;
     }
+
+    public boolean resetPassword(AuthRequest request){
+        String key = request.getKey();
+        String newPassword = request.getNewPassword();
+        Optional<User> user = userRepository.findByLinkRestorePasswordAndActiveTrue(key);
+        if (!user.isPresent()) return  false;
+
+        user.get().setPassword(passwordEncoder.encode(newPassword));
+        user.get().setLinkRestorePassword(null);
+        userRepository.save(user.get());
+        return true;
+    }
 }
