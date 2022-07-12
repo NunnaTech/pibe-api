@@ -27,7 +27,7 @@ import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
 import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;
 @RestController
 @RequestMapping("user/")
-public class UserController extends ResumeUserController implements ControllerInterface<UserDto> {
+public class UserController extends ResumeUserController implements ControllerInterface<UserDto, Long> {
 
     @Autowired
     private UserService userService;
