@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Map;
 @RestController
-@RequestMapping("style/")
+@RequestMapping("styles/")
 public class StyleController implements ControllerInterface<StyleDto, Integer> {
     @Autowired
     private StyleService styleService;
