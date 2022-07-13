@@ -17,6 +17,7 @@ public interface RepublicStateMapper {
     RepublicStateMapper MAPPER = Mappers.getMapper(RepublicStateMapper.class);
 
     @Mappings({
+            @Mapping(source = "id", target = "id"),
             @Mapping(source = "name", target = "name")
     })
     RepublicStateDto toRepublicStateDTO(RepublicState republicState);

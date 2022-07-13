@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -21,9 +22,9 @@ public class PeriodController implements ControllerInterface<Integer, PeriodDto>
     @Override
     public ResponseEntity<List<PeriodDto>> getAll() {
         try {
-            return new ResponseEntity(periodService.getAll(), HttpStatus.OK);
+            return new ResponseEntity<>(periodService.getAll(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -31,19 +32,21 @@ public class PeriodController implements ControllerInterface<Integer, PeriodDto>
     @Override
     public ResponseEntity<PeriodDto> getOne(@PathVariable(value = "id") Integer id) {
         try {
-            return new ResponseEntity(periodService.getById(id), HttpStatus.OK);
+            return periodService.getById(id)
+                    .map(e->new ResponseEntity<>(e, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping(value = "")
     @Override
-    public ResponseEntity<PeriodDto> save(@RequestBody PeriodDto entity) {
+    public ResponseEntity<PeriodDto> save(@Valid @RequestBody PeriodDto entity) {
         try {
-            return new ResponseEntity(periodService.save(entity), HttpStatus.OK);
+            return new ResponseEntity<>(periodService.save(entity), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -51,9 +54,11 @@ public class PeriodController implements ControllerInterface<Integer, PeriodDto>
     @Override
     public ResponseEntity<PeriodDto> update(@RequestBody PeriodDto entity) {
         try {
-            return new ResponseEntity(periodService.update(entity), HttpStatus.OK);
+            return periodService.update(entity)
+                    .map(e-> new ResponseEntity<>(e, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -66,7 +71,8 @@ public class PeriodController implements ControllerInterface<Integer, PeriodDto>
     @Override
     public ResponseEntity<Boolean> delete(@PathVariable("id") Integer id) {
         try {
-            return new ResponseEntity(periodService.delete(id), HttpStatus.OK);
+            if (periodService.delete(id)) return new ResponseEntity<>(true, HttpStatus.OK);
+            else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -6,6 +6,7 @@ import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -31,7 +32,8 @@ public class ModeService implements ServiceInterface<Integer, ModeDto> {
     @Transactional(readOnly = true)
     @Override
     public Optional<ModeDto> getById(Integer id) {
-        return Optional.of(mapper.toModeDto(modeRepository.findByIdAndActiveIsTrue(id).get()));
+        Optional<Mode> mode = modeRepository.findByIdAndActiveIsTrue(id);
+        return mode.map(mapper::toModeDto);
     }
 
     @Transactional
@@ -43,10 +45,8 @@ public class ModeService implements ServiceInterface<Integer, ModeDto> {
     @Transactional
     @Override
     public Optional<ModeDto> update(ModeDto entity) {
-        Optional<Mode> updatedMode = modeRepository.findByIdAndActiveIsTrue(entity.getId());
-        if (updatedMode.isPresent()) {
-            return Optional.of(mapper.toModeDto(modeRepository.save(mapper.toMode(entity))));
-        }
+        Optional<Mode> update = modeRepository.findByIdAndActiveIsTrue(entity.getId());
+        if (update.isPresent()) return Optional.of(mapper.toModeDto(modeRepository.save(mapper.toMode(entity))));
         return Optional.empty();
     }
 

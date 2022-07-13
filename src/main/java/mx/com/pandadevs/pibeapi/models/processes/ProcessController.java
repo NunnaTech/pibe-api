@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -21,9 +22,9 @@ public class ProcessController implements ControllerInterface<Integer, ProcessDt
     @Override
     public ResponseEntity<List<ProcessDto>> getAll() {
         try {
-            return new ResponseEntity(service.getAll(), HttpStatus.OK);
+            return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -31,29 +32,33 @@ public class ProcessController implements ControllerInterface<Integer, ProcessDt
     @Override
     public ResponseEntity<ProcessDto> getOne(@PathVariable(value = "id") Integer id) {
         try {
-            return new ResponseEntity(service.getById(id), HttpStatus.OK);
+            return service.getById(id)
+                    .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping(value = "")
     @Override
-    public ResponseEntity<ProcessDto> save(@RequestBody ProcessDto entity) {
+    public ResponseEntity<ProcessDto> save(@Valid @RequestBody ProcessDto entity) {
         try {
-            return new ResponseEntity(service.save(entity), HttpStatus.OK);
+            return new ResponseEntity<>(service.save(entity), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("")
     @Override
-    public ResponseEntity<ProcessDto> update(@RequestBody ProcessDto entity) {
+    public ResponseEntity<ProcessDto> update(@Valid @RequestBody ProcessDto entity) {
         try {
-            return new ResponseEntity(service.update(entity), HttpStatus.OK);
+            return service.update(entity)
+                    .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -66,9 +71,10 @@ public class ProcessController implements ControllerInterface<Integer, ProcessDt
     @Override
     public ResponseEntity<Boolean> delete(@PathVariable("id") Integer id) {
         try {
-            return new ResponseEntity(service.delete(id), HttpStatus.OK);
+            if (service.delete(id)) return new ResponseEntity<>(true, HttpStatus.OK);
+            else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

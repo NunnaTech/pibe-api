@@ -33,9 +33,7 @@ public class BenefitService implements ServiceInterface<Integer, BenefitDto> {
     @Override
     public Optional<BenefitDto> getById(Integer id) {
         Optional<Benefit> benefit = repository.findByIdAndActiveIsTrue(id);
-        return benefit.map(entity -> {
-            return Optional.of(mapper.toBenefitDto(entity));
-        }).orElse(Optional.empty());
+        return benefit.map(mapper::toBenefitDto);
     }
 
     @Override
@@ -59,7 +57,6 @@ public class BenefitService implements ServiceInterface<Integer, BenefitDto> {
             Optional<Benefit> updatedEntity = repository.findByIdAndActiveIsTrue(id);
             return updatedEntity.map(updated -> {
                 fields.forEach((updatedfield, value) -> {
-                    // use reflection to get fields updatedfield on manager and set it to value updatedfield
                     Field field = ReflectionUtils.findField(Benefit.class, (String) updatedfield);
                     field.setAccessible(true);
                     ReflectionUtils.setField(field, updated, value);

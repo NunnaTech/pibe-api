@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -14,15 +15,16 @@ import java.util.Map;
 @RequestMapping(value = "/benefits")
 public class BenefitController implements ControllerInterface<Integer, BenefitDto> {
 
-    @Autowired private BenefitService service;
+    @Autowired
+    private BenefitService service;
 
     @GetMapping(value = "")
     @Override
     public ResponseEntity<List<BenefitDto>> getAll() {
         try {
-            return new ResponseEntity(service.getAll(), HttpStatus.OK);
+            return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -30,29 +32,33 @@ public class BenefitController implements ControllerInterface<Integer, BenefitDt
     @Override
     public ResponseEntity<BenefitDto> getOne(@PathVariable(value = "id") Integer id) {
         try {
-            return new ResponseEntity(service.getById(id), HttpStatus.OK);
+            return service.getById(id)
+                    .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping(value = "")
     @Override
-    public ResponseEntity<BenefitDto> save(@RequestBody BenefitDto entity) {
+    public ResponseEntity<BenefitDto> save(@Valid @RequestBody BenefitDto entity) {
         try {
-            return new ResponseEntity(service.save(entity), HttpStatus.OK);
+            return new ResponseEntity<>(service.save(entity), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping(value = "")
     @Override
-    public ResponseEntity<BenefitDto> update(@RequestBody BenefitDto entity) {
+    public ResponseEntity<BenefitDto> update(@Valid @RequestBody BenefitDto entity) {
         try {
-            return new ResponseEntity(service.update(entity), HttpStatus.OK);
+            return service.update(entity)
+                    .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -65,9 +71,10 @@ public class BenefitController implements ControllerInterface<Integer, BenefitDt
     @Override
     public ResponseEntity<Boolean> delete(@PathVariable(value = "id") Integer id) {
         try {
-            return new ResponseEntity(service.delete(id), HttpStatus.OK);
+            if (service.delete(id)) return new ResponseEntity<>(true, HttpStatus.OK);
+            else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

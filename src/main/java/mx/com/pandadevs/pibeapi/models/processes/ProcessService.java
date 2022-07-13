@@ -33,7 +33,8 @@ public class ProcessService implements ServiceInterface<Integer, ProcessDto> {
     @Transactional(readOnly = true)
     @Override
     public Optional<ProcessDto> getById(Integer id) {
-        return Optional.of(mapper.toProcessDto(repository.findByIdAndActiveIsTrue(id).get()));
+        Optional<Process> process = repository.findByIdAndActiveIsTrue(id);
+        return process.map(mapper::toProcessDto);
     }
 
     @Transactional
@@ -46,9 +47,7 @@ public class ProcessService implements ServiceInterface<Integer, ProcessDto> {
     @Override
     public Optional<ProcessDto> update(ProcessDto entity) {
         Optional<Process> updated = repository.findByIdAndActiveIsTrue(entity.getId());
-        if (updated.isPresent()) {
-            return Optional.of(mapper.toProcessDto(repository.save(mapper.toProcess(entity))));
-        }
+        if (updated.isPresent()) return Optional.of(mapper.toProcessDto(repository.save(mapper.toProcess(entity))));
         return Optional.empty();
     }
 

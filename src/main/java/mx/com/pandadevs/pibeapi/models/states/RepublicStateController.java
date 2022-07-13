@@ -24,9 +24,10 @@ public class RepublicStateController implements ControllerInterface<Integer, Rep
     @Override
     public ResponseEntity<List<RepublicStateDto>> getAll() {
         try {
-            return new ResponseEntity(stateService.getAll(), HttpStatus.OK);
+            stateService.fillInitialData();
+            return new ResponseEntity<>(stateService.getAll(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -34,9 +35,11 @@ public class RepublicStateController implements ControllerInterface<Integer, Rep
     @Override
     public ResponseEntity<RepublicStateDto> getOne(@PathVariable(value = "id") Integer id) {
         try {
-            return new ResponseEntity(stateService.getById(id), HttpStatus.OK);
+            return stateService.getById(id)
+                    .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

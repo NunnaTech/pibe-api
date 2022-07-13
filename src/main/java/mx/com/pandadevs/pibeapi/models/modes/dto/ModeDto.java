@@ -7,11 +7,9 @@ import javax.validation.constraints.Size;
 public class ModeDto {
 
     private Integer id;
-    @NotNull
-    @NotBlank
-    @Size(
-            min = 5,
-            max = 40)
+    @NotNull(message = "Please provide a name")
+    @NotBlank(message = "Please provide a name")
+    @Size(min = 5, max = 40, message = "Please provide a name with 5 - 40 characters")
     private String name;
 
     public ModeDto(Integer id, String name) {

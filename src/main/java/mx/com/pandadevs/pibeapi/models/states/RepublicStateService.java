@@ -33,7 +33,8 @@ public class RepublicStateService implements ServiceInterface<Integer, RepublicS
     @Transactional(readOnly = true)
     @Override
     public Optional<RepublicStateDto> getById(Integer id) {
-        return Optional.of(mapper.toRepublicStateDTO(repository.findById(id).get()));
+        Optional<RepublicState> state = repository.findById(id);
+        return state.map(mapper::toRepublicStateDTO);
     }
 
     @Override

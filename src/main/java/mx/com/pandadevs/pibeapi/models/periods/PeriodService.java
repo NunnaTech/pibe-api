@@ -32,7 +32,8 @@ public class PeriodService implements ServiceInterface<Integer, PeriodDto> {
     @Transactional(readOnly = true)
     @Override
     public Optional<PeriodDto> getById(Integer id) {
-        return Optional.of(mapper.toPeriodDto(repository.findByIdAndActiveIsTrue(id).get()));
+        Optional<Period> period = repository.findByIdAndActiveIsTrue(id);
+        return period.map(mapper::toPeriodDto);
     }
 
     @Transactional
@@ -45,9 +46,7 @@ public class PeriodService implements ServiceInterface<Integer, PeriodDto> {
     @Override
     public Optional<PeriodDto> update(PeriodDto entity) {
         Optional<Period> updated = repository.findByIdAndActiveIsTrue(entity.getId());
-        if (updated.isPresent()) {
-            return Optional.of(mapper.toPeriodDto(repository.save(mapper.toPeriod(entity))));
-        }
+        if (updated.isPresent()) return Optional.of(mapper.toPeriodDto(repository.save(mapper.toPeriod(entity))));
         return Optional.empty();
     }
 

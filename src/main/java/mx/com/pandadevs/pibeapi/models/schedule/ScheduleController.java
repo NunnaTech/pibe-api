@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -21,9 +22,9 @@ public class ScheduleController implements ControllerInterface<Integer, Schedule
     @Override
     public ResponseEntity<List<ScheduleDto>> getAll() {
         try {
-            return new ResponseEntity(scheduleService.getAll(), HttpStatus.OK);
+            return new ResponseEntity<>(scheduleService.getAll(), HttpStatus.OK);
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -31,29 +32,33 @@ public class ScheduleController implements ControllerInterface<Integer, Schedule
     @Override
     public ResponseEntity<ScheduleDto> getOne(@PathVariable("id") Integer id) {
         try {
-            return new ResponseEntity(scheduleService.getById(id), HttpStatus.OK);
+            return scheduleService.getById(id)
+                    .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PostMapping(value = "")
     @Override
-    public ResponseEntity<ScheduleDto> save(@RequestBody ScheduleDto entity) {
+    public ResponseEntity<ScheduleDto> save(@Valid @RequestBody ScheduleDto entity) {
         try {
-            return new ResponseEntity(scheduleService.save(entity), HttpStatus.OK);
+            return new ResponseEntity<>(scheduleService.save(entity), HttpStatus.CREATED);
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping("")
     @Override
-    public ResponseEntity<ScheduleDto> update(@RequestBody ScheduleDto entity) {
+    public ResponseEntity<ScheduleDto> update(@Valid @RequestBody ScheduleDto entity) {
         try {
-            return new ResponseEntity(scheduleService.update(entity), HttpStatus.OK);
+            return scheduleService.update(entity)
+                    .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
-            return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
@@ -66,7 +71,8 @@ public class ScheduleController implements ControllerInterface<Integer, Schedule
     @Override
     public ResponseEntity<Boolean> delete(@PathVariable("id") Integer id) {
         try {
-            return new ResponseEntity(scheduleService.delete(id), HttpStatus.OK);
+            if (scheduleService.delete(id)) return new ResponseEntity<>(true, HttpStatus.OK);
+            else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -34,7 +34,8 @@ public class ScheduleService implements ServiceInterface<Integer, ScheduleDto> {
     @Transactional(readOnly = true)
     @Override
     public Optional<ScheduleDto> getById(Integer id) {
-        return Optional.of(mapper.toScheduleDto(scheduleRepository.findByIdAndActiveIsTrue(id).get()));
+        Optional<Schedule> schedule = scheduleRepository.findByIdAndActiveIsTrue(id);
+        return schedule.map(mapper::toScheduleDto);
     }
 
     @Override
@@ -46,9 +47,7 @@ public class ScheduleService implements ServiceInterface<Integer, ScheduleDto> {
     @Override
     public Optional<ScheduleDto> update(ScheduleDto entity) {
         Optional<Schedule> updatedSchedule = scheduleRepository.findByIdAndActiveIsTrue(entity.getId());
-        if (updatedSchedule.isPresent()) {
-            return Optional.of(mapper.toScheduleDto(scheduleRepository.save(mapper.toSchedule(entity))));
-        }
+        if (updatedSchedule.isPresent()) return Optional.of(mapper.toScheduleDto(scheduleRepository.save(mapper.toSchedule(entity))));
         return Optional.empty();
     }
 
