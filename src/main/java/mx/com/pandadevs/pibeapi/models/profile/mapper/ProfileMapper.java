@@ -25,9 +25,9 @@ public interface ProfileMapper {
         @Mapping(source = "firstName", target = "firstName"),
         @Mapping(source = "secondName", target = "secondName"),
         @Mapping(source = "birthDate", target = "birthDate"),
-        @Mapping(source = "image", target = "picture"),
+        @Mapping(source = "image", target = "image"),
         @Mapping(source = "phoneNumber", target = "phoneNumber"),
-        @Mapping(source = "gender", target = "sex"),
+        @Mapping(source = "gender", target = "gender"),
         @Mapping(source = "state", target = "state"),
         @Mapping(source = "position", target = "position"),
     })

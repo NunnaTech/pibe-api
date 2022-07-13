@@ -18,6 +18,7 @@ public class ResumeDto {
     private String curricularTitle;
     private String description;
     private Boolean completed;
+    private Boolean active;
     private ProfileDto profile;
     private StyleDto style;
     private List<AptitudeDto> aptitudes;
@@ -28,6 +29,14 @@ public class ResumeDto {
     private Set<CertificationDto> certifications;
 
     // Getters && Setters
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     public Integer getId() {
         return id;

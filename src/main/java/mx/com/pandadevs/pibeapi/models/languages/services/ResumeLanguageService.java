@@ -15,7 +15,7 @@ import mx.com.pandadevs.pibeapi.models.languages.repository.ResumeLanguageReposi
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 
 @Service
-public class ResumeLanguageService implements ServiceInterface<ResumeLanguageFK, ResumeLanguageDto> {
+public class ResumeLanguageService implements ServiceInterface<Integer, ResumeLanguageDto> {
     private final ResumeLanguageMapper mapper;
     @Autowired
     private ResumeLanguageRepository languageRepository;
@@ -27,7 +27,7 @@ public class ResumeLanguageService implements ServiceInterface<ResumeLanguageFK,
     }
 
     @Override
-    public Optional<ResumeLanguageDto> getById(ResumeLanguageFK id) {
+    public Optional<ResumeLanguageDto> getById(Integer id) {
         Optional<ResumeLanguage> resumeLanguage = languageRepository.findById(id);
         return resumeLanguage.map(entity -> {
             return Optional.of(mapper.toResumeLanguageDto(entity));
@@ -46,12 +46,12 @@ public class ResumeLanguageService implements ServiceInterface<ResumeLanguageFK,
     }
 
     @Override
-    public Optional<ResumeLanguageDto> partialUpdate(ResumeLanguageFK id, Map<Object, Object> fields) {
+    public Optional<ResumeLanguageDto> partialUpdate(Integer id, Map<Object, Object> fields) {
         return Optional.empty();
     }
 
     @Override
-    public Boolean delete(ResumeLanguageFK id) {
+    public Boolean delete(Integer id) {
         return languageRepository.findById(id).map(entity -> {
             languageRepository.delete(entity);
             return true;

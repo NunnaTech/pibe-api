@@ -1,8 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.profile.dto;
 
-import mx.com.pandadevs.pibeapi.models.states.RepublicState;
 import mx.com.pandadevs.pibeapi.models.states.dto.RepublicStateDto;
-import mx.com.pandadevs.pibeapi.utils.enums.Gender;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -36,11 +34,11 @@ public class ProfileDto {
     private LocalDateTime birthDate;
 
     @NotNull
-    private Gender sex;
+    private String gender;
 
     private Boolean completed;
 
-    private String picture;
+    private String image;
 
     private String phoneNumber;
 
@@ -82,12 +80,20 @@ public class ProfileDto {
         this.birthDate = birthDate;
     }
 
-    public Gender getSex() {
-        return sex;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSex(Gender sex) {
-        this.sex = sex;
+    public void setGender(String gender) {
+        this.gender = gender;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public Boolean getCompleted() {
@@ -97,15 +103,6 @@ public class ProfileDto {
     public void setCompleted(Boolean completed) {
         this.completed = completed;
     }
-
-    public String getPicture() {
-        return picture;
-    }
-
-    public void setPicture(String picture) {
-        this.picture = picture;
-    }
-
     public String getPhoneNumber() {
         return phoneNumber;
     }

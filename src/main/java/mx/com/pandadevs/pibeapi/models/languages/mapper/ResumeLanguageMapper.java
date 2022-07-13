@@ -32,8 +32,6 @@ public interface ResumeLanguageMapper {
 
     @InheritInverseConfiguration
     @Mappings({
-            @Mapping(target = "resumeId", ignore = true),
-            @Mapping(target = "languageId", ignore = true),
             @Mapping(target = "resume", ignore = true)
     })
     ResumeLanguage toResumeLanguage(ResumeLanguageDto languageDto);

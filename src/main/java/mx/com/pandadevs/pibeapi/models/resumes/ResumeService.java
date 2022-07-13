@@ -2,16 +2,11 @@ package mx.com.pandadevs.pibeapi.models.resumes;
 
 import mx.com.pandadevs.pibeapi.models.resumes.dto.ResumeDto;
 import mx.com.pandadevs.pibeapi.models.resumes.mapper.ResumeMapper;
-import mx.com.pandadevs.pibeapi.models.users.UserRepository;
-import mx.com.pandadevs.pibeapi.models.users.mapper.UserMapper;
-import mx.com.pandadevs.pibeapi.models.work_experiences.WorkExperience;
-import mx.com.pandadevs.pibeapi.models.work_experiences.dto.WorkExperienceDto;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
-import javax.transaction.Transactional;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +51,7 @@ public class ResumeService implements ServiceInterface<Integer,ResumeDto> {
         Optional<Resume> updatedEntity = resumeRepository.findById(entity.getId());
         return updatedEntity.map(updated -> {
             return Optional.of(mapper.toResumeDto(
-                    resumeRepository.saveAndFlush(
+                    resumeRepository.save(
                             mapper.toResume(entity))));
         }).orElse(Optional.empty());
     }

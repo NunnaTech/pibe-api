@@ -3,13 +3,7 @@ package mx.com.pandadevs.pibeapi.models.languages.entity;
 import java.io.Serializable;
 
 // Persistence
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.IdClass;
-import javax.persistence.Table;
-import javax.persistence.Id;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
@@ -19,15 +13,12 @@ import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 
 @Entity
 @Table(name = "RESUME_LANGUAGES")
-@IdClass(value = ResumeLanguageFK.class)
 public class ResumeLanguage extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
     @Id
-    @Column(name = "resume_id")
-    private Integer  resumeId;
-    @Id
-    @Column(name = "language_id")
-    private Long  languageId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer  id;
     
     @Column(
         name="level",
@@ -49,20 +40,12 @@ public class ResumeLanguage extends PibeModel implements Serializable {
 
     // Getters & Setters
 
-    public Integer getResumeId() {
-        return resumeId;
+    public Integer getId() {
+        return id;
     }
 
-    public void setResumeId(Integer resumeId) {
-        this.resumeId = resumeId;
-    }
-
-    public Long getLanguageId() {
-        return languageId;
-    }
-
-    public void setLanguageId(Long languageId) {
-        this.languageId = languageId;
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getLevel() {
