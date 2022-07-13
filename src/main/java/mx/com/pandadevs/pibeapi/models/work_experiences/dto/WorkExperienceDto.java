@@ -3,12 +3,21 @@ package mx.com.pandadevs.pibeapi.models.work_experiences.dto;
 import java.time.LocalDateTime;
 
 public class WorkExperienceDto {
+    private Integer id;
     private String position;
     private LocalDateTime startPeriod;
     private LocalDateTime endPeriod;
     private String activities;
 
     // Getters && Setters
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getPosition() {
         return position;

@@ -14,6 +14,7 @@ import mx.com.pandadevs.pibeapi.models.resumes.dto.ResumeDto;
 import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
 import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import mx.com.pandadevs.pibeapi.models.users.controller.ResumeUserController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -28,16 +29,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 // Models
 import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
-
+import mx.com.pandadevs.pibeapi.models.contacts.dto.ContactDto;
+import mx.com.pandadevs.pibeapi.models.contacts.service.ContactService;
+import mx.com.pandadevs.pibeapi.models.notifications.dto.UserNotificationDto;
+import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
+import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;
 @RestController
 @RequestMapping("user/")
-public class UserController extends ProfileController implements ControllerInterface<UserDto> {
+public class UserController extends ResumeUserController implements ControllerInterface<UserDto, Long> {
 
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private ResumeService resumeService;
     @Autowired
     private ContactService contactService;
 
@@ -46,12 +49,6 @@ public class UserController extends ProfileController implements ControllerInter
     public ResponseEntity<List<UserDto>> getAll() {
         return new ResponseEntity(userService.getAll(), HttpStatus.OK);
     }
-
-    @GetMapping("a")
-    public ResponseEntity<List<User>> get() {
-        return new ResponseEntity(userService.get(), HttpStatus.OK);
-    }
-
     @Override
     public ResponseEntity<UserDto> getOne(@PathVariable("id") Long id) {
         return userService.getById(id)
@@ -75,12 +72,7 @@ public class UserController extends ProfileController implements ControllerInter
                 .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-    @GetMapping("/{username}/resume")
-    public ResponseEntity<ResumeDto> getResumeByUsername(@PathVariable("username") String username) {
-        return resumeService.getByUsername(username)
-                .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+
     @GetMapping("/{username}/notifications")
     public ResponseEntity<List<UserNotificationDto>> getNotificationsByUsername(@PathVariable("username") String username) {
         return new ResponseEntity(userService.getNotificationsByUsername(username), HttpStatus.OK);
@@ -115,5 +107,4 @@ public class UserController extends ProfileController implements ControllerInter
         if (deleted) return new ResponseEntity(deleted, HttpStatus.OK);
         else return new ResponseEntity(deleted, HttpStatus.NOT_FOUND);
     }
-    
 }

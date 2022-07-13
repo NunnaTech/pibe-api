@@ -4,27 +4,30 @@ import java.io.Serializable;
 
 // Persistence
 import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.IdClass;
 import javax.persistence.Table;
-
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
 
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
-import mx.com.pandadevs.pibeapi.utils.enums.Level;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
+
+
 
 @Entity
 @Table(name = "RESUME_LANGUAGES")
+@IdClass(value = ResumeLanguageFK.class)
 public class ResumeLanguage extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    @EmbeddedId
-    private ResumeLanguageFK id;
+    @Id
+    @Column(name = "resume_id")
+    private Integer  resumeId;
+    @Id
+    @Column(name = "language_id")
+    private Long  languageId;
     
     @Column(
         name="level",
@@ -45,12 +48,21 @@ public class ResumeLanguage extends PibeModel implements Serializable {
     private Language language;
 
     // Getters & Setters
-    public ResumeLanguageFK getId() {
-        return id;
+
+    public Integer getResumeId() {
+        return resumeId;
     }
 
-    public void setId(ResumeLanguageFK id) {
-        this.id = id;
+    public void setResumeId(Integer resumeId) {
+        this.resumeId = resumeId;
+    }
+
+    public Long getLanguageId() {
+        return languageId;
+    }
+
+    public void setLanguageId(Long languageId) {
+        this.languageId = languageId;
     }
 
     public String getLevel() {

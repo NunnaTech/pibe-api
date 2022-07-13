@@ -129,4 +129,20 @@ public class ProfileDto {
     public void setPosition(String position) {
         this.position = position;
     }
+
+    @Override
+    public String toString() {
+        return "ProfileDto{" +
+                "name='" + name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", birthDate=" + birthDate +
+                ", sex=" + sex +
+                ", completed=" + completed +
+                ", picture='" + picture + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", state=" + state +
+                ", position='" + position + '\'' +
+                '}';
+    }
 }

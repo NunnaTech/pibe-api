@@ -4,10 +4,19 @@ import java.time.LocalDateTime;
 
 public class StudyDto {
 
+    private Integer id;
     private String name;
     private LocalDateTime startPeriod;
     private LocalDateTime endPeriod;
     // Getters && Setters
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;

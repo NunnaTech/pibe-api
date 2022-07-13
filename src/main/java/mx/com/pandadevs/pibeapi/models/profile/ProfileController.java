@@ -6,7 +6,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
+@RequestMapping("/user")
 public class ProfileController {
 
     @Autowired
@@ -20,12 +23,14 @@ public class ProfileController {
     }
 
     @PostMapping("/{username}/profile")
-    public ResponseEntity<ProfileDto> saveProfileByUsername(@PathVariable("username") String username, ProfileDto request){
+    public ResponseEntity<ProfileDto> saveProfileByUsername(@PathVariable("username") String username,@RequestBody ProfileDto request){
         return new ResponseEntity<>(profileService.saveAndSetProfile(username, request), HttpStatus.OK);
     }
 
     @PutMapping("/{username}/profile")
-    public ResponseEntity<ProfileDto> updateProfileByUsername(){
-        return new ResponseEntity<>(new ProfileDto(), HttpStatus.OK);
+    public ResponseEntity<ProfileDto> updateProfileByUsername(@PathVariable("username") String username, @RequestBody Map<Object, Object> fields){
+        return profileService.partialUpdate(username, fields)
+                .map( entity  -> new  ResponseEntity<>( entity ,HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 }

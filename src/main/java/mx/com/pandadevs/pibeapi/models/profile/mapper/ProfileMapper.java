@@ -28,6 +28,7 @@ public interface ProfileMapper {
         @Mapping(source = "image", target = "picture"),
         @Mapping(source = "phoneNumber", target = "phoneNumber"),
         @Mapping(source = "gender", target = "sex"),
+            @Mapping(source = "completed", target = "completed"),
         @Mapping(source = "state", target = "state"),
         @Mapping(source = "position", target = "position"),
     })

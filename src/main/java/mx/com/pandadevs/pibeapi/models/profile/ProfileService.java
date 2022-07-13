@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 @Service
-public class ProfileService implements ServiceInterface<ProfileDto> {
+public class ProfileService implements ServiceInterface<Long,ProfileDto> {
 
     private  final ProfileMapper mapper;
     @Autowired
@@ -55,18 +55,18 @@ public class ProfileService implements ServiceInterface<ProfileDto> {
         Profile profile = mapper.toProfile(request);
         Optional<User> user = userRepository.findByUsernameAndActiveTrue(username);
         if (!user.isPresent()) return null;
-        user.get().setProfile(profile);
-        userRepository.saveAndFlush(user.get());
+        profile.setUser(user.get());
+        profileRepository.save(profile);
         return mapper.toProfileDto(profile);
     }
 
     @Override
     public Optional<ProfileDto> update(ProfileDto entity) {
-        Profile user = mapper.toProfile(entity);
-        Optional<Profile> updatedEntity = profileRepository.findById(user.getId());
+        Profile profile = mapper.toProfile(entity);
+        Optional<Profile> updatedEntity = profileRepository.findById(profile.getId());
         return updatedEntity.map(updated -> {
-            profileRepository.saveAndFlush(updated);
-            return Optional.of(mapper.toProfileDto(updated));
+            return Optional.of(mapper.toProfileDto(
+                    profileRepository.save(profile)));
         }).orElse(Optional.empty());
     }
 
@@ -75,6 +75,26 @@ public class ProfileService implements ServiceInterface<ProfileDto> {
         Optional<Profile> updatedEntity = Optional.empty();
         try {
             updatedEntity = profileRepository.findById(id);
+            return updatedEntity.map(updated -> {
+                fields.forEach((updatedfield, value) -> {
+                    // use reflection to get fields updatedfield on manager and set it to value updatedfield
+                    Field field = ReflectionUtils.findField(Profile.class, (String) updatedfield);
+                    field.setAccessible(true);
+                    ReflectionUtils.setField(field, updated, value);
+                });
+                profileRepository.saveAndFlush(updated);
+                return Optional.of(mapper.toProfileDto(updated));
+            }).orElse(Optional.empty());
+        } catch (Exception exception) {
+
+        }
+        return Optional.empty();
+    }
+
+    public Optional<ProfileDto> partialUpdate(String username, Map<Object, Object> fields) {
+        Optional<Profile> updatedEntity = Optional.empty();
+        try {
+            updatedEntity = profileRepository.findByUserUsernameAndUserActiveTrue(username);
             return updatedEntity.map(updated -> {
                 fields.forEach((updatedfield, value) -> {
                     // use reflection to get fields updatedfield on manager and set it to value updatedfield

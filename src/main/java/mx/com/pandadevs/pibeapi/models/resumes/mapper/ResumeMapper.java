@@ -49,6 +49,9 @@ public interface ResumeMapper {
     List<ResumeDto> toResumesDto(List<Resume> resumes);
 
     @InheritInverseConfiguration
+    @Mappings({
+            @Mapping( target = "active", ignore = true)
+    })
     Resume toResume(ResumeDto resumeDto);
 
 }

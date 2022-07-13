@@ -53,6 +53,7 @@ public class Resume extends PibeModel implements Serializable {
 
     @Column(
         nullable = false,
+        insertable = false,
         columnDefinition = "tinyint default 0")
     private Boolean completed;
 
@@ -61,7 +62,7 @@ public class Resume extends PibeModel implements Serializable {
         columnDefinition = "tinyint default 1")
     private Boolean active;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "profile_id", insertable = false, updatable = false)
     private Profile profile;
 

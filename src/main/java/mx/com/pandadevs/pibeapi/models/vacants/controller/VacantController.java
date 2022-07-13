@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 @RestController
 @RequestMapping("vacants/")
-public class VacantController implements ControllerInterface<VacantDto> {
+public class VacantController implements ControllerInterface<VacantDto, Integer> {
     @Autowired
     private VacantService vacantService;
 
@@ -24,7 +24,7 @@ public class VacantController implements ControllerInterface<VacantDto> {
         return new ResponseEntity(vacantService.getAll(), HttpStatus.OK);
     }
     @Override
-    public ResponseEntity<VacantDto> getOne(Long id) {
+    public ResponseEntity<VacantDto> getOne(Integer id) {
         return null;
     }
 
@@ -39,12 +39,12 @@ public class VacantController implements ControllerInterface<VacantDto> {
     }
 
     @Override
-    public ResponseEntity<VacantDto> partialUpdate(Long id, Map<Object, Object> fields) {
+    public ResponseEntity<VacantDto> partialUpdate(Integer id, Map<Object, Object> fields) {
         return null;
     }
 
     @Override
-    public ResponseEntity<Boolean> delete(Long id) {
+    public ResponseEntity<Boolean> delete(Integer id) {
         return null;
     }
 }

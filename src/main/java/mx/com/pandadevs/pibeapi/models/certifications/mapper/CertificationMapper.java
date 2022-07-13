@@ -23,6 +23,7 @@ public interface CertificationMapper {
     CertificationMapper MAPPER = Mappers.getMapper( CertificationMapper.class);
     
     @Mappings({
+        @Mapping(source = "id", target = "id"),
         @Mapping(source = "name", target = "name"),
         @Mapping(source = "active", target = "active"),
         @Mapping(source = "company", target = "company"),
