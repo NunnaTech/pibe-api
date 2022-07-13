@@ -5,7 +5,16 @@ public class AuthRequest {
     private String password;
     private String currentPassword;
     private  String newPassword;
+    private int roleId;
     private String key;
+
+    public int getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(int roleId) {
+        this.roleId = roleId;
+    }
 
     public String getKey() {
         return key;

@@ -30,6 +30,11 @@ public class AuthController {
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
 
+    @PostMapping("/register")
+    public ResponseEntity<String> register(@RequestBody AuthRequest request){
+        return  new ResponseEntity<>(authService.register(request),HttpStatus.OK);
+    }
+
     @PostMapping("/change-password")
     public ResponseEntity<Boolean> changePassword(@RequestBody AuthRequest request){
         return  new ResponseEntity<>(authService.changePassword(request), HttpStatus.OK);

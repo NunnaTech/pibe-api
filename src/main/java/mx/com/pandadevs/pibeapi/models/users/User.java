@@ -46,6 +46,10 @@ public class User extends PibeModel implements Serializable {
         columnDefinition = "varchar(50)")
     private String email;
 
+    public User() {
+
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -147,6 +151,12 @@ public class User extends PibeModel implements Serializable {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     private List<Log> logs;
+
+    public User(String email, String username, String password) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
