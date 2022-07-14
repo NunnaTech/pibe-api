@@ -4,7 +4,7 @@ import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
 import mx.com.pandadevs.pibeapi.utils.enums.Action;
 
 public class LogDto {
-    private Integer id;
+    private Long id;
     private String oldData;
     private String newData;
     private Action action;
@@ -13,11 +13,11 @@ public class LogDto {
 
     // Getters && Setters
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

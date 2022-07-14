@@ -18,12 +18,12 @@ public class JwtAuth {
     @Value("${secret}")
     private String KEY;
 
-    public String createToken(UserDetails userDetails, Optional<User> user){
+    public String createToken(UserDetails userDetails){
 
         return Jwts.builder()
                 .setId(UUID.randomUUID().toString())
                 .setIssuer("PIBE-APP")
-                .setSubject(user.get().getId().toString())
+                .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis()+ 1000 * 60 * 60 * 60))
                 .signWith(SignatureAlgorithm.HS256, KEY)

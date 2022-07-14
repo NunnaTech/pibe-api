@@ -84,23 +84,23 @@ public class Vacant extends PibeModel implements Serializable {
     private String image;
 
     @ManyToOne
-    @JoinColumn(name = "schedule_id", insertable = false, updatable = false)
+    @JoinColumn(name = "schedule_id" )
     private Schedule schedule;
 
     @ManyToOne
-    @JoinColumn(name = "state_id", insertable = false, updatable = false)
+    @JoinColumn(name = "state_id" )
     private RepublicState state;
 
     @ManyToOne
-    @JoinColumn(name = "period_id", insertable = false, updatable = false)
+    @JoinColumn(name = "period_id" )
     private Period period;
 
     @ManyToOne
-    @JoinColumn(name = "mode_id", insertable = false, updatable = false)
+    @JoinColumn(name = "mode_id" )
     private Mode mode;
 
     @ManyToOne
-    @JoinColumn(name = "created_by", insertable = false, updatable = false)
+    @JoinColumn(name = "created_by" )
     private User user;
 
     // Relationships

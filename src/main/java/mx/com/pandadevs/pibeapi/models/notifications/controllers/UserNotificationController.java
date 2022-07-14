@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 @RestController
 @RequestMapping("notification/")
-public class UserNotificationController implements ControllerInterface<UserNotificationDto> {
+public class UserNotificationController implements ControllerInterface<UserNotificationDto, Long> {
     @Autowired
     private UserNotificationService service;
 

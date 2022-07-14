@@ -51,11 +51,11 @@ public class Log extends PibeModel implements Serializable {
     private Action action;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id" )
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "table_id", insertable = false, updatable = false)
+    @JoinColumn(name = "table_id" )
     private Tables table;
 
     // Getters & Setters

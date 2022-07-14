@@ -9,14 +9,14 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class NotificationService implements ServiceInterface<NotificationDto> {
+public class NotificationService implements ServiceInterface<Integer,NotificationDto> {
     @Override
     public List<NotificationDto> getAll() {
         return null;
     }
 
     @Override
-    public Optional<NotificationDto> getById(Long id) {
+    public Optional<NotificationDto> getById(Integer id) {
         return Optional.empty();
     }
 
@@ -31,12 +31,12 @@ public class NotificationService implements ServiceInterface<NotificationDto> {
     }
 
     @Override
-    public Optional<NotificationDto> partialUpdate(Long id, Map<Object, Object> fields) {
+    public Optional<NotificationDto> partialUpdate(Integer id, Map<Object, Object> fields) {
         return Optional.empty();
     }
 
     @Override
-    public Boolean delete(Long id) {
+    public Boolean delete(Integer id) {
         return null;
     }
 }

@@ -2,6 +2,7 @@ package mx.com.pandadevs.pibeapi.models.notifications.services;
 
 import mx.com.pandadevs.pibeapi.models.notifications.dto.UserNotificationDto;
 import mx.com.pandadevs.pibeapi.models.notifications.entities.UserNotification;
+import mx.com.pandadevs.pibeapi.models.notifications.entities.UserNotificationPK;
 import mx.com.pandadevs.pibeapi.models.notifications.mapper.UserNotificationMapper;
 import mx.com.pandadevs.pibeapi.models.notifications.repository.UserNotificationRepository;
 import mx.com.pandadevs.pibeapi.models.users.UserService;
@@ -13,7 +14,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 @Service
-public class UserNotificationService implements ServiceInterface<UserNotificationDto> {
+public class UserNotificationService implements ServiceInterface<UserNotificationPK,UserNotificationDto> {
 
     private final UserNotificationMapper  mapper;
 
@@ -33,7 +34,7 @@ public class UserNotificationService implements ServiceInterface<UserNotificatio
     }
 
     @Override
-    public Optional<UserNotificationDto> getById(Long id) {
+    public Optional<UserNotificationDto> getById(UserNotificationPK id) {
         return Optional.empty();
     }
 
@@ -48,12 +49,12 @@ public class UserNotificationService implements ServiceInterface<UserNotificatio
     }
 
     @Override
-    public Optional<UserNotificationDto> partialUpdate(Long id, Map<Object, Object> fields) {
+    public Optional<UserNotificationDto> partialUpdate(UserNotificationPK id, Map<Object, Object> fields) {
         return Optional.empty();
     }
 
     @Override
-    public Boolean delete(Long id) {
+    public Boolean delete(UserNotificationPK id) {
         return null;
     }
 }

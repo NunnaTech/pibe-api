@@ -62,7 +62,7 @@ public class Certification extends PibeModel implements Serializable {
 
     // Relationships
     @ManyToOne
-    @JoinColumn(name = "resume_id", insertable = false, updatable = false)
+    @JoinColumn(name = "resume_id" )
     private Resume resume;
 
     // Getters & Setters

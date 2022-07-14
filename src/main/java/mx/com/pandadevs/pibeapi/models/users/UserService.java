@@ -17,7 +17,7 @@ import mx.com.pandadevs.pibeapi.models.users.mapper.UserMapper;
 // Models
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 @Service
-public class UserService implements ServiceInterface<UserDto>  {
+public class UserService implements ServiceInterface<Long,UserDto> {
 
     private final UserMapper mapper;
     @Autowired
@@ -35,9 +35,6 @@ public class UserService implements ServiceInterface<UserDto>  {
         return mapper.toUsersDto(userRepository.findAll());
     }
 
-    public List<User> get() {
-        return userRepository.findAll();
-    }
     @Override
     public Optional<UserDto> getById(Long id) {
         Optional<User> user = userRepository.findById(id);

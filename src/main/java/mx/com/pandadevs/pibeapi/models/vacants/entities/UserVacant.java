@@ -29,15 +29,15 @@ public class UserVacant extends PibeModel implements Serializable {
     private Integer id;
     
     @ManyToOne
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id" )
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "vacant_id", insertable = false, updatable = false)
+    @JoinColumn(name = "vacant_id" )
     private Vacant vacant;
 
     @ManyToOne
-    @JoinColumn(name = "process_id", insertable = false, updatable = false)
+    @JoinColumn(name = "process_id" )
     private Process process;
 
     public Integer getId() {

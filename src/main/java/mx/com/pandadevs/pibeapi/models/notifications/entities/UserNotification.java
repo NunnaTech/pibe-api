@@ -41,7 +41,7 @@ public class UserNotification extends PibeModel implements Serializable {
     // User
     @ManyToOne
     @MapsId("user_id")
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id" )
     private User user;
 
     // Notification

@@ -39,12 +39,10 @@ public class RepublicState extends PibeModel implements Serializable {
     // Relationships
     
     // Vacants
-    @JsonIgnore
     @OneToMany(mappedBy = "state", cascade = {CascadeType.ALL})
     private Set<Vacant> vacants;
     
     // Vacants
-    @JsonIgnore
     @OneToMany(mappedBy = "state", cascade = {CascadeType.ALL})
     private Set<Profile> profiles;
 

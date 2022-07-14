@@ -56,7 +56,7 @@ public class AuthDetailService implements UserDetailsService {
 
         authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), user.get().getPassword()));
         UserDetails userDetails = loadUserByUsername(request.getUsername());
-        String jwt = jwtAuth.createToken(userDetails, user);
+        String jwt = jwtAuth.createToken(userDetails);
 
         response = Optional.of(new AuthResponse(userService.getByUsername(userDetails.getUsername()),jwt));
         return  response;

@@ -2,6 +2,7 @@ package mx.com.pandadevs.pibeapi.models.profile;
 
 import mx.com.pandadevs.pibeapi.models.profile.dto.ProfileDto;
 import mx.com.pandadevs.pibeapi.models.profile.mapper.ProfileMapper;
+import mx.com.pandadevs.pibeapi.models.states.mapper.RepublicStateMapper;
 import mx.com.pandadevs.pibeapi.models.users.User;
 import mx.com.pandadevs.pibeapi.models.users.UserRepository;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
@@ -14,17 +15,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 @Service
-public class ProfileService implements ServiceInterface<ProfileDto> {
+public class ProfileService implements ServiceInterface<Long,ProfileDto> {
 
     private  final ProfileMapper mapper;
+
+    private  final RepublicStateMapper republicStateMapper;
     @Autowired
     private ProfileRepository profileRepository;
 
     @Autowired
     private UserRepository userRepository;
 
-    public ProfileService(ProfileMapper profileMapper){
+    public ProfileService(ProfileMapper profileMapper,RepublicStateMapper republicStateMapper){
         this.mapper = profileMapper;
+        this.republicStateMapper = republicStateMapper;
     }
 
     @Override
@@ -56,17 +60,18 @@ public class ProfileService implements ServiceInterface<ProfileDto> {
         Optional<User> user = userRepository.findByUsernameAndActiveTrue(username);
         if (!user.isPresent()) return null;
         user.get().setProfile(profile);
-        userRepository.saveAndFlush(user.get());
+        profile.setUser(user.get());
+        userRepository.save(user.get());
         return mapper.toProfileDto(profile);
     }
 
     @Override
     public Optional<ProfileDto> update(ProfileDto entity) {
-        Profile user = mapper.toProfile(entity);
-        Optional<Profile> updatedEntity = profileRepository.findById(user.getId());
+        Profile profile = mapper.toProfile(entity);
+        Optional<Profile> updatedEntity = profileRepository.findById(profile.getId());
         return updatedEntity.map(updated -> {
-            profileRepository.saveAndFlush(updated);
-            return Optional.of(mapper.toProfileDto(updated));
+            return Optional.of(mapper.toProfileDto(
+                    profileRepository.save(profile)));
         }).orElse(Optional.empty());
     }
 

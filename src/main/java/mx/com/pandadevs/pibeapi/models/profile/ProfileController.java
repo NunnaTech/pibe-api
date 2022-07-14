@@ -7,12 +7,13 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/user")
 public class ProfileController {
 
     @Autowired
     private ProfileService profileService;
 
-    @GetMapping("/{username}/profile/")
+    @GetMapping("/{username}/profile")
     public ResponseEntity<ProfileDto> getProfileByUsername(@PathVariable("username") String username){
         return profileService.getByUsername(username)
                 .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
@@ -20,7 +21,7 @@ public class ProfileController {
     }
 
     @PostMapping("/{username}/profile")
-    public ResponseEntity<ProfileDto> saveProfileByUsername(@PathVariable("username") String username, ProfileDto request){
+    public ResponseEntity<ProfileDto> saveProfileByUsername(@PathVariable("username") String username,@RequestBody ProfileDto request){
         return new ResponseEntity<>(profileService.saveAndSetProfile(username, request), HttpStatus.OK);
     }
 

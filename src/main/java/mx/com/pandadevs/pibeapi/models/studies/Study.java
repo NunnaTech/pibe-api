@@ -54,7 +54,7 @@ public class Study extends PibeModel implements Serializable {
     private Boolean active;
 
     @ManyToOne
-    @JoinColumn(name = "resume_id", insertable = false, updatable = false)
+    @JoinColumn(name = "resume_id" )
     private Resume resume;
 
     

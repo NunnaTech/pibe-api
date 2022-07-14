@@ -18,10 +18,11 @@ import java.util.List;
 public interface LanguageMapper {
 
     LanguageMapper MAPPER = Mappers.getMapper( LanguageMapper.class);
-    
+
     @Mappings({
-        @Mapping(source = "name", target = "language"),
-        @Mapping(source = "abbreviation", target = "abbreviation"),
+            @Mapping(source = "id", target = "id"),
+            @Mapping(source = "name", target = "language"),
+            @Mapping(source = "abbreviation", target = "abbreviation"),
     })
     LanguageDto toLanguageDto (Language language);
 
@@ -29,10 +30,8 @@ public interface LanguageMapper {
 
     @InheritInverseConfiguration
     @Mappings({
-            @Mapping(target = "id", ignore = true),
-            @Mapping(target = "resumes", ignore = true)
+            @Mapping(target = "resumeLanguages", ignore = true)
     })
     Language toLanguage(LanguageDto languageDto);
-    List<Language> toLanguages(List<LanguageDto> languagesDto);
 
 }
