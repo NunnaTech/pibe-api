@@ -30,12 +30,12 @@ public class ResumeLanguage extends PibeModel implements Serializable {
 
     // Resume
     @ManyToOne
-    @JoinColumn(name = "resume_id", insertable = false, updatable = false)
+    @JoinColumn(name = "resume_id")
     private Resume resume;
 
     // Lenguage
     @ManyToOne
-    @JoinColumn(name = "language_id", insertable = false, updatable = false)
+    @JoinColumn(name = "language_id" )
     private Language language;
 
     // Getters & Setters

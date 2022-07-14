@@ -21,6 +21,7 @@ public interface ResumeLanguageMapper {
     ResumeLanguageMapper MAPPER = Mappers.getMapper( ResumeLanguageMapper.class);
     
     @Mappings({
+        @Mapping(source = "id", target = "id"),
         @Mapping(source = "language", target = "language"),
         @Mapping(source = "level", target = "level"),
     })
