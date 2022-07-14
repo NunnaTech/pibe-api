@@ -45,6 +45,8 @@ public class EmailService {
     @Value("${template-email-password-recovery}")
     private String TEMPLATE_EMAIL_PASSWORD_RECOVERY;
 
+    @Value("${template-email-active-account}")
+    private String TEMPLATE_EMAIL_ACTIVE_ACCOUNT;
     /*
     * TEST DATA: (addDynamicTemplateData)
     *   "urlImage": La URL de la imagen
@@ -135,12 +137,30 @@ public class EmailService {
             SendGrid sg = new SendGrid(EMAIL_KEY);
             Mail mail = getMail(user.get().getEmail());
             mail.setTemplateId(TEMPLATE_EMAIL_PASSWORD_RECOVERY);
-            mail.personalization.get(0).addDynamicTemplateData("codigo", token);
+            mail.personalization.get(0).addDynamicTemplateData("code", token.substring(30));
             Request mailRequest = getRequest(mail);
             Response response = sg.api(mailRequest);
-            System.out.println(response.getStatusCode());
             flag = response.getStatusCode() == 202;
             userRepository.save(user.get());
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return flag;
+    }
+
+    public boolean sendActivationCode(User user){
+        String token = UUID.randomUUID().toString();
+        boolean flag = false;
+        try {
+            user.setLinkActivateEmail(token);
+            SendGrid sg = new SendGrid(EMAIL_KEY);
+            Mail mail = getMail(user.getEmail());
+            mail.setTemplateId(TEMPLATE_EMAIL_ACTIVE_ACCOUNT);
+            mail.personalization.get(0).addDynamicTemplateData("code", token.substring(30));
+            Request mailRequest = getRequest(mail);
+            Response response = sg.api(mailRequest);
+            flag = response.getStatusCode() == 202;
+            userRepository.save(user);
         } catch (Exception e) {
             logger.error(e.getMessage());
         }

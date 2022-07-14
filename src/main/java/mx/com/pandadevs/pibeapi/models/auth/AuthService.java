@@ -21,6 +21,9 @@ public class AuthService {
 
     @Autowired
     private UserMapper mapper;
+
+    @Autowired
+    private EmailService emailService;
     @Autowired
     private UserRepository userRepository;
 
@@ -69,7 +72,7 @@ public class AuthService {
             list.add(rol.get());
             user1.setActive(false);
             user1.setRoles(list);
-            userRepository.save(user1);
+            emailService.sendActivationCode(user1);
         }
         return  "registrado correctamente";
     }
