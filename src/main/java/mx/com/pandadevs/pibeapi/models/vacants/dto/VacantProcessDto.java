@@ -1,10 +1,12 @@
 package mx.com.pandadevs.pibeapi.models.vacants.dto;
 
 import mx.com.pandadevs.pibeapi.models.processes.dto.ProcessDto;
+import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;
 
-public class UserVacantDto  {
+public class VacantProcessDto {
+
     private Integer id;
-    private VacantDto vacant;
+    private UserProfileDto user;
     private ProcessDto process;
 
     public Integer getId() {
@@ -15,12 +17,12 @@ public class UserVacantDto  {
         this.id = id;
     }
 
-    public VacantDto getVacant() {
-        return vacant;
+    public UserProfileDto getUser() {
+        return user;
     }
 
-    public void setVacant(VacantDto vacant) {
-        this.vacant = vacant;
+    public void setUser(UserProfileDto user) {
+        this.user = user;
     }
 
     public ProcessDto getProcess() {

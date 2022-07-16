@@ -1,10 +1,7 @@
 package mx.com.pandadevs.pibeapi.models.vacants.mapper;
-// Mappers
 
 import mx.com.pandadevs.pibeapi.models.benefits.mapper.BenefitMapper;
 import mx.com.pandadevs.pibeapi.models.modes.mapper.ModeMapper;
-import mx.com.pandadevs.pibeapi.models.periods.Period;
-import mx.com.pandadevs.pibeapi.models.periods.dto.PeriodDto;
 import mx.com.pandadevs.pibeapi.models.periods.mapper.PeriodMapper;
 import mx.com.pandadevs.pibeapi.models.schedule.mapper.ScheduleMapper;
 import mx.com.pandadevs.pibeapi.models.states.mapper.RepublicStateMapper;

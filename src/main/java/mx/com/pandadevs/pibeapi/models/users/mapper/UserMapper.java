@@ -42,6 +42,8 @@ public interface UserMapper {
     })
     UserProfileDto toUserProfileDto(User user);
 
+    List<UserProfileDto> toUsersProfileDto(List<User> users);
+
 
     @InheritInverseConfiguration
     @Mappings({

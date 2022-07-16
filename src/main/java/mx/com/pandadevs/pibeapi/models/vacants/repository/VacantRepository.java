@@ -9,6 +9,6 @@ import java.util.Optional;
 
 @Repository
 public interface VacantRepository extends JpaRepository<Vacant, Integer> {
-    public List<Vacant> findAllByActiveIsTrueAndIsPublicIsTrue();
-    public Optional<Vacant> findByIdAndActiveIsTrue(Integer id);
+    List<Vacant> findAllByActiveIsTrueAndIsPublicIsTrue();
+    Optional<Vacant> findByIdAndActiveIsTrue(Integer id);
 }
