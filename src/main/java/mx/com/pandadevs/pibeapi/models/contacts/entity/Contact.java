@@ -20,12 +20,12 @@ public class Contact extends PibeModel implements Serializable {
     // Relationship
     @ManyToOne
     @MapsId("user_id")
-    @JoinColumn(name = "user_id", insertable = false, updatable = false)
+    @JoinColumn(name = "user_id" )
     private User user;
 
     @ManyToOne
     @MapsId("contact_id")
-    @JoinColumn(name = "contact_id", insertable = false, updatable = false)
+    @JoinColumn(name = "contact_id" )
     private User contact;
 
     // Getters & Setters

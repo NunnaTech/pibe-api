@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/periods")
-public class PeriodController implements ControllerInterface<Integer, PeriodDto> {
+public class PeriodController implements ControllerInterface<PeriodDto, Integer> {
 
     @Autowired
     private PeriodService periodService;
@@ -33,7 +33,7 @@ public class PeriodController implements ControllerInterface<Integer, PeriodDto>
     public ResponseEntity<PeriodDto> getOne(@PathVariable(value = "id") Integer id) {
         try {
             return periodService.getById(id)
-                    .map(e->new ResponseEntity<>(e, HttpStatus.OK))
+                    .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
                     .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
@@ -55,7 +55,7 @@ public class PeriodController implements ControllerInterface<Integer, PeriodDto>
     public ResponseEntity<PeriodDto> update(@RequestBody PeriodDto entity) {
         try {
             return periodService.update(entity)
-                    .map(e-> new ResponseEntity<>(e, HttpStatus.OK))
+                    .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
                     .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

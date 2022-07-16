@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/states")
-public class RepublicStateController implements ControllerInterface<Integer, RepublicStateDto> {
+public class RepublicStateController implements ControllerInterface<RepublicStateDto, Integer> {
 
     @Autowired
     private RepublicStateService stateService;

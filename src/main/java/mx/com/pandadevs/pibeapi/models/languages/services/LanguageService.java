@@ -25,12 +25,12 @@ public class LanguageService implements ServiceInterface<Integer, LanguageDto> {
     public LanguageService(LanguageMapper mapper){ this.mapper = mapper;}
     @Override
     public List<LanguageDto> getAll() {
-        return mapper.toLanguagesDto(languageRepository.findAll());
+        return mapper.toLanguagesDto(languageRepository.findAllByActiveTrueOrderByCreatedAtDesc());
     }
 
     @Override
     public Optional<LanguageDto> getById(Integer id) {
-        Optional<Language> language = languageRepository.findById(id);
+        Optional<Language> language = languageRepository.findByIdAndActiveTrue(id);
         return language.map(entity -> {
             return Optional.of(mapper.toLanguageDto(entity));
         }).orElse(Optional.empty());
@@ -46,7 +46,7 @@ public class LanguageService implements ServiceInterface<Integer, LanguageDto> {
     public Optional<LanguageDto> update(LanguageDto entity) {
         Optional<Language> updatedEntity = languageRepository.findById(entity.getId());
         return updatedEntity.map(updated -> {
-            languageRepository.saveAndFlush(updated);
+            languageRepository.save(mapper.toLanguage(entity));
             return Optional.of(mapper.toLanguageDto(updated));
         }).orElse(Optional.empty());
     }
@@ -72,8 +72,9 @@ public class LanguageService implements ServiceInterface<Integer, LanguageDto> {
 
     @Override
     public Boolean delete(Integer id) {
-        return languageRepository.findById(id).map(entity -> {
-            languageRepository.delete(entity);
+        return languageRepository.findByIdAndActiveTrue(id).map(entity -> {
+            entity.setActive(false);
+            languageRepository.save(entity);
             return true;
         }).orElse(false);
     }

@@ -1,13 +1,9 @@
 package mx.com.pandadevs.pibeapi.models.users;
 // Java
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.lang.reflect.Field;
 
-// Spring
 import mx.com.pandadevs.pibeapi.models.notifications.dto.UserNotificationDto;
-import mx.com.pandadevs.pibeapi.models.notifications.services.NotificationService;
 import mx.com.pandadevs.pibeapi.models.notifications.services.UserNotificationService;
 import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
 import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;

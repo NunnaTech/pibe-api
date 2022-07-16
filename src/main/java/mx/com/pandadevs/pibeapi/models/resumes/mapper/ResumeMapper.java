@@ -5,6 +5,7 @@ import mx.com.pandadevs.pibeapi.models.aptitudes.mapper.AptitudeMapper;
 import mx.com.pandadevs.pibeapi.models.certifications.mapper.CertificationMapper;
 import mx.com.pandadevs.pibeapi.models.courses.mapper.CourseMapper;
 import mx.com.pandadevs.pibeapi.models.languages.mapper.ResumeLanguageMapper;
+import mx.com.pandadevs.pibeapi.models.profile.mapper.ProfileMapper;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 import mx.com.pandadevs.pibeapi.models.resumes.dto.ResumeDto;
 import mx.com.pandadevs.pibeapi.models.studies.mapper.StudyMapper;
@@ -25,7 +26,8 @@ import java.util.List;
         StudyMapper.class,
         CourseMapper.class,
         WorkExperienceMapper.class,
-        CertificationMapper.class
+        CertificationMapper.class,
+        ProfileMapper.class,
 })
 public interface ResumeMapper {
 
@@ -35,6 +37,7 @@ public interface ResumeMapper {
         @Mapping(source = "id", target = "id"),
         @Mapping(source = "curricularTitle", target = "curricularTitle"),
         @Mapping(source = "completed", target = "completed"),
+        @Mapping(source = "active", target = "active"),
         @Mapping(source = "profile", target = "profile"),
         @Mapping(source = "style", target = "style"),
         @Mapping(source = "aptitudes", target = "aptitudes"),

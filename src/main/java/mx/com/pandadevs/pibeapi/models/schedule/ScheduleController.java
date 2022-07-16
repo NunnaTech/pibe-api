@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/schedules")
-public class ScheduleController implements ControllerInterface<Integer, ScheduleDto> {
+public class ScheduleController implements ControllerInterface<ScheduleDto, Integer> {
 
     @Autowired
     private ScheduleService scheduleService;

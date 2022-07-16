@@ -40,7 +40,6 @@ public class Language extends PibeModel implements Serializable {
     private String abbreviation;
 
     @Column(
-        nullable = false,
         columnDefinition = "tinyint default 1")
     private Boolean active;
     

@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.springframework.http.ResponseEntity;
 
-public interface ControllerInterface<I,T> {
+public interface ControllerInterface<T,I> {
     /** Controller Interface
      *  This interface helps to implement all repeated method each class
      * methods of a CRUD.

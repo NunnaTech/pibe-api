@@ -4,34 +4,53 @@ import mx.com.pandadevs.pibeapi.models.benefits.dto.BenefitDto;
 import mx.com.pandadevs.pibeapi.models.modes.dto.ModeDto;
 import mx.com.pandadevs.pibeapi.models.periods.dto.PeriodDto;
 import mx.com.pandadevs.pibeapi.models.schedule.dto.ScheduleDto;
+import mx.com.pandadevs.pibeapi.models.states.dto.RepublicStateDto;
 import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
-import java.time.Period;
 import java.util.List;
 
 public class VacantDto {
 
     private Integer id;
+    @NotNull(message = "Please provide a title")
+    @NotBlank(message = "Please provide a title")
+    @Size(min = 2, max = 40, message = "Please provide a title with 2 - 40 characters")
     private String title;
+    @NotNull(message = "Please provide a description")
+    @NotBlank(message = "Please provide a description")
     private String description;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    @NotNull(message = "Please provide a salary")
+    @NotBlank(message = "Please provide a salary")
+    @Size(min = 2, max = 40, message = "Please provide a salary with 2 - 80 characters")
     private String salary;
     private Boolean isPublic;
     private String image;
     private ScheduleDto schedule;
     private PeriodDto period;
     private ModeDto mode;
-
+    private RepublicStateDto state;
     private List<BenefitDto> benefits;
     private UserDto creator;
 
-    // Getters && Setters
-
-
     public List<BenefitDto> getBenefits() {
         return benefits;
+    }
+
+    public VacantDto() {
+    }
+
+    public RepublicStateDto getState() {
+        return state;
+    }
+
+    public void setState(RepublicStateDto state) {
+        this.state = state;
     }
 
     public void setBenefits(List<BenefitDto> benefits) {

@@ -6,7 +6,9 @@ import java.util.Map;
 import java.util.Optional;
 
 // Spring
+import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
+import net.bytebuddy.TypeCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -23,7 +25,7 @@ public class StyleService implements ServiceInterface<Integer, StyleDto> {
 
     @Override
     public List<StyleDto> getAll() {
-        return mapper.toStylesDto(styleRepository.findAll());
+        return mapper.toStylesDto(styleRepository.findAllByActiveTrueOrderByCreatedAtDesc());
     }
 
     @Override
@@ -44,8 +46,9 @@ public class StyleService implements ServiceInterface<Integer, StyleDto> {
     public Optional<StyleDto> update(StyleDto entity) {
         Optional<Style> updatedEntity = styleRepository.findById(entity.getId());
         return updatedEntity.map(updated -> {
-            styleRepository.saveAndFlush(updated);
-            return Optional.of(mapper.toStyleDto(updated));
+            return Optional.of(mapper.toStyleDto(
+                    styleRepository.saveAndFlush(
+                            mapper.toStyle(entity))));
         }).orElse(Optional.empty());
     }
 
@@ -70,8 +73,9 @@ public class StyleService implements ServiceInterface<Integer, StyleDto> {
 
     @Override
     public Boolean delete(Integer id) {
-        return styleRepository.findById(id).map(entity -> {
-            styleRepository.delete(entity);
+        return styleRepository.findStyleByIdAndActiveTrue(id).map(entity -> {
+            entity.setActive(false);
+            styleRepository.save(entity);
             return true;
         }).orElse(false);
     }

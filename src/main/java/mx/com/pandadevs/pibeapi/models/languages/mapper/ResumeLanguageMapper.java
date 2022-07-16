@@ -21,6 +21,7 @@ public interface ResumeLanguageMapper {
     ResumeLanguageMapper MAPPER = Mappers.getMapper( ResumeLanguageMapper.class);
     
     @Mappings({
+        @Mapping(source = "id", target = "id"),
         @Mapping(source = "language", target = "language"),
         @Mapping(source = "level", target = "level"),
     })
@@ -32,7 +33,6 @@ public interface ResumeLanguageMapper {
 
     @InheritInverseConfiguration
     @Mappings({
-            @Mapping(target = "id", ignore = true),
             @Mapping(target = "resume", ignore = true)
     })
     ResumeLanguage toResumeLanguage(ResumeLanguageDto languageDto);

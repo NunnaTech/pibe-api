@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/modes")
-public class ModeController implements ControllerInterface<Integer, ModeDto> {
+public class ModeController implements ControllerInterface<ModeDto, Integer> {
 
     @Autowired
     private ModeService modeService;

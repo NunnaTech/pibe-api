@@ -46,6 +46,9 @@ public class User extends PibeModel implements Serializable {
         columnDefinition = "varchar(50)")
     private String email;
 
+    public User() {
+    }
+
     @Column(
         unique = true,
         nullable = false,
@@ -98,12 +101,12 @@ public class User extends PibeModel implements Serializable {
     private List<UserNotification> notifications;
 
     // Profile
-    @OneToOne(mappedBy="user")
+    @OneToOne(cascade = {CascadeType.ALL},mappedBy="user")
 
     private Profile profile;
 
     // Vacants
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
     private List<Vacant> vacants;
 
     // vacants favorites
@@ -134,6 +137,12 @@ public class User extends PibeModel implements Serializable {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     private List<Log> logs;
+
+    public User(String email, String username, String password) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
 
     public Long getId() {
         return id;

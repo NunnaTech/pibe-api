@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/benefits")
-public class BenefitController implements ControllerInterface<Integer, BenefitDto> {
+public class BenefitController implements ControllerInterface<BenefitDto,Integer> {
 
     @Autowired
     private BenefitService service;

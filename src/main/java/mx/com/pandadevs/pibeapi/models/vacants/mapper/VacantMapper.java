@@ -7,6 +7,7 @@ import mx.com.pandadevs.pibeapi.models.periods.Period;
 import mx.com.pandadevs.pibeapi.models.periods.dto.PeriodDto;
 import mx.com.pandadevs.pibeapi.models.periods.mapper.PeriodMapper;
 import mx.com.pandadevs.pibeapi.models.schedule.mapper.ScheduleMapper;
+import mx.com.pandadevs.pibeapi.models.states.mapper.RepublicStateMapper;
 import mx.com.pandadevs.pibeapi.models.users.mapper.UserMapper;
 import mx.com.pandadevs.pibeapi.models.vacants.dto.VacantDto;
 import mx.com.pandadevs.pibeapi.models.vacants.entities.Vacant;
@@ -23,7 +24,8 @@ import java.util.List;
         PeriodMapper.class,
         ModeMapper.class,
         BenefitMapper.class,
-        UserMapper.class
+        UserMapper.class,
+        RepublicStateMapper.class
 })
 public interface VacantMapper {
 
@@ -42,6 +44,7 @@ public interface VacantMapper {
         @Mapping(source = "period", target = "period"),
         @Mapping(source = "mode", target = "mode"),
         @Mapping(source = "benefits", target = "benefits"),
+        @Mapping(source = "state", target = "state"),
         @Mapping(source = "user", target = "creator")
     })
     VacantDto toVacantDto(Vacant vacant);

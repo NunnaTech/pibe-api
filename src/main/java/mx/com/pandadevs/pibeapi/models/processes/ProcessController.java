@@ -13,7 +13,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/processes")
-public class ProcessController implements ControllerInterface<Integer, ProcessDto> {
+public class ProcessController implements ControllerInterface<ProcessDto, Integer> {
 
     @Autowired
     private ProcessService service;
