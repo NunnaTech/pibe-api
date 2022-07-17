@@ -50,19 +50,6 @@ public class User extends PibeModel implements Serializable {
 
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", email='" + email + '\'' +
-                ", username='" + username + '\'' +
-                ", password='" + password + '\'' +
-                ", active=" + active +
-                ", linkRestorePassword='" + linkRestorePassword + '\'' +
-                ", linkActivateEmail='" + linkActivateEmail + '\'' +
-                '}';
-    }
-
     @Column(
         unique = true,
         nullable = false,
@@ -273,5 +260,4 @@ public class User extends PibeModel implements Serializable {
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
     }
-
 }

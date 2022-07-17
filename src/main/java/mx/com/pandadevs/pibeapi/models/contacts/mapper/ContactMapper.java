@@ -1,10 +1,8 @@
 package mx.com.pandadevs.pibeapi.models.contacts.mapper;
 
 import mx.com.pandadevs.pibeapi.models.contacts.dto.ContactDto;
+import mx.com.pandadevs.pibeapi.models.contacts.dto.SingleContactDto;
 import mx.com.pandadevs.pibeapi.models.contacts.entity.Contact;
-import mx.com.pandadevs.pibeapi.models.languages.dto.LanguageDto;
-import mx.com.pandadevs.pibeapi.models.languages.entity.Language;
-import mx.com.pandadevs.pibeapi.models.languages.mapper.LanguageMapper;
 import mx.com.pandadevs.pibeapi.models.users.mapper.UserMapper;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
@@ -20,16 +18,21 @@ public interface ContactMapper {
     ContactMapper MAPPER = Mappers.getMapper( ContactMapper.class);
 
     @Mappings({
-            @Mapping(source = "user", target = "contact"),
+            @Mapping(source = "contact", target = "contact"),
+            @Mapping(source = "user", target = "user")
     })
     ContactDto toContactDto (Contact contact);
-
     List<ContactDto> toContactsDto(List<Contact> contacts);
 
-    @InheritInverseConfiguration
     @Mappings({
-            @Mapping(target = "id", ignore = true),
-            @Mapping(target = "user", ignore = true)
+            @Mapping(source = "contact", target = "contact")
     })
+    SingleContactDto toSingleContactDto(Contact contact);
+    List<SingleContactDto> toSingleContactsDto(List<Contact> contacts);
+
+    @InheritInverseConfiguration
     Contact toContact(ContactDto contactDto);
+
+    @InheritInverseConfiguration
+    Contact toSingleDto(SingleContactDto singleContactDto);
 }
