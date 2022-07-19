@@ -4,6 +4,7 @@ import mx.com.pandadevs.pibeapi.models.states.dto.RepublicStateDto;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -14,6 +15,7 @@ public class ProfileDto {
     @Size(
             min = 2,
             max = 40)
+    @Pattern(regexp = "^[a-zA-Z]*$", message = "Special characters are not allowed")
     private String name;
 
     @NotNull
@@ -21,6 +23,7 @@ public class ProfileDto {
     @Size(
             min = 2,
             max = 40)
+    @Pattern(regexp = "^[a-zA-Z]*$", message = "Special characters are not allowed")
     private String firstName;
 
     @NotNull
@@ -28,18 +31,22 @@ public class ProfileDto {
     @Size(
             min = 2,
             max = 40)
+    @Pattern(regexp = "^[a-zA-Z]*$", message = "Special characters are not allowed")
     private String secondName;
 
     @NotNull
     private LocalDateTime birthDate;
 
     @NotNull
+    @Pattern(regexp = "^[a-zA-Z]*$", message = "Special characters are not allowed")
     private String gender;
 
     private Boolean completed;
 
     private String image;
 
+    @Pattern(regexp = "^[0-9]*$", message = "Special characters are not allowed")
+    @Size(min = 10, max = 10, message = "Phone number must be 10 digits")
     private String phoneNumber;
 
     private RepublicStateDto state ;

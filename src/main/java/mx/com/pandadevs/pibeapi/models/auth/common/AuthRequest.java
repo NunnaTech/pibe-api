@@ -1,10 +1,15 @@
 package mx.com.pandadevs.pibeapi.models.auth.common;
 
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class AuthRequest {
+    @Size(min = 5, max = 45,message = "Username must be a minimum of 5 characters and a maximum of 45 characters")
     private String username;
     private String password;
     private String currentPassword;
     private  String newPassword;
+    @Pattern(regexp = "^[0-9]*$", message = "Special characters are not allowed")
     private int roleId;
     private String key;
 
