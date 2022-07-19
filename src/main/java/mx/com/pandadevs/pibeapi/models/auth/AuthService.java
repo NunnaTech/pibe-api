@@ -65,7 +65,7 @@ public class AuthService {
 
         if (user != null){
             if (user.getEmail().equals(request.getEmail()) || user.getUsername().equals(request.getUsername())){
-                return "El correo o usuario ya registrados";
+                return "Correo o usuario ya registrados";
             }
         }else{
             User user1 = new User(request.getEmail(), request.getUsername(), passwordEncoder.encode(request.getPassword()));
