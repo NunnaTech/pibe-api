@@ -71,7 +71,9 @@ public class ResumeService implements ServiceInterface<Integer,ResumeDto> {
     @Override
     public Optional<ResumeDto> update(ResumeDto entity) {
         if(entity.getId() == null) {
-            entity.setId(save(entity).getId());
+            if(checkExistence(entity.getProfile().getId()))
+                entity.setId(save(entity).getId());
+            else return Optional.empty();
         }
         Optional<Resume> updatedEntity = resumeRepository.findById(entity.getId());
         return updatedEntity.map(updated -> {
@@ -84,6 +86,9 @@ public class ResumeService implements ServiceInterface<Integer,ResumeDto> {
                     resumeRepository.save(
                             mapper.toResume(entity))));
         }).orElse(Optional.empty());
+    }
+    public boolean checkExistence(Long id){
+        return resumeRepository.findResumeByProfileId(id).isEmpty();
     }
 
     @Override

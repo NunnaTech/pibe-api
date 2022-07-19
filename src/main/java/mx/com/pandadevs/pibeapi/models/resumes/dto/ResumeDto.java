@@ -12,16 +12,35 @@ import mx.com.pandadevs.pibeapi.models.studies.dto.StudyDto;
 import mx.com.pandadevs.pibeapi.models.styles.dto.StyleDto;
 import mx.com.pandadevs.pibeapi.models.work_experiences.dto.WorkExperienceDto;
 
+// Validations
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class ResumeDto {
     private Integer id;
+    @NotNull
+    @NotEmpty(message = "Please provide a curricular title")
+    @Size(min = 3, max = 80)
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.0-9]*")
     private String curricularTitle;
+    @NotNull
+    @NotEmpty(message = "Please provide a short description")
+    @Size(min = 3, max = 255)
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.0-9]*")
     private String description;
+    @NotNull
     private Boolean completed;
     private Boolean active;
+    @NotNull(message = "Please provide a completed profile")
     private ProfileDto profile;
+    @NotNull(message = "Please provide a style")
     private StyleDto style;
     private List<AptitudeDto> aptitudes;
+    @NotNull(message = "Please provide the languages you communicate")
     private List<ResumeLanguageDto> languages;
+    @NotNull(message = "Please provide the languages you communicate")
     private List<StudyDto> studies;
     private List<CourseDto> courses;
     private List<WorkExperienceDto> experiences;

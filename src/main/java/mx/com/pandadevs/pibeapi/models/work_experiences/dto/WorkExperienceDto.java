@@ -1,12 +1,28 @@
 package mx.com.pandadevs.pibeapi.models.work_experiences.dto;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
 public class WorkExperienceDto {
     private Integer id;
+    @NotNull
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.0-9]*")
+    @NotEmpty(message = "Please provide a position work")
+    @Size(
+            min = 5,
+            max = 50)
     private String position;
     private LocalDateTime startPeriod;
     private LocalDateTime endPeriod;
+    @NotNull
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.0-9]*")
+    @NotEmpty(message = "Please provide a short description")
+    @Size(
+            min = 5,
+            max = 255)
     private String activities;
 
     // Getters && Setters
