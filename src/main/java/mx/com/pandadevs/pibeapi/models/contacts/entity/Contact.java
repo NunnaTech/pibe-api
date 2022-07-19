@@ -14,21 +14,34 @@ import mx.com.pandadevs.pibeapi.utils.PibeModel;
 @Table(name = "CONTACTS")
 public class Contact extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
-    
-    @EmbeddedId
-    private ContactFk id;
-    // Relationship
-    @ManyToOne
-    @MapsId("user_id")
-    @JoinColumn(name = "user_id" )
-    private User user;
 
-    @ManyToOne
-    @MapsId("contact_id")
-    @JoinColumn(name = "contact_id" )
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Long id;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id")
+    private User user;
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "contact_id")
     private User contact;
 
-    // Getters & Setters
+    public Contact() {
+    }
+
+    public Contact( User contact,User user) {
+        this.user = user;
+        this.contact = contact;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public User getUser() {
         return user;
@@ -46,12 +59,12 @@ public class Contact extends PibeModel implements Serializable {
         this.contact = contact;
     }
 
-    public ContactFk getId() {
-        return id;
+    @Override
+    public String toString() {
+        return "Contact{" +
+                "id=" + id +
+                ", user=" + user +
+                ", contact=" + contact +
+                '}';
     }
-
-    public void setId(ContactFk id) {
-        this.id = id;
-    }
-    
 }

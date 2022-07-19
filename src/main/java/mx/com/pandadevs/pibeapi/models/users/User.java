@@ -47,6 +47,10 @@ public class User extends PibeModel implements Serializable {
     private String email;
 
     public User() {
+<<<<<<< HEAD
+=======
+
+>>>>>>> 31cad9e04468a003fc4eeb01664effbd33a2cd7f
     }
 
     @Column(
@@ -259,5 +263,4 @@ public class User extends PibeModel implements Serializable {
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
     }
-
 }
