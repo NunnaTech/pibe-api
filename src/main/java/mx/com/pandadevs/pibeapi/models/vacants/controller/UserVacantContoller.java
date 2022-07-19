@@ -4,6 +4,8 @@ import mx.com.pandadevs.pibeapi.models.processes.dto.ProcessDto;
 import mx.com.pandadevs.pibeapi.models.vacants.dto.UserVacantDto;
 import mx.com.pandadevs.pibeapi.models.vacants.dto.VacantProcessDto;
 import mx.com.pandadevs.pibeapi.models.vacants.service.UserVacantService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,7 +16,7 @@ import java.util.List;
 @RestController
 @RequestMapping(value = "/user-vacants")
 public class UserVacantContoller {
-
+    private Logger logger = LoggerFactory.getLogger(UserVacantContoller.class);
     @Autowired
     private UserVacantService service;
 
@@ -43,6 +45,7 @@ public class UserVacantContoller {
             if (service.applyToVacant(id, username)) return new ResponseEntity<>(true, HttpStatus.OK);
             else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
+            logger.error(e.toString());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

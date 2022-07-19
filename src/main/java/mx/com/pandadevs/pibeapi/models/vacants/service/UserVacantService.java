@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.vacants.service;
 
+import mx.com.pandadevs.pibeapi.models.auth.EmailService;
 import mx.com.pandadevs.pibeapi.models.processes.Process;
 import mx.com.pandadevs.pibeapi.models.processes.ProcessRepository;
 import mx.com.pandadevs.pibeapi.models.processes.dto.ProcessDto;
@@ -35,6 +36,8 @@ public class UserVacantService {
     }
 
     @Autowired
+    private EmailService emailService;
+    @Autowired
     private UserVacantRepository userVacantRepository;
 
     @Autowired
@@ -43,6 +46,10 @@ public class UserVacantService {
     private VacantRepository vacantRepository;
     @Autowired
     private ProcessRepository processRepository;
+
+    private Optional<UserVacant> findByVacantAndUser(Long idUser, Integer idVacant) {
+        return userVacantRepository.findByUser_IdAndVacant_Id(idUser, idVacant);
+    }
 
     @Transactional(readOnly = true)
     public List<UserVacantDto> getVacantsByUser(String username) {
@@ -64,7 +71,9 @@ public class UserVacantService {
         User user = userRepository.findByUsername(username);
         Optional<Vacant> vacant = vacantRepository.findByIdAndActiveIsTrue(id);
         Optional<Process> process = processRepository.findByIdAndActiveIsTrue(1);
-        if (user != null && vacant.isPresent() && process.isPresent()) {
+        Optional<UserVacant> userVacant = findByVacantAndUser(user.getId(), id);
+        if (user != null && vacant.isPresent() && process.isPresent() && !userVacant.isPresent()) {
+            emailService.sendEmailNewVacant(user, vacant.get());
             userVacantRepository.save(new UserVacant(user, vacant.get(), process.get()));
             return true;
         }
@@ -76,6 +85,7 @@ public class UserVacantService {
         Optional<UserVacant> userVacant = userVacantRepository.findById(id);
         if (userVacant.isPresent()) {
             userVacant.get().setProcess(processRepository.findByIdAndActiveIsTrue(processDto.getId()).get());
+            emailService.sendEmailCurrentlyProccess(userVacant.get(), userVacant.get().getProcess().getName().equals("Finalizado"));
             userVacantRepository.save(userVacant.get());
             return true;
         }
