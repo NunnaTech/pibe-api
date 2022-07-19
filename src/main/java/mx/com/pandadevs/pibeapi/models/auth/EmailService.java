@@ -44,6 +44,29 @@ public class EmailService {
 
     @Value("${template-email-password-recovery}")
     private String TEMPLATE_EMAIL_PASSWORD_RECOVERY;
+    @Value("${template-email-active-account}")
+    private String TEMPLATE_EMAIL_ACTIVE_ACCOUNT;
+
+    /*
+     * TEST DATA: (addDynamicTemplateData)
+     *   "code": Codigo
+     * */
+    public boolean sendEmailActiveAccount(User user)  {
+        boolean flag = false;
+        try {
+            SendGrid sg = new SendGrid(EMAIL_KEY);
+            Mail mail = getMail(user.getEmail());
+            mail.setTemplateId(TEMPLATE_EMAIL_ACTIVE_ACCOUNT);
+            mail.personalization.get(0).addDynamicTemplateData("code", "1234");
+            Request request = getRequest(mail);
+            Response response = sg.api(request);
+            flag = response.getStatusCode() == 202;
+        } catch (Exception e) {
+            logger.error(e.getMessage());
+        }
+        return flag;
+    }
+
 
     @Value("${template-email-active-account}")
     private String TEMPLATE_EMAIL_ACTIVE_ACCOUNT;
