@@ -20,6 +20,7 @@ import javax.persistence.Table;
 
 // Models
 import com.fasterxml.jackson.annotation.*;
+import mx.com.pandadevs.pibeapi.models.profile.dto.ProfileDto;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.aptitudes.Aptitude;
 import mx.com.pandadevs.pibeapi.models.certifications.Certification;
@@ -69,7 +70,18 @@ public class Resume extends PibeModel implements Serializable {
     @ManyToOne
     @JoinColumn(name = "style_id" )
     private Style style;
+    // Constructor
 
+    public Resume() {
+    }
+
+    public Resume(String curricularTitle, String description, Boolean completed, Boolean active, Profile profile) {
+        this.curricularTitle = curricularTitle;
+        this.description = description;
+        this.completed = completed;
+        this.active = active;
+        this.profile = profile;
+    }
     // Relationship
 
     // RESUME APTITUDES

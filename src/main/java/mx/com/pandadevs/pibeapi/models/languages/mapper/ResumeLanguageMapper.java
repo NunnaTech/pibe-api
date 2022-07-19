@@ -3,9 +3,7 @@ package mx.com.pandadevs.pibeapi.models.languages.mapper;
 
 import mx.com.pandadevs.pibeapi.models.languages.dto.ResumeLanguageDto;
 import mx.com.pandadevs.pibeapi.models.languages.entity.ResumeLanguage;
-import mx.com.pandadevs.pibeapi.models.notifications.dto.NotificationDto;
-import mx.com.pandadevs.pibeapi.models.notifications.entities.Notification;
-import mx.com.pandadevs.pibeapi.utils.enums.Level;
+import mx.com.pandadevs.pibeapi.models.resumes.mapper.ResumeMapper;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -15,7 +13,7 @@ import org.mapstruct.factory.Mappers;
 import java.util.List;
 
 
-@Mapper(componentModel = "spring", uses = {LanguageMapper.class})
+@Mapper(componentModel = "spring", uses = {LanguageMapper.class, ResumeMapper.class})
 public interface ResumeLanguageMapper {
 
     ResumeLanguageMapper MAPPER = Mappers.getMapper( ResumeLanguageMapper.class);
@@ -23,12 +21,13 @@ public interface ResumeLanguageMapper {
     @Mappings({
         @Mapping(source = "id", target = "id"),
         @Mapping(source = "language", target = "language"),
+        @Mapping(source = "active", target = "active"),
         @Mapping(source = "level", target = "level"),
+
     })
     ResumeLanguageDto toResumeLanguageDto(ResumeLanguage resumeLanguage);
-    default Level map(String value) {
-        return Level.getLevelByName(value);
-    }
+
+
     List<ResumeLanguageDto> toResumeLanguagesDto(List<ResumeLanguage> resumeLanguages);
 
     @InheritInverseConfiguration
@@ -36,5 +35,6 @@ public interface ResumeLanguageMapper {
             @Mapping(target = "resume", ignore = true)
     })
     ResumeLanguage toResumeLanguage(ResumeLanguageDto languageDto);
+    List<ResumeLanguage> toResumeLanguages(List<ResumeLanguageDto> resumeLanguages);
 
 }

@@ -45,6 +45,10 @@ public class AptitudeService implements ServiceInterface<Integer,AptitudeDto> {
         return mapper.toAptitudeDto(aptitudeRepository.saveAndFlush(aptitude));
     }
 
+    public List<AptitudeDto> save(List<AptitudeDto> entities) {
+        return mapper.toAptitudesDto(aptitudeRepository.saveAll(mapper.toAptitudes(entities)));
+    }
+
     @Override
     public Optional<AptitudeDto> update(AptitudeDto entity) {
         Optional<Aptitude> updatedEntity = aptitudeRepository.findById(entity.getId());
