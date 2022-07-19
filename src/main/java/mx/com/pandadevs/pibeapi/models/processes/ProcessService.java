@@ -76,6 +76,7 @@ public class ProcessService implements ServiceInterface<Integer, ProcessDto> {
             add(new Process("Entrevista"));
             add(new Process("Idóneo"));
             add(new Process("Contratado"));
+            add(new Process("Finalizado"));
         }};
         repository.saveAll(modes);
     }

@@ -1,5 +1,7 @@
 package mx.com.pandadevs.pibeapi.models.vacants.service;
 
+import mx.com.pandadevs.pibeapi.models.benefits.Benefit;
+import mx.com.pandadevs.pibeapi.models.benefits.BenefitService;
 import mx.com.pandadevs.pibeapi.models.users.User;
 import mx.com.pandadevs.pibeapi.models.users.UserRepository;
 import mx.com.pandadevs.pibeapi.models.vacants.dto.VacantDto;
@@ -23,7 +25,6 @@ import java.util.Optional;
 @Service
 public class VacantService implements ServiceInterface<Integer, VacantDto> {
 
-
     private Logger logger = LoggerFactory.getLogger(VacantService.class);
 
     private final VacantMapper mapper;
@@ -33,6 +34,9 @@ public class VacantService implements ServiceInterface<Integer, VacantDto> {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private BenefitService benefitService;
 
     public VacantService(VacantMapper mapper) {
         this.mapper = mapper;
@@ -63,6 +67,7 @@ public class VacantService implements ServiceInterface<Integer, VacantDto> {
     @Override
     public VacantDto save(VacantDto entity) {
         Vacant vacant = mapper.toVacant(entity);
+        vacant.setBenefits(fillBenefits(vacant.getBenefits()));
         vacant.setUser(userRepository.findByUsername(entity.getCreator().getUsername()));
         return mapper.toVacantDto(vacantRepository.save(vacant));
     }
@@ -73,19 +78,8 @@ public class VacantService implements ServiceInterface<Integer, VacantDto> {
         Vacant vacant = mapper.toVacant(entity);
         Optional<Vacant> updated = vacantRepository.findByIdAndActiveIsTrue(vacant.getId());
         if (updated.isPresent()) {
-            updated.get().setTitle(vacant.getTitle());
-            updated.get().setDescription(vacant.getDescription());
-            updated.get().setStartDate(vacant.getStartDate());
-            updated.get().setEndDate(vacant.getEndDate());
-            updated.get().setSalary(vacant.getSalary());
-            updated.get().setPublic(vacant.getPublic());
-            updated.get().setImage(vacant.getImage());
-            updated.get().setSchedule(vacant.getSchedule());
-            updated.get().setPeriod(vacant.getPeriod());
-            updated.get().setMode(vacant.getMode());
-            updated.get().setState(vacant.getState());
-            updated.get().setBenefits(vacant.getBenefits());
-            return Optional.of(mapper.toVacantDto(vacantRepository.save(updated.get())));
+            vacant.setBenefits(fillBenefits(vacant.getBenefits()));
+            return Optional.of(mapper.toVacantDto(vacantRepository.save(vacant)));
         }
         return Optional.empty();
     }
@@ -103,8 +97,7 @@ public class VacantService implements ServiceInterface<Integer, VacantDto> {
                 });
                 return Optional.of(mapper.toVacantDto(vacantRepository.saveAndFlush(e)));
             }).orElse(Optional.empty());
-        } catch (Exception ignored) {
-        }
+        } catch (Exception ignored) {}
         return Optional.empty();
     }
 
@@ -118,5 +111,13 @@ public class VacantService implements ServiceInterface<Integer, VacantDto> {
             return true;
         }
         return false;
+    }
+
+    private List<Benefit> fillBenefits(List<Benefit> list) {
+        List<Benefit> benefits = new ArrayList<>();
+        for (Benefit b : list) {
+            benefits.add(benefitService.getOrSave(b.getName()).get());
+        }
+        return benefits;
     }
 }

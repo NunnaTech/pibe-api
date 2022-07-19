@@ -69,6 +69,13 @@ public class BenefitService implements ServiceInterface<Integer, BenefitDto> {
         return Optional.empty();
     }
 
+    public Optional<Benefit> getOrSave(String name) {
+        String _name = name.substring(0, 1).toUpperCase() + name.substring(1);
+        Optional<Benefit> finded = repository.findByNameLikeIgnoreCase(_name);
+        if (finded.isPresent()) return finded;
+        return Optional.of(repository.save(new Benefit(_name)));
+    }
+
     @Override
     public Boolean delete(Integer id) {
         return repository.findByIdAndActiveIsTrue(id).map(entity -> {
