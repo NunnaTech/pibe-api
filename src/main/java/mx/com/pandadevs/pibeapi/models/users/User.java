@@ -46,12 +46,7 @@ public class User extends PibeModel implements Serializable {
         columnDefinition = "varchar(50)")
     private String email;
 
-    public User() {
-<<<<<<< HEAD
-=======
-
->>>>>>> 31cad9e04468a003fc4eeb01664effbd33a2cd7f
-    }
+    public User() {}
 
     @Column(
         unique = true,
