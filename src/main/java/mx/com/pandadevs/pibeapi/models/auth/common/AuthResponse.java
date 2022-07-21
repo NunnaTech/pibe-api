@@ -9,6 +9,9 @@ public class AuthResponse {
     private Optional<UserProfileDto> profile;
     private String token;
 
+    public AuthResponse() {
+    }
+
     public AuthResponse(Optional<UserProfileDto> profile, String token) {
         this.profile = profile;
         this.token = token;

@@ -31,6 +31,9 @@ public class AuthRequest {
 
     private String email;
 
+    public AuthRequest() {
+    }
+
     public String getEmail() {
         return email;
     }

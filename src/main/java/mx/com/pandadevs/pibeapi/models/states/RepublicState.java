@@ -1,10 +1,7 @@
 package mx.com.pandadevs.pibeapi.models.states;
 
-// Java
 import java.io.Serializable;
 import java.util.Set;
-
-// Persistence
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,7 +11,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.CascadeType;
 
-// Models
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.profile.Profile;
@@ -29,24 +25,27 @@ public class RepublicState extends PibeModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_republic_state")
     private Integer id;
-    
+
     @Column(
-        unique = true,
-        nullable = false,
-        columnDefinition = "varchar(40)")
+            unique = true,
+            nullable = false,
+            columnDefinition = "varchar(40)")
     private String name;
 
-    // Relationships
-    
-    // Vacants
+    @JsonIgnore
     @OneToMany(mappedBy = "state", cascade = {CascadeType.ALL})
     private Set<Vacant> vacants;
-    
-    // Vacants
+
+    @JsonIgnore
     @OneToMany(mappedBy = "state", cascade = {CascadeType.ALL})
     private Set<Profile> profiles;
 
-    // Getters & Setters
+    public RepublicState() {}
+
+    public RepublicState(String name) {
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -78,7 +77,5 @@ public class RepublicState extends PibeModel implements Serializable {
     public void setProfiles(Set<Profile> profiles) {
         this.profiles = profiles;
     }
-    
-    
 
 }

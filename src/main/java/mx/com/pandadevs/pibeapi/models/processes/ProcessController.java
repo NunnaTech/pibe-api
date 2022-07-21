@@ -1,7 +1,6 @@
-package mx.com.pandadevs.pibeapi.models.vacants.controller;
+package mx.com.pandadevs.pibeapi.models.processes;
 
-import mx.com.pandadevs.pibeapi.models.vacants.dto.VacantDto;
-import mx.com.pandadevs.pibeapi.models.vacants.service.VacantService;
+import mx.com.pandadevs.pibeapi.models.processes.dto.ProcessDto;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -13,24 +12,15 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-@RequestMapping(value = "/vacants")
-public class VacantController implements ControllerInterface<VacantDto, Integer> {
+@RequestMapping(value = "/processes")
+public class ProcessController implements ControllerInterface<ProcessDto, Integer> {
 
     @Autowired
-    private VacantService service;
-
-    @GetMapping(value = "/users/{username}")
-    public ResponseEntity<List<VacantDto>> getByUsername(@PathVariable("username") String username) {
-        try {
-            return new ResponseEntity<>(service.getByUsername(username), HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
+    private ProcessService service;
 
     @GetMapping(value = "")
     @Override
-    public ResponseEntity<List<VacantDto>> getAll() {
+    public ResponseEntity<List<ProcessDto>> getAll() {
         try {
             return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
         } catch (Exception e) {
@@ -40,7 +30,7 @@ public class VacantController implements ControllerInterface<VacantDto, Integer>
 
     @GetMapping(value = "/{id}")
     @Override
-    public ResponseEntity<VacantDto> getOne(@PathVariable(value = "id") Integer id) {
+    public ResponseEntity<ProcessDto> getOne(@PathVariable(value = "id") Integer id) {
         try {
             return service.getById(id)
                     .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
@@ -52,7 +42,7 @@ public class VacantController implements ControllerInterface<VacantDto, Integer>
 
     @PostMapping(value = "")
     @Override
-    public ResponseEntity<VacantDto> save(@Valid @RequestBody VacantDto entity) {
+    public ResponseEntity<ProcessDto> save(@Valid @RequestBody ProcessDto entity) {
         try {
             return new ResponseEntity<>(service.save(entity), HttpStatus.CREATED);
         } catch (Exception e) {
@@ -62,27 +52,19 @@ public class VacantController implements ControllerInterface<VacantDto, Integer>
 
     @PutMapping("")
     @Override
-    public ResponseEntity<VacantDto> update(@Valid @RequestBody VacantDto entity) {
+    public ResponseEntity<ProcessDto> update(@Valid @RequestBody ProcessDto entity) {
         try {
             return service.update(entity)
                     .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
                     .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @PatchMapping("/{id}")
     @Override
-    public ResponseEntity<VacantDto> partialUpdate(@PathVariable("id") Integer id, @RequestBody Map<Object, Object> fields) {
-        try {
-            return service.partialUpdate(id, fields)
-                    .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
-                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+    public ResponseEntity<ProcessDto> partialUpdate(Integer id, Map<Object, Object> fields) {
+        return null;
     }
 
     @DeleteMapping("/{id}")
@@ -90,7 +72,7 @@ public class VacantController implements ControllerInterface<VacantDto, Integer>
     public ResponseEntity<Boolean> delete(@PathVariable("id") Integer id) {
         try {
             if (service.delete(id)) return new ResponseEntity<>(true, HttpStatus.OK);
-            else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+            else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
