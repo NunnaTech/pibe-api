@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.styles;
 
+import io.swagger.annotations.Api;
 import mx.com.pandadevs.pibeapi.models.styles.dto.StyleDto;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import java.util.List;
 import java.util.Map;
 @RestController
 @RequestMapping("styles/")
+@Api( tags = "Styles")
 public class StyleController implements ControllerInterface<StyleDto, Integer> {
     @Autowired
     private StyleService styleService;

@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.auth;
 
+import io.swagger.annotations.Api;
 import mx.com.pandadevs.pibeapi.models.auth.common.AuthRequest;
 import mx.com.pandadevs.pibeapi.models.auth.common.AuthResponse;
 import mx.com.pandadevs.pibeapi.models.users.UserService;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/auth")
+@Api( tags = "Authentication")
+
 public class AuthController {
 
     @Autowired

@@ -1,18 +1,18 @@
 package mx.com.pandadevs.pibeapi.security;
 
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
-import mx.com.pandadevs.pibeapi.models.users.User;
+// Java
+import java.util.Date;
+import java.util.UUID;
+import java.util.stream.Collectors;
+// Spring
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
-
-import java.util.Date;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.stream.Collectors;
+// JWT
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
 @Component
 public class JwtAuth {
@@ -36,7 +36,7 @@ public class JwtAuth {
 
     }
 
-    public boolean validarToken(String token, UserDetails userDetails){
+    public boolean validateToken(String token, UserDetails userDetails){
         return userDetails.getUsername().equals(getUsername(token)) && !isTokenExpired(token);
     }
 
