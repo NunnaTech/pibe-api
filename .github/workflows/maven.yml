@@ -25,4 +25,4 @@ jobs:
     - name: Compile project
       run: mvn clean package
     - name: Kill and execute Jar
-      run: sudo kill -9 `sudo lsof -t -i:80` & sudo java -jar /home/ubuntu/actions-runner/_work/pibe-api/pibe-api/target/PIBE-API-0.0.1-SNAPSHOT.jar
+      run: sudo kill -9 `sudo lsof -t -i:80` & sudo java -jar /home/ubuntu/actions-runner/_work/pibe-api/pibe-api/target/PIBE-API-0.0.1-SNAPSHOT.jar &
