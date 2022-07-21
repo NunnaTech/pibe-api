@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.profile;
 
+import io.swagger.annotations.Api;
 import mx.com.pandadevs.pibeapi.models.profile.dto.ProfileDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/user")
+@Api( tags = "User")
 public class ProfileController {
 
     @Autowired

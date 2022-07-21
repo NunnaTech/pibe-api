@@ -4,6 +4,7 @@ package mx.com.pandadevs.pibeapi.models.languages.controller;
 import java.util.List;
 import java.util.Map;
 // Spring
+import io.swagger.annotations.Api;
 import mx.com.pandadevs.pibeapi.models.languages.dto.ResumeLanguageDto;
 import mx.com.pandadevs.pibeapi.models.languages.entity.ResumeLanguage;
 import mx.com.pandadevs.pibeapi.models.languages.services.ResumeLanguageService;
@@ -18,6 +19,7 @@ import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
 
 @RestController
 @RequestMapping("languages/")
+@Api( tags = "Languages")
 public class LanguageController implements ControllerInterface<LanguageDto, Integer> {
     @Autowired
     private LanguageService languageService;
