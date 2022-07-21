@@ -1,7 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.resumes.dto;
 // Java
 import java.util.List;
-import java.util.Set;
 
 // Models
 import mx.com.pandadevs.pibeapi.models.aptitudes.dto.AptitudeDto;
@@ -13,21 +12,50 @@ import mx.com.pandadevs.pibeapi.models.studies.dto.StudyDto;
 import mx.com.pandadevs.pibeapi.models.styles.dto.StyleDto;
 import mx.com.pandadevs.pibeapi.models.work_experiences.dto.WorkExperienceDto;
 
+// Validations
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+
 public class ResumeDto {
     private Integer id;
+    @NotNull
+    @NotEmpty(message = "Please provide a curricular title")
+    @Size(min = 3, max = 80)
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.0-9]*")
     private String curricularTitle;
+    @NotNull
+    @NotEmpty(message = "Please provide a short description")
+    @Size(min = 3, max = 255)
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.0-9]*")
     private String description;
+    @NotNull
     private Boolean completed;
+    private Boolean active;
+    @NotNull(message = "Please provide a completed profile")
     private ProfileDto profile;
+    @NotNull(message = "Please provide a style")
     private StyleDto style;
     private List<AptitudeDto> aptitudes;
-    private Set<ResumeLanguageDto> languages;
-    private Set<StudyDto> studies;
-    private Set<CourseDto> courses;
-    private Set<WorkExperienceDto> experiences;
-    private Set<CertificationDto> certifications;
+    @NotNull(message = "Please provide the languages you communicate")
+    private List<ResumeLanguageDto> languages;
+    @NotNull(message = "Please provide the languages you communicate")
+    private List<StudyDto> studies;
+    private List<CourseDto> courses;
+    private List<WorkExperienceDto> experiences;
+    private List<CertificationDto> certifications;
 
-    // Getters && Setters
+
+// Getters && Setters
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     public Integer getId() {
         return id;
@@ -85,43 +113,43 @@ public class ResumeDto {
         this.aptitudes = aptitudes;
     }
 
-    public Set<ResumeLanguageDto> getLanguages() {
+    public List<ResumeLanguageDto> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(Set<ResumeLanguageDto> languages) {
+    public void setLanguages(List<ResumeLanguageDto> languages) {
         this.languages = languages;
     }
 
-    public Set<StudyDto> getStudies() {
+    public List<StudyDto> getStudies() {
         return studies;
     }
 
-    public void setStudies(Set<StudyDto> studies) {
+    public void setStudies(List<StudyDto> studies) {
         this.studies = studies;
     }
 
-    public Set<CourseDto> getCourses() {
+    public List<CourseDto> getCourses() {
         return courses;
     }
 
-    public void setCourses(Set<CourseDto> courses) {
+    public void setCourses(List<CourseDto> courses) {
         this.courses = courses;
     }
 
-    public Set<WorkExperienceDto> getExperiences() {
+    public List<WorkExperienceDto> getExperiences() {
         return experiences;
     }
 
-    public void setExperiences(Set<WorkExperienceDto> experiences) {
+    public void setExperiences(List<WorkExperienceDto> experiences) {
         this.experiences = experiences;
     }
 
-    public Set<CertificationDto> getCertifications() {
+    public List<CertificationDto> getCertifications() {
         return certifications;
     }
 
-    public void setCertifications(Set<CertificationDto> certifications) {
+    public void setCertifications(List<CertificationDto> certifications) {
         this.certifications = certifications;
     }
 }

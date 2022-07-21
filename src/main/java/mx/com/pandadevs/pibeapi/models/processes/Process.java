@@ -1,10 +1,7 @@
 package mx.com.pandadevs.pibeapi.models.processes;
 
-// Java
 import java.io.Serializable;
 import java.util.Set;
-
-// Persistence
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,9 +11,6 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.CascadeType;
 
-// Lombok
-
-// Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.vacants.entities.UserVacant;
 
@@ -39,15 +33,19 @@ public class Process extends PibeModel implements Serializable {
     @Column(
         nullable = false,
         columnDefinition = "tinyint default 1")
-    private Boolean active;
+    private Boolean active = true;
 
-    // Relationships
-
-    // User Vacants
     @OneToMany(mappedBy = "process", cascade = {CascadeType.ALL})
     private Set<UserVacant> userVacants;
 
-    // Getters & Setters
+    public Process() {
+    }
+
+    public Process(String name) {
+        this.name = name;
+        this.active = true;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -79,6 +77,4 @@ public class Process extends PibeModel implements Serializable {
     public void setUserVacants(Set<UserVacant> userVacants) {
         this.userVacants = userVacants;
     }
-
-    
 }

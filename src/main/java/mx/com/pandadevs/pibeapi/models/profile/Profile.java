@@ -73,8 +73,7 @@ public class Profile extends PibeModel implements Serializable {
         nullable = false,
         length = 6 
         )
-    @Enumerated(value = EnumType.STRING)
-    private Gender gender;
+    private String gender;
 
     @Column(
         nullable = false,
@@ -87,18 +86,17 @@ public class Profile extends PibeModel implements Serializable {
     private Boolean completed;
 
 
-    @ManyToOne
-    @JoinColumn(name = "state_id", insertable = false, updatable = false)
+    @ManyToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "state_id")
     private RepublicState state ;
 
-    @OneToOne
-    @JoinColumn(name="user_id")
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name="user_id", insertable = false, updatable = false)
     private User user;
 
     // Relationships
     
     // Resume
-    @JsonIgnore
     @OneToMany(mappedBy = "profile", cascade = {CascadeType.ALL})
     private Set<Resume> resumes;
 
@@ -160,11 +158,11 @@ public class Profile extends PibeModel implements Serializable {
         this.phoneNumber = phoneNumber;
     }
 
-    public Gender getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(Gender gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 

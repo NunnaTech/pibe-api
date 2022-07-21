@@ -2,16 +2,8 @@ package mx.com.pandadevs.pibeapi.models.users;
 // Java
 import java.util.List;
 import java.util.Map;
-
 // Spring
-import mx.com.pandadevs.pibeapi.models.contacts.dto.ContactDto;
-import mx.com.pandadevs.pibeapi.models.contacts.repository.ContactRepository;
-import mx.com.pandadevs.pibeapi.models.contacts.service.ContactService;
-import mx.com.pandadevs.pibeapi.models.notifications.dto.UserNotificationDto;
-import mx.com.pandadevs.pibeapi.models.resumes.ResumeService;
-import mx.com.pandadevs.pibeapi.models.resumes.dto.ResumeDto;
-import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
-import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,24 +16,25 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 // Models
+import mx.com.pandadevs.pibeapi.models.contacts.dto.ContactDto;
+import mx.com.pandadevs.pibeapi.models.contacts.service.ContactService;
+import mx.com.pandadevs.pibeapi.models.notifications.dto.UserNotificationDto;
+import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
+import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
-
 @RestController
 @RequestMapping("user/")
-public class UserController implements ControllerInterface<UserDto> {
+public class UserController implements ControllerInterface<UserDto, Long> {
 
     @Autowired
     private UserService userService;
 
     @Autowired
-    private ResumeService resumeService;
-    @Autowired
     private ContactService contactService;
 
     @Override
-    @GetMapping("")
+    @GetMapping("/")
     public ResponseEntity<List<UserDto>> getAll() {
         return new ResponseEntity(userService.getAll(), HttpStatus.OK);
     }
@@ -68,12 +61,7 @@ public class UserController implements ControllerInterface<UserDto> {
                 .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
-    @GetMapping("/{username}/resume")
-    public ResponseEntity<ResumeDto> getResumeByUsername(@PathVariable("username") String username) {
-        return resumeService.getByUsername(username)
-                .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
-                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
-    }
+
     @GetMapping("/{username}/notifications")
     public ResponseEntity<List<UserNotificationDto>> getNotificationsByUsername(@PathVariable("username") String username) {
         return new ResponseEntity(userService.getNotificationsByUsername(username), HttpStatus.OK);
@@ -108,5 +96,4 @@ public class UserController implements ControllerInterface<UserDto> {
         if (deleted) return new ResponseEntity(deleted, HttpStatus.OK);
         else return new ResponseEntity(deleted, HttpStatus.NOT_FOUND);
     }
-    
 }

@@ -14,9 +14,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 // Models
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 @Entity
@@ -54,7 +51,7 @@ public class Study extends PibeModel implements Serializable {
     private Boolean active;
 
     @ManyToOne
-    @JoinColumn(name = "resume_id", insertable = false, updatable = false)
+    @JoinColumn(name = "resume_id" )
     private Resume resume;
 
     

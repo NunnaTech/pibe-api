@@ -28,12 +28,12 @@ public class AptitudeService implements ServiceInterface<Integer,AptitudeDto> {
 
     @Override
     public List<AptitudeDto> getAll() {
-        return mapper.toAptitudesDto(aptitudeRepository.findAll());
+        return mapper.toAptitudesDto(aptitudeRepository.findAllByActiveTrueOrderByCreatedAtAsc());
     }
 
     @Override
     public Optional<AptitudeDto> getById(Integer id) {
-        Optional<Aptitude> aptitude = aptitudeRepository.findById(id);
+        Optional<Aptitude> aptitude = aptitudeRepository.findStyleByIdAndActiveTrue(id);
         return aptitude.map(entity -> {
             return Optional.of(mapper.toAptitudeDto(entity));
         }).orElse(Optional.empty());
@@ -45,12 +45,17 @@ public class AptitudeService implements ServiceInterface<Integer,AptitudeDto> {
         return mapper.toAptitudeDto(aptitudeRepository.saveAndFlush(aptitude));
     }
 
+    public List<AptitudeDto> save(List<AptitudeDto> entities) {
+        return mapper.toAptitudesDto(aptitudeRepository.saveAll(mapper.toAptitudes(entities)));
+    }
+
     @Override
     public Optional<AptitudeDto> update(AptitudeDto entity) {
         Optional<Aptitude> updatedEntity = aptitudeRepository.findById(entity.getId());
         return updatedEntity.map(updated -> {
-            aptitudeRepository.saveAndFlush(updated);
-            return Optional.of(mapper.toAptitudeDto(updated));
+            return Optional.of(mapper.toAptitudeDto(
+                    aptitudeRepository.saveAndFlush(
+                            mapper.toAptitude(entity))));
         }).orElse(Optional.empty());
     }
 
@@ -75,8 +80,9 @@ public class AptitudeService implements ServiceInterface<Integer,AptitudeDto> {
 
     @Override
     public Boolean delete(Integer id) {
-        return aptitudeRepository.findById(id).map(entity -> {
-            aptitudeRepository.delete(entity);
+        return aptitudeRepository.findStyleByIdAndActiveTrue(id).map(entity -> {
+            entity.setActive(false);
+            aptitudeRepository.save(entity);
             return true;
         }).orElse(false);
     }

@@ -29,8 +29,10 @@ public interface AptitudeMapper {
 
     @InheritInverseConfiguration
     @Mappings({
-            @Mapping(target = "resumes", ignore = true)
+            @Mapping(target = "resumes", ignore = true),
+            @Mapping(target = "active", ignore = true)
     })
     Aptitude toAptitude(AptitudeDto aptitudeDto);
+    List<Aptitude> toAptitudes(List<AptitudeDto> aptitudes);
 
 }

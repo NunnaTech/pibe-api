@@ -1,13 +1,31 @@
 package mx.com.pandadevs.pibeapi.models.languages.dto;
 
-import mx.com.pandadevs.pibeapi.models.resumes.dto.ResumeDto;
-import mx.com.pandadevs.pibeapi.utils.enums.Level;
 
 public class ResumeLanguageDto {
 
+    private Integer id;
     private LanguageDto language;
+
+    private Boolean active;
     private String level;
     // Getter && Setters
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
     public LanguageDto getLanguage() {
         return language;
     }

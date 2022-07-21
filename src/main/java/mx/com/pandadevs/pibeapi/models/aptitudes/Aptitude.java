@@ -29,6 +29,10 @@ public class Aptitude extends PibeModel implements Serializable {
         columnDefinition = "varchar(40)")
     private String name;
 
+    @Column(
+            columnDefinition = "tinyint default 1")
+    private Boolean active;
+
     // Relationships
 
     // VACANTS FAVORITES
@@ -37,6 +41,14 @@ public class Aptitude extends PibeModel implements Serializable {
 
 
     // Getters & Setters
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     public Integer getId() {
         return id;

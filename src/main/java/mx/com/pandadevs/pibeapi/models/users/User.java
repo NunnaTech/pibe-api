@@ -6,18 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 // Persistence
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 
 
 // Models
@@ -45,6 +34,8 @@ public class User extends PibeModel implements Serializable {
         nullable = false,
         columnDefinition = "varchar(50)")
     private String email;
+
+    public User() {}
 
     @Column(
         unique = true,
@@ -75,7 +66,7 @@ public class User extends PibeModel implements Serializable {
     // Relationships
 
     // Roles
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "USERS_ROLES",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -98,12 +89,12 @@ public class User extends PibeModel implements Serializable {
     private List<UserNotification> notifications;
 
     // Profile
-    @OneToOne(mappedBy="user")
+    @OneToOne(cascade = {CascadeType.ALL},mappedBy="user")
 
     private Profile profile;
 
     // Vacants
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
     private List<Vacant> vacants;
 
     // vacants favorites
@@ -134,6 +125,12 @@ public class User extends PibeModel implements Serializable {
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
     private List<Log> logs;
+
+    public User(String email, String username, String password) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
@@ -250,5 +247,4 @@ public class User extends PibeModel implements Serializable {
     public void setContacts(List<Contact> contacts) {
         this.contacts = contacts;
     }
-
 }

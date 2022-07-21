@@ -3,28 +3,22 @@ package mx.com.pandadevs.pibeapi.models.languages.entity;
 import java.io.Serializable;
 
 // Persistence
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
-
+import javax.persistence.*;
 
 // Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
-import mx.com.pandadevs.pibeapi.utils.enums.Level;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
+
+
 
 @Entity
 @Table(name = "RESUME_LANGUAGES")
 public class ResumeLanguage extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
-
-    @EmbeddedId
-    private ResumeLanguageFK id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
+    private Integer  id;
     
     @Column(
         name="level",
@@ -33,23 +27,45 @@ public class ResumeLanguage extends PibeModel implements Serializable {
         )
 //    @Enumerated(value = EnumType.STRING)
     private String level;
-
+    @Column(
+            columnDefinition = "tinyint default 1")
+    private Boolean active;
     // Resume
     @ManyToOne
-    @JoinColumn(name = "resume_id", insertable = false, updatable = false)
+    @JoinColumn(name = "resume_id")
     private Resume resume;
 
-    // Lenguage
+    // Language
     @ManyToOne
-    @JoinColumn(name = "language_id", insertable = false, updatable = false)
+    @JoinColumn(name = "language_id" )
     private Language language;
+    // Constructor
 
-    // Getters & Setters
-    public ResumeLanguageFK getId() {
+    public ResumeLanguage() {
+    }
+
+    public ResumeLanguage(Integer id,String level, Boolean active, Resume resume, Language language) {
+        this.id = id;
+        this.level = level;
+        this.active = active;
+        this.resume = resume;
+        this.language = language;
+    }
+// Getters & Setters
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Integer getId() {
         return id;
     }
 
-    public void setId(ResumeLanguageFK id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

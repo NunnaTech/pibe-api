@@ -21,18 +21,18 @@ public interface StudyMapper {
     StudyMapper MAPPER = Mappers.getMapper( StudyMapper.class);
     
     @Mappings({
-        @Mapping(source = "name", target = "name"),
-        @Mapping(source = "startPeriod", target = "startPeriod"),
-        @Mapping(source = "endPeriod", target = "endPeriod"),
+            @Mapping(source = "id", target = "id"),
+            @Mapping(source = "name", target = "name"),
+            @Mapping(source = "startPeriod", target = "startPeriod"),
+            @Mapping(source = "endPeriod", target = "endPeriod"),
     })
     StudyDto toStudyDto(Study study);
     List<StudyDto> toStudiesDto(List<Study> studies);
 
     @InheritInverseConfiguration
     @Mappings({
-            @Mapping(target = "id", ignore = true),
             @Mapping(target = "active", ignore = true),
-            @Mapping(target = "resume", ignore = true)
+            @Mapping(target = "resume", ignore = true),
     })
     Study toStudy(StudyDto studyDto);
 

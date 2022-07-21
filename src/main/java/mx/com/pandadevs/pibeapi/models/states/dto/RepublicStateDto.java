@@ -6,16 +6,12 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 public class RepublicStateDto {
-    @NotNull
+    private Integer id;
     @UniqueElements
-    @NotBlank
-    @Size(
-            min = 2,
-            max = 40)
+    @NotNull(message = "Please provide a name")
+    @NotBlank(message = "Please provide a name")
+    @Size(min = 2, max = 40, message = "Please provide a name with 2 - 40 characters")
     private String name;
-
-    // Getters & Setters
-
 
     public String getName() {
         return name;
@@ -23,5 +19,13 @@ public class RepublicStateDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

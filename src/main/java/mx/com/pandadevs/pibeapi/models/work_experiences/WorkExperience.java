@@ -61,7 +61,7 @@ public class WorkExperience extends PibeModel implements Serializable {
 
     // Relationship
     @ManyToOne
-    @JoinColumn(name = "resume_id", insertable = false, updatable = false)
+    @JoinColumn(name = "resume_id" )
     private Resume resume;
 
     // Getters && Setters

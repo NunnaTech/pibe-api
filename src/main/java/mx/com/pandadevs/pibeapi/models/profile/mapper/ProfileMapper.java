@@ -21,13 +21,15 @@ public interface ProfileMapper {
     ProfileMapper MAPPER = Mappers.getMapper( ProfileMapper.class );
     
     @Mappings({
+        @Mapping(source = "id", target = "id"),
         @Mapping(source = "name", target = "name"),
         @Mapping(source = "firstName", target = "firstName"),
         @Mapping(source = "secondName", target = "secondName"),
         @Mapping(source = "birthDate", target = "birthDate"),
-        @Mapping(source = "image", target = "picture"),
+        @Mapping(source = "image", target = "image"),
         @Mapping(source = "phoneNumber", target = "phoneNumber"),
-        @Mapping(source = "gender", target = "sex"),
+            @Mapping(source = "completed", target = "completed"),
+        @Mapping(source = "gender", target = "gender"),
         @Mapping(source = "state", target = "state"),
         @Mapping(source = "position", target = "position"),
     })
