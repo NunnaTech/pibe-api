@@ -5,12 +5,14 @@ import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import mx.com.pandadevs.pibeapi.models.users.User;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Component
 public class JwtAuth {
@@ -20,9 +22,12 @@ public class JwtAuth {
 
     public String createToken(UserDetails userDetails){
 
+        Claims roles = Jwts.claims();
+        roles.put("roles",userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList()));
         return Jwts.builder()
                 .setId(UUID.randomUUID().toString())
                 .setIssuer("PIBE-APP")
+                .setClaims(roles)
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis()+ 1000 * 60 * 60 * 60))

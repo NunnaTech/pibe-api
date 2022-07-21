@@ -1,11 +1,13 @@
 package mx.com.pandadevs.pibeapi.models.auth;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -42,8 +44,11 @@ public class AuthDetailService implements UserDetailsService {
         if (!user.isPresent()){
             throw new UsernameNotFoundException("User not found");
         }
-
-        return new org.springframework.security.core.userdetails.User(user.get().getUsername(), "{noop}"+user.get().getPassword(), new ArrayList<>());
+        Collection<SimpleGrantedAuthority> roles = new ArrayList<>();
+        user.get().getRoles().forEach(role -> {
+            roles.add(new SimpleGrantedAuthority(role.getName()));
+        });
+        return new org.springframework.security.core.userdetails.User(user.get().getUsername(), "{noop}"+user.get().getPassword(), roles);
     }
 
     public Optional<AuthResponse> login(AuthRequest request) {
