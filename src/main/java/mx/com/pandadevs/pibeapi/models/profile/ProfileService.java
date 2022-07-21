@@ -42,6 +42,8 @@ public class ProfileService implements ServiceInterface<Long,ProfileDto> {
             return  Optional.of(mapper.toProfileDto(entity));
         }).orElse(Optional.empty());
     }
+
+
     @Override
     public Optional<ProfileDto> getById(Long id) {
         Optional<Profile> user = profileRepository.findById(id);

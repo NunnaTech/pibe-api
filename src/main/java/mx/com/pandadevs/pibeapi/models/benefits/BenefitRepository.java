@@ -10,4 +10,5 @@ import java.util.Optional;
 public interface BenefitRepository extends JpaRepository<Benefit, Integer> {
     List<Benefit> findAllByActiveIsTrue();
     Optional<Benefit> findByIdAndActiveIsTrue(Integer id);
+    Optional<Benefit> findByNameLikeIgnoreCase(String name);
 }

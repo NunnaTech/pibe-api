@@ -1,8 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.vacants.entities;
-// Java
 import java.io.Serializable;
 
-// Persistence
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,9 +9,6 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-
-// Json
-// Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.processes.Process;
 import mx.com.pandadevs.pibeapi.models.users.User;
@@ -39,6 +34,15 @@ public class UserVacant extends PibeModel implements Serializable {
     @ManyToOne
     @JoinColumn(name = "process_id" )
     private Process process;
+
+    public UserVacant() {
+    }
+
+    public UserVacant(User user, Vacant vacant, Process process) {
+        this.user = user;
+        this.vacant = vacant;
+        this.process = process;
+    }
 
     public Integer getId() {
         return id;
