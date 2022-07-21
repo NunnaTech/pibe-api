@@ -33,5 +33,6 @@ public interface AptitudeMapper {
             @Mapping(target = "active", ignore = true)
     })
     Aptitude toAptitude(AptitudeDto aptitudeDto);
+    List<Aptitude> toAptitudes(List<AptitudeDto> aptitudes);
 
 }

@@ -1,5 +1,10 @@
 package mx.com.pandadevs.pibeapi.models.resumes;
 
+import mx.com.pandadevs.pibeapi.models.aptitudes.AptitudeService;
+import mx.com.pandadevs.pibeapi.models.languages.services.ResumeLanguageService;
+import mx.com.pandadevs.pibeapi.models.profile.Profile;
+import mx.com.pandadevs.pibeapi.models.profile.ProfileService;
+import mx.com.pandadevs.pibeapi.models.profile.mapper.ProfileMapper;
 import mx.com.pandadevs.pibeapi.models.resumes.dto.ResumeDto;
 import mx.com.pandadevs.pibeapi.models.resumes.mapper.ResumeMapper;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
@@ -8,17 +13,26 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 @Service
 public class ResumeService implements ServiceInterface<Integer,ResumeDto> {
     private final ResumeMapper mapper;
+    private final ProfileMapper profileMapper;
     @Autowired
     private ResumeRepository resumeRepository;
+    @Autowired
+    private AptitudeService aptitudeService;
+    @Autowired
+    private ResumeLanguageService languageService;
+    @Autowired
+    private ProfileService profileService;
 
-    public ResumeService(ResumeMapper mapper){
+    public ResumeService(ResumeMapper mapper, ProfileMapper profileMapper) {
         this.mapper = mapper;
+        this.profileMapper = profileMapper;
     }
 
     @Override
@@ -42,18 +56,39 @@ public class ResumeService implements ServiceInterface<Integer,ResumeDto> {
 
     @Override
     public ResumeDto save(ResumeDto entity) {
-        Resume resume = mapper.toResume(entity);
-        return mapper.toResumeDto(resumeRepository.saveAndFlush(resume));
+        Optional<Profile> profileOptional = profileService.getProfileById(entity.getProfile().getId());
+        if (profileOptional.isEmpty()) return null;
+        Resume resume = new Resume(
+                entity.getCurricularTitle(),
+                entity.getDescription(),
+                entity.getActive(),
+                entity.getCompleted(),
+                profileOptional.get()
+        );
+        return mapper.toResumeDto(resumeRepository.save(resume));
     }
 
     @Override
     public Optional<ResumeDto> update(ResumeDto entity) {
+        if(entity.getId() == null) {
+            if(checkExistence(entity.getProfile().getId()))
+                entity.setId(save(entity).getId());
+            else return Optional.empty();
+        }
         Optional<Resume> updatedEntity = resumeRepository.findById(entity.getId());
         return updatedEntity.map(updated -> {
+            // Save Aptitudes
+            entity.setAptitudes(aptitudeService.save(entity.getAptitudes()));
+            /// Save languages
+            languageService.save(entity.getLanguages(),entity);
+            entity.setLanguages(new ArrayList<>());
             return Optional.of(mapper.toResumeDto(
                     resumeRepository.save(
                             mapper.toResume(entity))));
         }).orElse(Optional.empty());
+    }
+    public boolean checkExistence(Long id){
+        return resumeRepository.findResumeByProfileId(id).isEmpty();
     }
 
     @Override

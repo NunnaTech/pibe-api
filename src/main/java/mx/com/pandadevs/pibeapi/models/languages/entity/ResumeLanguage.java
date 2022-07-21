@@ -27,18 +27,39 @@ public class ResumeLanguage extends PibeModel implements Serializable {
         )
 //    @Enumerated(value = EnumType.STRING)
     private String level;
-
+    @Column(
+            columnDefinition = "tinyint default 1")
+    private Boolean active;
     // Resume
     @ManyToOne
     @JoinColumn(name = "resume_id")
     private Resume resume;
 
-    // Lenguage
+    // Language
     @ManyToOne
     @JoinColumn(name = "language_id" )
     private Language language;
+    // Constructor
 
-    // Getters & Setters
+    public ResumeLanguage() {
+    }
+
+    public ResumeLanguage(Integer id,String level, Boolean active, Resume resume, Language language) {
+        this.id = id;
+        this.level = level;
+        this.active = active;
+        this.resume = resume;
+        this.language = language;
+    }
+// Getters & Setters
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 
     public Integer getId() {
         return id;

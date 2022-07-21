@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Map;
 
 @RestController
+@RequestMapping("user/")
 public class ResumeUserController {
     @Autowired
     private ResumeService resumeService;
@@ -23,7 +24,9 @@ public class ResumeUserController {
 
     @PostMapping("/{username}/resume")
     public ResponseEntity<ResumeDto> save(@RequestBody ResumeDto entity) {
-        return new ResponseEntity<>(resumeService.save(entity), HttpStatus.CREATED);
+        return resumeService.update(entity)
+                .map(updatedEntity -> new ResponseEntity<>(updatedEntity, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
     @PutMapping("/{username}/resume")
     public ResponseEntity<ResumeDto> update(@RequestBody ResumeDto entity) {
@@ -37,6 +40,7 @@ public class ResumeUserController {
                 .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+
     @DeleteMapping("/{username}/resume/{id}")
     public ResponseEntity delete(@PathVariable("id") Integer id) {
         boolean deleted = resumeService.delete(id);

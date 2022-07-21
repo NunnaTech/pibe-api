@@ -1,23 +1,37 @@
 package mx.com.pandadevs.pibeapi.models.courses.dto;
-
-import javax.validation.constraints.NotBlank;
+// Validations
+import javax.validation.constraints.Min;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+// Java
 import java.time.LocalDateTime;
 
 public class CourseDto {
 
     private Integer id;
     @NotNull
-    @NotBlank
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.0-9]*")
+    @NotEmpty(message = "Please provide a course name")
     @Size(
             min = 5,
             max = 40)
     private String name;
 
+    @Min(value=1, message="must be equal or greater than 1")
+    @Max(value=100, message="must be equal or less than 100")
+    @NotEmpty(message = "Please provide a number of hours")
     private Integer hours;
+    @NotNull
     private Boolean active;
 
+    @Pattern(regexp = "[A-Za-zÀ-ÿ '-.0-9]*")
+    @NotEmpty(message = "Please provide a name of the training institution")
+    @Size(
+            min = 5,
+            max = 40)
     private String trainingInstitution;
 
     private LocalDateTime realizationDate;

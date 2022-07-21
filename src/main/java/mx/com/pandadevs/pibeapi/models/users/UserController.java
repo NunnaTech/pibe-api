@@ -2,6 +2,7 @@ package mx.com.pandadevs.pibeapi.models.users;
 // Java
 import java.util.List;
 import java.util.Map;
+// Spring
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,19 +16,16 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-// Spring
+// Models
 import mx.com.pandadevs.pibeapi.models.contacts.dto.ContactDto;
 import mx.com.pandadevs.pibeapi.models.contacts.service.ContactService;
 import mx.com.pandadevs.pibeapi.models.notifications.dto.UserNotificationDto;
-import mx.com.pandadevs.pibeapi.models.users.controller.ResumeUserController;
 import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
 import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;
-// Models
 import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
 @RestController
 @RequestMapping("user/")
-public class UserController extends ResumeUserController implements ControllerInterface<UserDto, Long> {
+public class UserController implements ControllerInterface<UserDto, Long> {
 
     @Autowired
     private UserService userService;

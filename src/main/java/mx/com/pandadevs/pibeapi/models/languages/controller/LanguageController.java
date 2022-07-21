@@ -4,6 +4,9 @@ package mx.com.pandadevs.pibeapi.models.languages.controller;
 import java.util.List;
 import java.util.Map;
 // Spring
+import mx.com.pandadevs.pibeapi.models.languages.dto.ResumeLanguageDto;
+import mx.com.pandadevs.pibeapi.models.languages.entity.ResumeLanguage;
+import mx.com.pandadevs.pibeapi.models.languages.services.ResumeLanguageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +21,8 @@ import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
 public class LanguageController implements ControllerInterface<LanguageDto, Integer> {
     @Autowired
     private LanguageService languageService;
+    @Autowired
+    private ResumeLanguageService resumeLanguage;
 
     @Override
     @GetMapping("")
@@ -25,6 +30,11 @@ public class LanguageController implements ControllerInterface<LanguageDto, Inte
         return new ResponseEntity(languageService.getAll(), HttpStatus.OK);
     }
 
+
+    @GetMapping("r")
+    public ResponseEntity<List<ResumeLanguageDto>> getAllR() {
+        return new ResponseEntity(resumeLanguage.getAll(), HttpStatus.OK);
+    }
     @Override
     @GetMapping("{id}")
     public ResponseEntity<LanguageDto> getOne(@PathVariable("id") Integer id) {
@@ -37,6 +47,10 @@ public class LanguageController implements ControllerInterface<LanguageDto, Inte
     @PostMapping("")
     public ResponseEntity<LanguageDto> save(@RequestBody LanguageDto entity) {
         return new ResponseEntity<>(languageService.save(entity), HttpStatus.CREATED);
+    }
+    @PostMapping("r")
+    public ResponseEntity<ResumeLanguageDto> saver(@RequestBody ResumeLanguageDto entity) {
+        return new ResponseEntity<>(resumeLanguage.save(entity), HttpStatus.CREATED);
     }
 
     @Override
