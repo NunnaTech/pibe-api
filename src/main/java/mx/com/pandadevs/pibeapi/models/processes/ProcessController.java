@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.processes;
 
+import io.swagger.annotations.Api;
 import mx.com.pandadevs.pibeapi.models.processes.dto.ProcessDto;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/processes")
+@Api( tags = "Processes")
 public class ProcessController implements ControllerInterface<ProcessDto, Integer> {
 
     @Autowired

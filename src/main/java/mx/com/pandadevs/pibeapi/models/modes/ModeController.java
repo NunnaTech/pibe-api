@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.modes;
 
+import io.swagger.annotations.Api;
 import mx.com.pandadevs.pibeapi.models.modes.dto.ModeDto;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/modes")
+@Api( tags = "Modes")
 public class ModeController implements ControllerInterface<ModeDto, Integer> {
 
     @Autowired

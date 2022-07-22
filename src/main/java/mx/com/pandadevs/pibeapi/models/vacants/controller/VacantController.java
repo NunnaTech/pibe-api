@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.vacants.controller;
 
+import io.swagger.annotations.Api;
 import mx.com.pandadevs.pibeapi.models.vacants.dto.VacantDto;
 import mx.com.pandadevs.pibeapi.models.vacants.service.VacantService;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
@@ -14,6 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/vacants")
+@Api( tags = "Vacants")
 public class VacantController implements ControllerInterface<VacantDto, Integer> {
 
     @Autowired

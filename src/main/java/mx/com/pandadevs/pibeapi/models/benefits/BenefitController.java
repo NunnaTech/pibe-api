@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.benefits;
 
+import io.swagger.annotations.Api;
 import mx.com.pandadevs.pibeapi.models.benefits.dto.BenefitDto;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/benefits")
+@Api( tags = "Benefits")
 public class BenefitController implements ControllerInterface<BenefitDto,Integer> {
 
     @Autowired
