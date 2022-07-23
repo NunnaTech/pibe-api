@@ -17,8 +17,17 @@ public class UserNotificationPK implements Serializable {
     @Column(name = "user_id")
     private Long  userId;
 
+    public UserNotificationPK() {
+
+    }
+
     public Integer getNotificacitionId() {
         return notificacitionId;
+    }
+
+    public UserNotificationPK(Integer notificacitionId, Long userId) {
+        this.notificacitionId = notificacitionId;
+        this.userId = userId;
     }
 
     public void setNotificacitionId(Integer notificacitionId) {

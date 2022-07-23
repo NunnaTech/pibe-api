@@ -6,6 +6,9 @@ import mx.com.pandadevs.pibeapi.models.contacts.entity.Contact;
 import mx.com.pandadevs.pibeapi.models.contacts.entity.ContactFk;
 import mx.com.pandadevs.pibeapi.models.contacts.mapper.ContactMapper;
 import mx.com.pandadevs.pibeapi.models.contacts.repository.ContactRepository;
+import mx.com.pandadevs.pibeapi.models.notifications.entities.UserNotification;
+import mx.com.pandadevs.pibeapi.models.notifications.entities.UserNotificationPK;
+import mx.com.pandadevs.pibeapi.models.notifications.repository.UserNotificationRepository;
 import mx.com.pandadevs.pibeapi.models.users.User;
 import mx.com.pandadevs.pibeapi.models.users.UserRepository;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
@@ -29,6 +32,8 @@ public class ContactService implements ServiceInterface<ContactFk,ContactDto> {
         this.mapper = mapper;
     }
 
+    @Autowired
+    private UserNotificationRepository userNotificationRepository;
     @Override
     public List<ContactDto> getAll() {
         return null;
@@ -58,7 +63,10 @@ public class ContactService implements ServiceInterface<ContactFk,ContactDto> {
     public Optional<SingleContactDto> save(String myUsername, String contactUsername){
         Optional<User> userContacto = userRepository.findByUsernameAndActiveTrue(contactUsername);
         Optional<User> userMyInfo = userRepository.findByUsernameAndActiveTrue(myUsername);
-        if (!userContacto.isPresent() || !userMyInfo.isPresent()) return Optional.empty();
+
+        System.out.println(userContacto.get().getUsername());
+        System.out.println(userMyInfo.get().getUsername());
+
         Contact contacto = new Contact(userContacto.get(), userMyInfo.get());
         List<Contact> myContacts = contactRepository.findContactsByUsername(userMyInfo.get().getId());
 
@@ -68,6 +76,9 @@ public class ContactService implements ServiceInterface<ContactFk,ContactDto> {
                 return Optional.empty();
             }
         }
+        UserNotificationPK fpk = new UserNotificationPK(4, userMyInfo.get().getId());
+        UserNotification ntf = new UserNotification(fpk,"",true);
+        userNotificationRepository.save(ntf);
         contactRepository.save(contacto);
         return Optional.ofNullable(mapper.toSingleContactDto(contacto));
     }
