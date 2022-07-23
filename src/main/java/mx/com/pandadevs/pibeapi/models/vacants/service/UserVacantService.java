@@ -1,6 +1,9 @@
 package mx.com.pandadevs.pibeapi.models.vacants.service;
 
 import mx.com.pandadevs.pibeapi.models.auth.EmailService;
+import mx.com.pandadevs.pibeapi.models.notifications.entities.UserNotification;
+import mx.com.pandadevs.pibeapi.models.notifications.entities.UserNotificationPK;
+import mx.com.pandadevs.pibeapi.models.notifications.repository.UserNotificationRepository;
 import mx.com.pandadevs.pibeapi.models.processes.Process;
 import mx.com.pandadevs.pibeapi.models.processes.ProcessRepository;
 import mx.com.pandadevs.pibeapi.models.processes.dto.ProcessDto;
@@ -46,6 +49,8 @@ public class UserVacantService {
     private VacantRepository vacantRepository;
     @Autowired
     private ProcessRepository processRepository;
+    @Autowired
+    private UserNotificationRepository userNotificationRepository;
 
     private Optional<UserVacant> findByVacantAndUser(Long idUser, Integer idVacant) {
         return userVacantRepository.findByUser_IdAndVacant_Id(idUser, idVacant);
@@ -67,7 +72,7 @@ public class UserVacantService {
     }
 
     @Transactional
-    public Boolean applyToVacant(Integer id, String username) {
+    public Boolean  applyToVacant(Integer id, String username) {
         User user = userRepository.findByUsername(username);
         Optional<Vacant> vacant = vacantRepository.findByIdAndActiveIsTrue(id);
         Optional<Process> process = processRepository.findByIdAndActiveIsTrue(1);
@@ -75,6 +80,9 @@ public class UserVacantService {
         if (user != null && vacant.isPresent() && process.isPresent() && !userVacant.isPresent()) {
             emailService.sendEmailNewVacant(user, vacant.get());
             userVacantRepository.save(new UserVacant(user, vacant.get(), process.get()));
+            UserNotificationPK fpk = new UserNotificationPK(5,user.getId());
+            UserNotification ntf = new UserNotification(fpk,"Postulado",true);
+            userNotificationRepository.save(ntf);
             return true;
         }
         return false;
@@ -82,10 +90,31 @@ public class UserVacantService {
 
     @Transactional
     public Boolean processToVacant(Integer id, ProcessDto processDto) {
+        String message  ="";
         Optional<UserVacant> userVacant = userVacantRepository.findById(id);
         if (userVacant.isPresent()) {
             userVacant.get().setProcess(processRepository.findByIdAndActiveIsTrue(processDto.getId()).get());
             emailService.sendEmailCurrentlyProccess(userVacant.get(), userVacant.get().getProcess().getName().equals("Finalizado"));
+            UserNotificationPK fpk = new UserNotificationPK(5, userVacant.get().getUser().getId());
+            switch (id){
+                case 1:
+                    message ="Postulado";
+                    break;
+                case 2:
+                    message ="CV Visto";
+                    break;
+                case 3:
+                    message ="Entrevista";
+                    break;
+                case 4:
+                    message ="Idóneo";
+                    break;
+                case 5:
+                    message ="Contratado";
+                    break;
+            }
+            UserNotification ntf = new UserNotification(fpk,message,true);
+            userNotificationRepository.save(ntf);
             userVacantRepository.save(userVacant.get());
             return true;
         }
