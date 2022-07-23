@@ -5,11 +5,22 @@ import mx.com.pandadevs.pibeapi.utils.enums.Action;
 
 public class LogDto {
     private Long id;
-    private String oldData;
-    private String newData;
+    private String oldData = "{}";
+    private String newData = "{}";
     private Action action;
     private UserDto user;
     private TableDto table;
+
+    public LogDto() {
+    }
+
+    public LogDto(String oldData, String newData, Action action, UserDto user, TableDto table) {
+        this.oldData = oldData;
+        this.newData = newData;
+        this.action = action;
+        this.user = user;
+        this.table = table;
+    }
 
     public Long getId() {
         return id;

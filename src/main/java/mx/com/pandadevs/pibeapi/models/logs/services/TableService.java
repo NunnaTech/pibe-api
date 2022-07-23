@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import mx.com.pandadevs.pibeapi.models.modes.ModeService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -18,6 +21,8 @@ import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 @Service
 public class TableService implements ServiceInterface<String, TableDto> {
     private final TableMapper mapper;
+
+    private Logger logger = LoggerFactory.getLogger(TableService.class);
 
     @Autowired
     private TableRepository tableRepository;
@@ -35,6 +40,11 @@ public class TableService implements ServiceInterface<String, TableDto> {
     public Optional<TableDto> getById(String id) {
         Optional<Tables> table = tableRepository.findById(id);
         return table.map(mapper::toTableDto);
+    }
+
+    public TableDto getByName(String name) {
+        Tables table = tableRepository.findByNameLikeIgnoreCase(name);
+        return mapper.toTableDto(table);
     }
 
     @Override

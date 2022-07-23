@@ -30,18 +30,17 @@ public class Log extends PibeModel implements Serializable {
     @Column(
         name = "old_data",
         columnDefinition = "json")
-    private String oldData;
+    private String oldData = "{}";
 
     @Column(
         name = "new_data",
-        nullable = false,
         columnDefinition = "json")
-    private String newData;
+    private String newData = "{}";
 
     @Column(
         name="action",
         nullable = false,
-        length = 12 
+        length = 15
         )
     @Enumerated(value = EnumType.STRING)
     private Action action;
