@@ -49,6 +49,15 @@ public class UserNotification extends PibeModel implements Serializable {
     @JoinColumn(name = "notification_id", insertable = false, updatable = false)
     private Notification notification;
 
+    public UserNotification() {
+    }
+
+    public UserNotification(UserNotificationPK id, String action, Boolean seen) {
+        this.id = id;
+        this.action = action;
+        this.seen = seen;
+    }
+
     // Getters & Setters
     public UserNotificationPK getId() {
         return id;
