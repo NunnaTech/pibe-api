@@ -11,8 +11,6 @@ public class LogDto {
     private UserDto user;
     private TableDto table;
 
-    // Getters && Setters
-
     public Long getId() {
         return id;
     }
