@@ -1,7 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.benefits;
 
 import mx.com.pandadevs.pibeapi.models.benefits.dto.BenefitDto;
-import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -9,17 +8,15 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/benefits")
-public class BenefitController implements ControllerInterface<BenefitDto,Integer> {
+public class BenefitController {
 
     @Autowired
     private BenefitService service;
 
     @GetMapping(value = "")
-    @Override
     public ResponseEntity<List<BenefitDto>> getAll() {
         try {
             return new ResponseEntity<>(service.getAll(), HttpStatus.OK);
@@ -29,7 +26,6 @@ public class BenefitController implements ControllerInterface<BenefitDto,Integer
     }
 
     @GetMapping(value = "/{id}")
-    @Override
     public ResponseEntity<BenefitDto> getOne(@PathVariable(value = "id") Integer id) {
         try {
             return service.getById(id)
@@ -41,20 +37,18 @@ public class BenefitController implements ControllerInterface<BenefitDto,Integer
     }
 
     @PostMapping(value = "")
-    @Override
-    public ResponseEntity<BenefitDto> save(@Valid @RequestBody BenefitDto entity) {
+    public ResponseEntity<BenefitDto> save(@RequestHeader("Authorization") String bearerToken, @Valid @RequestBody BenefitDto entity) {
         try {
-            return new ResponseEntity<>(service.save(entity), HttpStatus.CREATED);
+            return new ResponseEntity<>(service.save(entity, bearerToken), HttpStatus.CREATED);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PutMapping(value = "")
-    @Override
-    public ResponseEntity<BenefitDto> update(@Valid @RequestBody BenefitDto entity) {
+    public ResponseEntity<BenefitDto> update(@RequestHeader("Authorization") String bearerToken, @Valid @RequestBody BenefitDto entity) {
         try {
-            return service.update(entity)
+            return service.update(entity, bearerToken)
                     .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
                     .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
@@ -62,16 +56,10 @@ public class BenefitController implements ControllerInterface<BenefitDto,Integer
         }
     }
 
-    @Override
-    public ResponseEntity<BenefitDto> partialUpdate(Integer id, Map<Object, Object> fields) {
-        return null;
-    }
-
     @DeleteMapping("/{id}")
-    @Override
-    public ResponseEntity<Boolean> delete(@PathVariable(value = "id") Integer id) {
+    public ResponseEntity<Boolean> delete(@RequestHeader("Authorization") String bearerToken, @PathVariable(value = "id") Integer id) {
         try {
-            if (service.delete(id)) return new ResponseEntity<>(true, HttpStatus.OK);
+            if (service.delete(id, bearerToken)) return new ResponseEntity<>(true, HttpStatus.OK);
             else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

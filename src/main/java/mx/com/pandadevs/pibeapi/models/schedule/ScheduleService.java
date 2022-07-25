@@ -1,67 +1,77 @@
 package mx.com.pandadevs.pibeapi.models.schedule;
 
-import mx.com.pandadevs.pibeapi.models.modes.Mode;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import mx.com.pandadevs.pibeapi.models.logs.dto.LogDto;
+import mx.com.pandadevs.pibeapi.models.logs.services.LogService;
+import mx.com.pandadevs.pibeapi.models.logs.services.TableService;
 import mx.com.pandadevs.pibeapi.models.schedule.dto.ScheduleDto;
 import mx.com.pandadevs.pibeapi.models.schedule.mapper.ScheduleMapper;
-import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
+import mx.com.pandadevs.pibeapi.models.users.UserService;
+import mx.com.pandadevs.pibeapi.security.LogJwtService;
+import mx.com.pandadevs.pibeapi.utils.enums.Action;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class ScheduleService implements ServiceInterface<Integer, ScheduleDto> {
+public class ScheduleService {
 
     private final ScheduleMapper mapper;
 
     @Autowired
     private ScheduleRepository scheduleRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private LogJwtService logJwtService;
+
+    @Autowired
+    private TableService tableService;
+
+    @Autowired
+    private LogService logService;
+
+    private final String TABLE_NAME = "schedule";
 
     public ScheduleService(ScheduleMapper mapper) {
         this.mapper = mapper;
     }
 
     @Transactional(readOnly = true)
-    @Override
     public List<ScheduleDto> getAll() {
         return mapper.toSchedulesDto(scheduleRepository.findAllByActiveIsTrue());
     }
 
     @Transactional(readOnly = true)
-    @Override
     public Optional<ScheduleDto> getById(Integer id) {
         Optional<Schedule> schedule = scheduleRepository.findByIdAndActiveIsTrue(id);
         return schedule.map(mapper::toScheduleDto);
     }
 
-    @Override
-    public ScheduleDto save(ScheduleDto entity) {
+    public ScheduleDto save(ScheduleDto entity, String bearerToken) throws JsonProcessingException {
+        String username = logJwtService.getOnlyUsername(bearerToken);
+        logService.save(new LogDto("{}", logJwtService.parseToJsonObeject(entity), Action.Creacion, userService.getUserByUsername(username), tableService.getById(TABLE_NAME).get()));
         return mapper.toScheduleDto(scheduleRepository.save(mapper.toSchedule(entity)));
     }
 
     @Transactional
-    @Override
-    public Optional<ScheduleDto> update(ScheduleDto entity) {
+    public Optional<ScheduleDto> update(ScheduleDto entity, String bearerToken) throws JsonProcessingException {
+        String username = logJwtService.getOnlyUsername(bearerToken);
         Optional<Schedule> updatedSchedule = scheduleRepository.findByIdAndActiveIsTrue(entity.getId());
-        if (updatedSchedule.isPresent()) return Optional.of(mapper.toScheduleDto(scheduleRepository.save(mapper.toSchedule(entity))));
-        return Optional.empty();
+        logService.save(new LogDto(logJwtService.parseToJsonObeject(updatedSchedule.get()), logJwtService.parseToJsonObeject(entity), Action.Actualizacion, userService.getUserByUsername(username), tableService.getByName(TABLE_NAME)));
+        return Optional.of(mapper.toScheduleDto(scheduleRepository.save(mapper.toSchedule(entity))));
     }
 
     @Transactional
-    @Override
-    public Optional<ScheduleDto> partialUpdate(Integer id, Map<Object, Object> fields) {
-        return Optional.empty();
-    }
-
-    @Transactional
-    @Override
-    public Boolean delete(Integer id) {
+    public Boolean delete(Integer id, String bearerToken) throws JsonProcessingException {
+        String username = logJwtService.getOnlyUsername(bearerToken);
         Optional<Schedule> deletedSchedule = scheduleRepository.findByIdAndActiveIsTrue(id);
-        if(deletedSchedule.isPresent()){
+        if (deletedSchedule.isPresent()) {
+            logService.save(new LogDto(logJwtService.parseToJsonObeject(deletedSchedule.get()), "{}", Action.elminacion, userService.getUserByUsername(username), tableService.getByName(TABLE_NAME)));
             deletedSchedule.get().setActive(false);
             scheduleRepository.save(deletedSchedule.get());
             return true;

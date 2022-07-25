@@ -1,14 +1,20 @@
 package mx.com.pandadevs.pibeapi.models.vacants.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import mx.com.pandadevs.pibeapi.models.benefits.Benefit;
 import mx.com.pandadevs.pibeapi.models.benefits.BenefitService;
+import mx.com.pandadevs.pibeapi.models.logs.dto.LogDto;
+import mx.com.pandadevs.pibeapi.models.logs.services.LogService;
+import mx.com.pandadevs.pibeapi.models.logs.services.TableService;
 import mx.com.pandadevs.pibeapi.models.users.User;
 import mx.com.pandadevs.pibeapi.models.users.UserRepository;
+import mx.com.pandadevs.pibeapi.models.users.UserService;
 import mx.com.pandadevs.pibeapi.models.vacants.dto.VacantDto;
 import mx.com.pandadevs.pibeapi.models.vacants.entities.Vacant;
 import mx.com.pandadevs.pibeapi.models.vacants.mapper.VacantMapper;
 import mx.com.pandadevs.pibeapi.models.vacants.repository.VacantRepository;
-import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
+import mx.com.pandadevs.pibeapi.security.LogJwtService;
+import mx.com.pandadevs.pibeapi.utils.enums.Action;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +29,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class VacantService implements ServiceInterface<Integer, VacantDto> {
+public class VacantService {
 
     private Logger logger = LoggerFactory.getLogger(VacantService.class);
 
@@ -38,18 +44,30 @@ public class VacantService implements ServiceInterface<Integer, VacantDto> {
     @Autowired
     private BenefitService benefitService;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private LogJwtService logJwtService;
+
+    @Autowired
+    private TableService tableService;
+
+    @Autowired
+    private LogService logService;
+
+    private final String TABLE_NAME = "vacants";
+
     public VacantService(VacantMapper mapper) {
         this.mapper = mapper;
     }
 
     @Transactional(readOnly = true)
-    @Override
     public List<VacantDto> getAll() {
         return mapper.toVacantsDto(vacantRepository.findAllByActiveIsTrueAndIsPublicIsTrue());
     }
 
     @Transactional(readOnly = true)
-    @Override
     public Optional<VacantDto> getById(Integer id) {
         Optional<Vacant> vacant = vacantRepository.findByIdAndActiveIsTrue(id);
         return vacant.map(mapper::toVacantDto);
@@ -64,28 +82,26 @@ public class VacantService implements ServiceInterface<Integer, VacantDto> {
     }
 
     @Transactional
-    @Override
-    public VacantDto save(VacantDto entity) {
+    public VacantDto save(VacantDto entity, String bearerToken) throws JsonProcessingException {
+        String username = logJwtService.getOnlyUsername(bearerToken);
         Vacant vacant = mapper.toVacant(entity);
         vacant.setBenefits(fillBenefits(vacant.getBenefits()));
         vacant.setUser(userRepository.findByUsername(entity.getCreator().getUsername()));
+        logService.save(new LogDto("{}", logJwtService.parseToJsonObeject(entity), Action.Creacion, userService.getUserByUsername(username), tableService.getById(TABLE_NAME).get()));
         return mapper.toVacantDto(vacantRepository.save(vacant));
     }
 
     @Transactional
-    @Override
-    public Optional<VacantDto> update(VacantDto entity) {
+    public Optional<VacantDto> update(VacantDto entity, String bearerToken) throws JsonProcessingException {
+        String username = logJwtService.getOnlyUsername(bearerToken);
         Vacant vacant = mapper.toVacant(entity);
         Optional<Vacant> updated = vacantRepository.findByIdAndActiveIsTrue(vacant.getId());
-        if (updated.isPresent()) {
-            vacant.setBenefits(fillBenefits(vacant.getBenefits()));
-            return Optional.of(mapper.toVacantDto(vacantRepository.save(vacant)));
-        }
-        return Optional.empty();
+        vacant.setBenefits(fillBenefits(vacant.getBenefits()));
+        logService.save(new LogDto(logJwtService.parseToJsonObeject(mapper.toVacantDto(updated.get())), logJwtService.parseToJsonObeject(entity), Action.Actualizacion, userService.getUserByUsername(username), tableService.getByName(TABLE_NAME)));
+        return Optional.of(mapper.toVacantDto(vacantRepository.save(vacant)));
     }
 
     @Transactional
-    @Override
     public Optional<VacantDto> partialUpdate(Integer id, Map<Object, Object> fields) {
         try {
             Optional<Vacant> updated = vacantRepository.findByIdAndActiveIsTrue(id);
@@ -97,15 +113,18 @@ public class VacantService implements ServiceInterface<Integer, VacantDto> {
                 });
                 return Optional.of(mapper.toVacantDto(vacantRepository.saveAndFlush(e)));
             }).orElse(Optional.empty());
-        } catch (Exception ignored) {}
+        } catch (Exception ignored) {
+        }
         return Optional.empty();
     }
 
     @Transactional
-    @Override
-    public Boolean delete(Integer id) {
+    public Boolean delete(Integer id, String bearerToken) throws JsonProcessingException {
+        String username = logJwtService.getOnlyUsername(bearerToken);
         Optional<Vacant> deleted = vacantRepository.findByIdAndActiveIsTrue(id);
         if (deleted.isPresent()) {
+            logger.error(deleted.get().getDescription());
+            logService.save(new LogDto(logJwtService.parseToJsonObeject(mapper.toVacantDto(deleted.get())), "{}", Action.elminacion, userService.getUserByUsername(username), tableService.getByName(TABLE_NAME)));
             deleted.get().setActive(false);
             vacantRepository.save(deleted.get());
             return true;

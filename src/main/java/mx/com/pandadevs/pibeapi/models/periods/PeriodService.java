@@ -1,65 +1,79 @@
 package mx.com.pandadevs.pibeapi.models.periods;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import mx.com.pandadevs.pibeapi.models.logs.dto.LogDto;
+import mx.com.pandadevs.pibeapi.models.logs.services.LogService;
+import mx.com.pandadevs.pibeapi.models.logs.services.TableService;
 import mx.com.pandadevs.pibeapi.models.periods.dto.PeriodDto;
 import mx.com.pandadevs.pibeapi.models.periods.mapper.PeriodMapper;
-import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
+import mx.com.pandadevs.pibeapi.models.users.UserService;
+import mx.com.pandadevs.pibeapi.security.LogJwtService;
+import mx.com.pandadevs.pibeapi.utils.enums.Action;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class PeriodService implements ServiceInterface<Integer, PeriodDto> {
+public class PeriodService {
 
     private final PeriodMapper mapper;
 
     @Autowired private PeriodRepository repository;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private LogJwtService logJwtService;
+
+    @Autowired
+    private TableService tableService;
+
+    @Autowired
+    private LogService logService;
+
+    private final String TABLE_NAME = "periods";
 
     public PeriodService(PeriodMapper mapper) {
         this.mapper = mapper;
     }
 
     @Transactional(readOnly = true)
-    @Override
     public List<PeriodDto> getAll() {
         return mapper.toPeriodsDto(repository.findAllByActiveIsTrue());
     }
 
     @Transactional(readOnly = true)
-    @Override
     public Optional<PeriodDto> getById(Integer id) {
         Optional<Period> period = repository.findByIdAndActiveIsTrue(id);
         return period.map(mapper::toPeriodDto);
     }
 
     @Transactional
-    @Override
-    public PeriodDto save(PeriodDto entity) {
+    public PeriodDto save(PeriodDto entity, String bearerToken) throws JsonProcessingException {
+        String username = logJwtService.getOnlyUsername(bearerToken);
+        logService.save(new LogDto("{}", logJwtService.parseToJsonObeject(entity), Action.Creacion, userService.getUserByUsername(username), tableService.getById(TABLE_NAME).get()));
         return mapper.toPeriodDto(repository.save(mapper.toPeriod(entity)));
     }
 
     @Transactional
-    @Override
-    public Optional<PeriodDto> update(PeriodDto entity) {
+    public Optional<PeriodDto> update(PeriodDto entity, String bearerToken) throws JsonProcessingException {
+        String username = logJwtService.getOnlyUsername(bearerToken);
         Optional<Period> updated = repository.findByIdAndActiveIsTrue(entity.getId());
-        if (updated.isPresent()) return Optional.of(mapper.toPeriodDto(repository.save(mapper.toPeriod(entity))));
-        return Optional.empty();
-    }
-
-    @Override
-    public Optional<PeriodDto> partialUpdate(Integer id, Map<Object, Object> fields) {
-        return Optional.empty();
+        logService.save(new LogDto(logJwtService.parseToJsonObeject(updated.get()), logJwtService.parseToJsonObeject(entity), Action.Actualizacion, userService.getUserByUsername(username), tableService.getByName(TABLE_NAME)));
+        return Optional.of(mapper.toPeriodDto(repository.save(mapper.toPeriod(entity))));
     }
 
     @Transactional
-    @Override
-    public Boolean delete(Integer id) {
+    public Boolean delete(Integer id, String bearerToken) throws JsonProcessingException {
+        String username = logJwtService.getOnlyUsername(bearerToken);
         Optional<Period> deleted = repository.findByIdAndActiveIsTrue(id);
         if (deleted.isPresent()) {
+            logService.save(new LogDto(logJwtService.parseToJsonObeject(deleted.get()), "{}", Action.elminacion, userService.getUserByUsername(username), tableService.getByName(TABLE_NAME)));
             deleted.get().setActive(false);
             repository.save(deleted.get());
             return true;
