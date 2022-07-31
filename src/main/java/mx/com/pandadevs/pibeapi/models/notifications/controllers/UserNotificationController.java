@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.notifications.controllers;
 
+import io.swagger.annotations.Api;
 import mx.com.pandadevs.pibeapi.models.notifications.dto.UserNotificationDto;
 import mx.com.pandadevs.pibeapi.models.notifications.services.UserNotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 @RestController
 @RequestMapping("/users")
+@Api( tags = "User Notifications")
 public class UserNotificationController{
     @Autowired
     private UserNotificationService service;

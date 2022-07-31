@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.periods;
 
+import io.swagger.annotations.Api;
 import mx.com.pandadevs.pibeapi.models.periods.dto.PeriodDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/periods")
+@Api( tags = "Periodos")
 public class PeriodController {
 
     @Autowired

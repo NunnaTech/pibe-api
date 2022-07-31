@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.vacants.controller;
 
+import io.swagger.annotations.Api;
 import mx.com.pandadevs.pibeapi.models.processes.dto.ProcessDto;
 import mx.com.pandadevs.pibeapi.models.vacants.dto.UserVacantDto;
 import mx.com.pandadevs.pibeapi.models.vacants.dto.VacantProcessDto;
@@ -15,6 +16,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/user-vacants")
+@Api( tags = "User Vacants")
 public class UserVacantContoller {
     private Logger logger = LoggerFactory.getLogger(UserVacantContoller.class);
     @Autowired

@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.schedule;
 
+import io.swagger.annotations.Api;
 import mx.com.pandadevs.pibeapi.models.schedule.dto.ScheduleDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/schedules")
+@Api( tags = "Cronogramas")
 public class ScheduleController {
 
     @Autowired

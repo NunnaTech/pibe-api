@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.vacants.controller;
 
+import io.swagger.annotations.Api;
 import mx.com.pandadevs.pibeapi.models.vacants.dto.VacantDto;
 import mx.com.pandadevs.pibeapi.models.vacants.service.UserVacantFavoriteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/users/favorite/vacants")
+@Api( tags = "User Vacants Favorite")
 public class UserVacantFavoriteController {
     @Autowired
     private UserVacantFavoriteService service;

@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.vacants.controller;
 
+import io.swagger.annotations.Api;
 import mx.com.pandadevs.pibeapi.models.vacants.dto.VacantDto;
 import mx.com.pandadevs.pibeapi.models.vacants.service.VacantService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,7 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/vacants")
+@Api( tags = "Vacantes")
 public class VacantController{
 
     @Autowired
