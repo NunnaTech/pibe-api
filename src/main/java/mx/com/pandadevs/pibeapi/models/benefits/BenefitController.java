@@ -42,7 +42,7 @@ public class BenefitController {
     public ResponseEntity<BenefitDto> save(@RequestHeader("Authorization") String bearerToken, @Valid @RequestBody BenefitDto entity) {
         try {
             return service.save(entity, bearerToken)
-                    .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+                    .map(e -> new ResponseEntity<>(e, HttpStatus.CREATED))
                     .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);

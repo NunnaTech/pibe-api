@@ -14,16 +14,16 @@ import java.util.Map;
 
 @RestController
 @RequestMapping(value = "/vacants")
-@Api( tags = "Vacantes")
-public class VacantController{
+@Api(tags = "Vacantes")
+public class VacantController {
 
     @Autowired
     private VacantService service;
 
     @GetMapping(value = "/users/{username}")
-    public ResponseEntity<List<VacantDto>> getByUsername(@PathVariable("username") String username) {
+    public ResponseEntity<List<VacantDto>> getByUsername(@RequestHeader("Authorization") String bearerToken, @PathVariable("username") String username) {
         try {
-            return new ResponseEntity<>(service.getByUsername(username), HttpStatus.OK);
+            return new ResponseEntity<>(service.getByUsername(username, bearerToken), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -52,7 +52,9 @@ public class VacantController{
     @PostMapping(value = "")
     public ResponseEntity<VacantDto> save(@RequestHeader("Authorization") String bearerToken, @Valid @RequestBody VacantDto entity) {
         try {
-            return new ResponseEntity<>(service.save(entity, bearerToken), HttpStatus.CREATED);
+            return service.save(entity, bearerToken)
+                    .map(e -> new ResponseEntity<>(e, HttpStatus.CREATED))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -65,15 +67,14 @@ public class VacantController{
                     .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
                     .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
-            System.out.println(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @PatchMapping("/{id}")
-    public ResponseEntity<VacantDto> partialUpdate(@PathVariable("id") Integer id, @RequestBody Map<Object, Object> fields) {
+    public ResponseEntity<VacantDto> partialUpdate(@RequestHeader("Authorization") String bearerToken, @PathVariable("id") Integer id, @RequestBody Map<Object, Object> fields) {
         try {
-            return service.partialUpdate(id, fields)
+            return service.partialUpdate(id, fields, bearerToken)
                     .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
                     .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
