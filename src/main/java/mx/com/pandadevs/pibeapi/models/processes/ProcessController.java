@@ -41,7 +41,9 @@ public class ProcessController {
     @PostMapping(value = "")
     public ResponseEntity<ProcessDto> save(@RequestHeader("Authorization") String bearerToken, @Valid @RequestBody ProcessDto entity) {
         try {
-            return new ResponseEntity<>(service.save(entity, bearerToken), HttpStatus.CREATED);
+            return service.save(entity, bearerToken)
+                    .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

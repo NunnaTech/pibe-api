@@ -41,7 +41,9 @@ public class ScheduleController {
     @PostMapping(value = "")
     public ResponseEntity<ScheduleDto> save(@RequestHeader("Authorization") String bearerToken, @Valid @RequestBody ScheduleDto entity) {
         try {
-            return new ResponseEntity<>(scheduleService.save(entity, bearerToken), HttpStatus.CREATED);
+            return scheduleService.save(entity, bearerToken)
+                    .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

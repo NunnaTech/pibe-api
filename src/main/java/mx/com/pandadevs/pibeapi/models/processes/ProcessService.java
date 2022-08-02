@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -55,29 +56,37 @@ public class ProcessService {
     }
 
     @Transactional
-    public ProcessDto save(ProcessDto entity, String bearerToken) throws JsonProcessingException {
-        String username = logJwtService.getOnlyUsername(bearerToken);
-        logService.save(new LogDto("{}", logJwtService.parseToJsonObeject(entity), Action.Creacion, userService.getUserByUsername(username), tableService.getById(TABLE_NAME).get()));
-        return mapper.toProcessDto(repository.save(mapper.toProcess(entity)));
+    public Optional<ProcessDto> save(ProcessDto entity, String bearerToken) throws JsonProcessingException {
+        Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
+        if (auth.get("role").equals("ROLE_RECRUITER")) {
+            logService.save(new LogDto("{}", logJwtService.parseToJsonObeject(entity), Action.Creacion, userService.getUserByUsername(auth.get("username")), tableService.getById(TABLE_NAME).get()));
+            return Optional.of(mapper.toProcessDto(repository.save(mapper.toProcess(entity))));
+        }
+        return Optional.empty();
     }
 
     @Transactional
     public Optional<ProcessDto> update(ProcessDto entity, String bearerToken) throws JsonProcessingException {
-        String username = logJwtService.getOnlyUsername(bearerToken);
-        Optional<Process> updated = repository.findByIdAndActiveIsTrue(entity.getId());
-        logService.save(new LogDto(logJwtService.parseToJsonObeject(updated.get()), logJwtService.parseToJsonObeject(entity), Action.Actualizacion, userService.getUserByUsername(username), tableService.getByName(TABLE_NAME)));
-        return Optional.of(mapper.toProcessDto(repository.save(mapper.toProcess(entity))));
+        Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
+        if (auth.get("role").equals("ROLE_RECRUITER")) {
+            Optional<Process> updated = repository.findByIdAndActiveIsTrue(entity.getId());
+            logService.save(new LogDto(logJwtService.parseToJsonObeject(updated.get()), logJwtService.parseToJsonObeject(entity), Action.Actualizacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
+            return Optional.of(mapper.toProcessDto(repository.save(mapper.toProcess(entity))));
+        }
+        return Optional.empty();
     }
 
     @Transactional
     public Boolean delete(Integer id, String bearerToken) throws JsonProcessingException {
-        String username = logJwtService.getOnlyUsername(bearerToken);
-        Optional<Process> deleted = repository.findByIdAndActiveIsTrue(id);
-        if (deleted.isPresent()) {
-            logService.save(new LogDto(logJwtService.parseToJsonObeject(deleted.get()), "{}", Action.elminacion, userService.getUserByUsername(username), tableService.getByName(TABLE_NAME)));
-            deleted.get().setActive(false);
-            repository.save(deleted.get());
-            return true;
+        Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
+        if (auth.get("role").equals("ROLE_RECRUITER")) {
+            Optional<Process> deleted = repository.findByIdAndActiveIsTrue(id);
+            if (deleted.isPresent()) {
+                logService.save(new LogDto(logJwtService.parseToJsonObeject(deleted.get()), "{}", Action.elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
+                deleted.get().setActive(false);
+                repository.save(deleted.get());
+                return true;
+            }
         }
         return false;
     }

@@ -14,6 +14,10 @@ public class ScheduleDto {
     public ScheduleDto() {
     }
 
+    public ScheduleDto(String name) {
+        this.name = name;
+    }
+
     public ScheduleDto(Integer id, String name) {
         this.id = id;
         this.name = name;

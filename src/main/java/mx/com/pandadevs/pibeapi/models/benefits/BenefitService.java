@@ -57,19 +57,26 @@ public class BenefitService {
     }
 
     @Transactional
-    public BenefitDto save(BenefitDto entity, String bearerToken) throws JsonProcessingException {
-        String username = logJwtService.getOnlyUsername(bearerToken);
-        logService.save(new LogDto("{}", logJwtService.parseToJsonObeject(entity), Action.Creacion, userService.getUserByUsername(username), tableService.getById(TABLE_NAME).get()));
-        Benefit benefit = mapper.toBenefit(entity);
-        return mapper.toBenefitDto(repository.saveAndFlush(benefit));
+    public Optional<BenefitDto> save(BenefitDto entity, String bearerToken) throws JsonProcessingException {
+        Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
+        if (auth.get("role").equals("ROLE_RECRUITER")) {
+            logService.save(new LogDto("{}", logJwtService.parseToJsonObeject(entity), Action.Creacion, userService.getUserByUsername(auth.get("username")), tableService.getById(TABLE_NAME).get()));
+            Benefit benefit = mapper.toBenefit(entity);
+            return Optional.of(mapper.toBenefitDto(repository.saveAndFlush(benefit)));
+        }
+        return Optional.empty();
+
     }
 
     @Transactional
     public Optional<BenefitDto> update(BenefitDto entity, String bearerToken) throws JsonProcessingException {
-        String username = logJwtService.getOnlyUsername(bearerToken);
-        Optional<Benefit> updated = repository.findByIdAndActiveIsTrue(entity.getId());
-        logService.save(new LogDto(logJwtService.parseToJsonObeject(updated.get()), logJwtService.parseToJsonObeject(entity), Action.Actualizacion, userService.getUserByUsername(username), tableService.getByName(TABLE_NAME)));
-        return Optional.of(mapper.toBenefitDto(repository.save(mapper.toBenefit(entity))));
+        Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
+        if (auth.get("role").equals("ROLE_RECRUITER")) {
+            Optional<Benefit> updated = repository.findByIdAndActiveIsTrue(entity.getId());
+            logService.save(new LogDto(logJwtService.parseToJsonObeject(updated.get()), logJwtService.parseToJsonObeject(entity), Action.Actualizacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
+            return Optional.of(mapper.toBenefitDto(repository.save(mapper.toBenefit(entity))));
+        }
+        return Optional.empty();
     }
 
     @Transactional
@@ -82,13 +89,15 @@ public class BenefitService {
 
     @Transactional
     public Boolean delete(Integer id, String bearerToken) throws JsonProcessingException {
-        String username = logJwtService.getOnlyUsername(bearerToken);
-        Optional<Benefit> deletedMode = repository.findByIdAndActiveIsTrue(id);
-        if (deletedMode.isPresent()) {
-            logService.save(new LogDto(logJwtService.parseToJsonObeject(deletedMode.get()), "{}", Action.elminacion, userService.getUserByUsername(username), tableService.getByName(TABLE_NAME)));
-            deletedMode.get().setActive(false);
-            repository.save(deletedMode.get());
-            return true;
+        Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
+        if (auth.get("role").equals("ROLE_RECRUITER")) {
+            Optional<Benefit> deletedMode = repository.findByIdAndActiveIsTrue(id);
+            if (deletedMode.isPresent()) {
+                logService.save(new LogDto(logJwtService.parseToJsonObeject(deletedMode.get()), "{}", Action.elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
+                deletedMode.get().setActive(false);
+                repository.save(deletedMode.get());
+                return true;
+            }
         }
         return false;
     }

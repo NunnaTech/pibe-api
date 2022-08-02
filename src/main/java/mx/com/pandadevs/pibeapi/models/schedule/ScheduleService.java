@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @Service
@@ -52,29 +53,37 @@ public class ScheduleService {
         return schedule.map(mapper::toScheduleDto);
     }
 
-    public ScheduleDto save(ScheduleDto entity, String bearerToken) throws JsonProcessingException {
-        String username = logJwtService.getOnlyUsername(bearerToken);
-        logService.save(new LogDto("{}", logJwtService.parseToJsonObeject(entity), Action.Creacion, userService.getUserByUsername(username), tableService.getById(TABLE_NAME).get()));
-        return mapper.toScheduleDto(scheduleRepository.save(mapper.toSchedule(entity)));
+    public Optional<ScheduleDto> save(ScheduleDto entity, String bearerToken) throws JsonProcessingException {
+        Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
+        if (auth.get("role").equals("ROLE_RECRUITER")) {
+            logService.save(new LogDto("{}", logJwtService.parseToJsonObeject(entity), Action.Creacion, userService.getUserByUsername(auth.get("username")), tableService.getById(TABLE_NAME).get()));
+            return Optional.of(mapper.toScheduleDto(scheduleRepository.save(mapper.toSchedule(entity))));
+        }
+        return Optional.empty();
     }
 
     @Transactional
     public Optional<ScheduleDto> update(ScheduleDto entity, String bearerToken) throws JsonProcessingException {
-        String username = logJwtService.getOnlyUsername(bearerToken);
-        Optional<Schedule> updatedSchedule = scheduleRepository.findByIdAndActiveIsTrue(entity.getId());
-        logService.save(new LogDto(logJwtService.parseToJsonObeject(updatedSchedule.get()), logJwtService.parseToJsonObeject(entity), Action.Actualizacion, userService.getUserByUsername(username), tableService.getByName(TABLE_NAME)));
-        return Optional.of(mapper.toScheduleDto(scheduleRepository.save(mapper.toSchedule(entity))));
+        Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
+        if (auth.get("role").equals("ROLE_RECRUITER")) {
+            Optional<Schedule> updatedSchedule = scheduleRepository.findByIdAndActiveIsTrue(entity.getId());
+            logService.save(new LogDto(logJwtService.parseToJsonObeject(updatedSchedule.get()), logJwtService.parseToJsonObeject(entity), Action.Actualizacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
+            return Optional.of(mapper.toScheduleDto(scheduleRepository.save(mapper.toSchedule(entity))));
+        }
+        return Optional.empty();
     }
 
     @Transactional
     public Boolean delete(Integer id, String bearerToken) throws JsonProcessingException {
-        String username = logJwtService.getOnlyUsername(bearerToken);
-        Optional<Schedule> deletedSchedule = scheduleRepository.findByIdAndActiveIsTrue(id);
-        if (deletedSchedule.isPresent()) {
-            logService.save(new LogDto(logJwtService.parseToJsonObeject(deletedSchedule.get()), "{}", Action.elminacion, userService.getUserByUsername(username), tableService.getByName(TABLE_NAME)));
-            deletedSchedule.get().setActive(false);
-            scheduleRepository.save(deletedSchedule.get());
-            return true;
+        Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
+        if (auth.get("role").equals("ROLE_RECRUITER")) {
+            Optional<Schedule> deletedSchedule = scheduleRepository.findByIdAndActiveIsTrue(id);
+            if (deletedSchedule.isPresent()) {
+                logService.save(new LogDto(logJwtService.parseToJsonObeject(deletedSchedule.get()), "{}", Action.elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
+                deletedSchedule.get().setActive(false);
+                scheduleRepository.save(deletedSchedule.get());
+                return true;
+            }
         }
         return false;
     }

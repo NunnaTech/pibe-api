@@ -46,4 +46,13 @@ public class LogJwtService {
             return "";
         }
     }
+
+    public Map<String, String> getUsernameAndRole(String bearerToken) throws JsonProcessingException {
+        Map<String, String> map = new HashMap<>();
+        Map<String, String> payload = getPayload(bearerToken);
+        String payloadString = payload.values().stream().findFirst().toString();
+        map.put("username", payload.get("sub"));
+        map.put("role", payloadString.substring(10, payloadString.length() - 2));
+        return map;
+    }
 }

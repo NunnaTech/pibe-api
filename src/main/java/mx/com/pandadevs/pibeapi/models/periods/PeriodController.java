@@ -12,7 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/periods")
-@Api( tags = "Periodos")
+@Api(tags = "Periodos")
 public class PeriodController {
 
     @Autowired
@@ -41,7 +41,9 @@ public class PeriodController {
     @PostMapping(value = "")
     public ResponseEntity<PeriodDto> save(@RequestHeader("Authorization") String bearerToken, @Valid @RequestBody PeriodDto entity) {
         try {
-            return new ResponseEntity<>(periodService.save(entity,bearerToken), HttpStatus.CREATED);
+            return periodService.save(entity, bearerToken)
+                    .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -50,7 +52,7 @@ public class PeriodController {
     @PutMapping("")
     public ResponseEntity<PeriodDto> update(@RequestHeader("Authorization") String bearerToken, @RequestBody PeriodDto entity) {
         try {
-            return periodService.update(entity,bearerToken)
+            return periodService.update(entity, bearerToken)
                     .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
                     .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
@@ -61,7 +63,7 @@ public class PeriodController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Boolean> delete(@RequestHeader("Authorization") String bearerToken, @PathVariable("id") Integer id) {
         try {
-            if (periodService.delete(id,bearerToken)) return new ResponseEntity<>(true, HttpStatus.OK);
+            if (periodService.delete(id, bearerToken)) return new ResponseEntity<>(true, HttpStatus.OK);
             else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
             return new ResponseEntity(HttpStatus.INTERNAL_SERVER_ERROR);

@@ -19,9 +19,9 @@ public class ModeController {
     private ModeService modeService;
 
     @GetMapping(value = "")
-    public ResponseEntity<List<ModeDto>> getAll(@RequestHeader("Authorization") String bearerToken) {
+    public ResponseEntity<List<ModeDto>> getAll() {
         try {
-            return new ResponseEntity<>(modeService.getAll(bearerToken), HttpStatus.OK);
+            return new ResponseEntity<>(modeService.getAll(), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -41,7 +41,9 @@ public class ModeController {
     @PostMapping(value = "")
     public ResponseEntity<ModeDto> save(@RequestHeader("Authorization") String bearerToken, @Valid @RequestBody ModeDto entity) {
         try {
-            return new ResponseEntity<>(modeService.save(entity, bearerToken), HttpStatus.CREATED);
+            return modeService.save(entity, bearerToken)
+                    .map(e -> new ResponseEntity<>(e, HttpStatus.CREATED))
+                    .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
