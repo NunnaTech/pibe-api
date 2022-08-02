@@ -36,8 +36,8 @@ public class EmailService {
 
     @Value("${template-email-password-recovery}")
     private String TEMPLATE_EMAIL_PASSWORD_RECOVERY;
-    @Value("${template-email-active-account}")
-    private String TEMPLATE_EMAIL_ACTIVE_ACCOUNT;
+    @Value("${template-email-new-account}")
+    private String TEMPLATE_EMAIL_NEW_ACCOUNT;
 
     /*
      * TEST DATA: (addDynamicTemplateData)
@@ -48,8 +48,8 @@ public class EmailService {
         try {
             SendGrid sg = new SendGrid(EMAIL_KEY);
             Mail mail = getMail(user.getEmail());
-            mail.setTemplateId(TEMPLATE_EMAIL_ACTIVE_ACCOUNT);
-            mail.personalization.get(0).addDynamicTemplateData("code", "1234");
+            mail.setTemplateId(TEMPLATE_EMAIL_NEW_ACCOUNT);
+            mail.personalization.get(0).addDynamicTemplateData("name", "John");
             Request request = getRequest(mail);
             Response response = sg.api(request);
             flag = response.getStatusCode() == 202;
