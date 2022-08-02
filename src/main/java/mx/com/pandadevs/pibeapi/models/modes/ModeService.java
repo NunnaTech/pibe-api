@@ -6,6 +6,7 @@ import mx.com.pandadevs.pibeapi.models.logs.services.LogService;
 import mx.com.pandadevs.pibeapi.models.logs.services.TableService;
 import mx.com.pandadevs.pibeapi.models.modes.dto.ModeDto;
 import mx.com.pandadevs.pibeapi.models.modes.mapper.ModeMapper;
+import mx.com.pandadevs.pibeapi.models.roles.Role;
 import mx.com.pandadevs.pibeapi.models.users.UserService;
 import mx.com.pandadevs.pibeapi.security.LogJwtService;
 import mx.com.pandadevs.pibeapi.utils.enums.Action;
@@ -46,8 +47,10 @@ public class ModeService {
     }
 
     @Transactional(readOnly = true)
-    public List<ModeDto> getAll() {
-        return mapper.toModesDto(modeRepository.findAllByActiveIsTrue());
+    public List<ModeDto> getAll(String bearerToken) throws JsonProcessingException {
+        if (logJwtService.getOnlyRole(bearerToken).equals("ROLE_RECRUITER"))
+            return mapper.toModesDto(modeRepository.findAllByActiveIsTrue());
+        return new ArrayList<>();
     }
 
     @Transactional(readOnly = true)

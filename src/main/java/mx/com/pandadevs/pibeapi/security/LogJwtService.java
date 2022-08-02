@@ -6,8 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
-import java.util.Base64;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class LogJwtService {
@@ -36,6 +35,15 @@ public class LogJwtService {
             return data;
         } catch (JsonProcessingException e) {
             return "{}";
+        }
+    }
+
+    public String getOnlyRole(String bearerToken) {
+        try {
+            String payload = getPayload(bearerToken).values().stream().findFirst().toString();
+            return payload.substring(10, payload.length() - 2);
+        } catch (Exception e) {
+            return "";
         }
     }
 }

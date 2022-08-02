@@ -12,16 +12,16 @@ import java.util.List;
 
 @RestController
 @RequestMapping(value = "/modes")
-@Api( tags = "Modos")
+@Api(tags = "Modos")
 public class ModeController {
 
     @Autowired
     private ModeService modeService;
 
     @GetMapping(value = "")
-    public ResponseEntity<List<ModeDto>> getAll() {
+    public ResponseEntity<List<ModeDto>> getAll(@RequestHeader("Authorization") String bearerToken) {
         try {
-            return new ResponseEntity<>(modeService.getAll(), HttpStatus.OK);
+            return new ResponseEntity<>(modeService.getAll(bearerToken), HttpStatus.OK);
         } catch (Exception e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
