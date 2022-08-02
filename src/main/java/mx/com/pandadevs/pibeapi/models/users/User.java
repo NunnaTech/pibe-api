@@ -2,33 +2,22 @@ package mx.com.pandadevs.pibeapi.models.users;
 
 // Java
 import java.io.Serializable;
-import java.util.HashSet;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 // Persistence
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
-import javax.persistence.CascadeType;
-import javax.persistence.JoinColumn;
+import javax.persistence.*;
 
 
 // Models
+import mx.com.pandadevs.pibeapi.models.contacts.entity.Contact;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
-import mx.com.pandadevs.pibeapi.models.logs.Log;
-import mx.com.pandadevs.pibeapi.models.notifications.UserNotification;
+import mx.com.pandadevs.pibeapi.models.logs.entities.Log;
+import mx.com.pandadevs.pibeapi.models.notifications.entities.UserNotification;
 import mx.com.pandadevs.pibeapi.models.profile.Profile;
 import mx.com.pandadevs.pibeapi.models.roles.Role;
-import mx.com.pandadevs.pibeapi.models.vacants.UserVacant;
-import mx.com.pandadevs.pibeapi.models.vacants.Vacant;
+import mx.com.pandadevs.pibeapi.models.vacants.entities.UserVacant;
+import mx.com.pandadevs.pibeapi.models.vacants.entities.Vacant;
 
 @Entity
 @Table(name = "USERS")
@@ -45,6 +34,8 @@ public class User extends PibeModel implements Serializable {
         nullable = false,
         columnDefinition = "varchar(50)")
     private String email;
+
+    public User() {}
 
     @Column(
         unique = true,
@@ -75,32 +66,36 @@ public class User extends PibeModel implements Serializable {
     // Relationships
 
     // Roles
-    @ManyToMany(cascade = CascadeType.MERGE)
+    @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
     @JoinTable(name = "USERS_ROLES",
         joinColumns = @JoinColumn(name = "user_id"),
         inverseJoinColumns = @JoinColumn(name = "role_id"))
-    private Set<Role> roles;
+    private List<Role> roles;
 
     public void addRole() {
-        roles = new HashSet<>();
+        roles = new ArrayList<>();
     }
 
-    public void setRoles(Set<Role> roles) {
+    public void setRoles(List<Role> roles) {
         this.roles = roles;
     }
-    
+
+    // Contacts
+    @OneToMany(mappedBy = "contact", cascade = {CascadeType.ALL})
+    private List<Contact> contacts;
+
     // Notifications
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
-    private Set<UserNotification> notifications;
+    private List<UserNotification> notifications;
 
     // Profile
-    @OneToOne(mappedBy="user")
+    @OneToOne(cascade = {CascadeType.ALL},mappedBy="user")
 
     private Profile profile;
 
     // Vacants
-    @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
-    private Set<Vacant> vacants;
+    @OneToMany(cascade = {CascadeType.ALL}, mappedBy = "user")
+    private List<Vacant> vacants;
 
     // vacants favorites
     @ManyToMany(cascade = {
@@ -124,12 +119,18 @@ public class User extends PibeModel implements Serializable {
 
     // User Vacants
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
-    private Set<UserVacant> userVacants;
+    private List<UserVacant> userVacants;
 
     // Logs
 
     @OneToMany(mappedBy = "user", cascade = {CascadeType.ALL})
-    private Set<Log> logs;
+    private List<Log> logs;
+
+    public User(String email, String username, String password) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+    }
 
     public Long getId() {
         return id;
@@ -187,15 +188,15 @@ public class User extends PibeModel implements Serializable {
         this.linkActivateEmail = linkActivateEmail;
     }
 
-    public Set<Role> getRoles() {
-        return roles;
+    public List<Role> getRoles() {
+        return (List<Role>) roles;
     }
 
-    public Set<UserNotification> getNotifications() {
+    public List<UserNotification> getNotifications() {
         return notifications;
     }
 
-    public void setNotifications(Set<UserNotification> notifications) {
+    public void setNotifications(List<UserNotification> notifications) {
         this.notifications = notifications;
     }
 
@@ -207,11 +208,11 @@ public class User extends PibeModel implements Serializable {
         this.profile = profile;
     }
 
-    public Set<Vacant> getVacants() {
+    public List<Vacant> getVacants() {
         return vacants;
     }
 
-    public void setVacants(Set<Vacant> vacants) {
+    public void setVacants(List<Vacant> vacants) {
         this.vacants = vacants;
     }
 
@@ -223,19 +224,27 @@ public class User extends PibeModel implements Serializable {
         this.favoitesVacants = favoitesVacants;
     }
 
-    public Set<UserVacant> getUserVacants() {
+    public List<UserVacant> getUserVacants() {
         return userVacants;
     }
 
-    public void setUserVacants(Set<UserVacant> userVacants) {
+    public void setUserVacants(List<UserVacant> userVacants) {
         this.userVacants = userVacants;
     }
 
-    public Set<Log> getLogs() {
+    public List<Log> getLogs() {
         return logs;
     }
 
-    public void setLogs(Set<Log> logs) {
+    public void setLogs(List<Log> logs) {
         this.logs = logs;
+    }
+
+    public List<Contact> getContacts() {
+        return contacts;
+    }
+
+    public void setContacts(List<Contact> contacts) {
+        this.contacts = contacts;
     }
 }

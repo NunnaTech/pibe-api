@@ -1,10 +1,8 @@
 package mx.com.pandadevs.pibeapi.models.periods;
-// Java
+
 import java.io.Serializable;
 import java.util.Set;
-
 import javax.persistence.CascadeType;
-// Persistence
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -13,13 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-// Models
-import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
-import mx.com.pandadevs.pibeapi.models.vacants.Vacant;
+import mx.com.pandadevs.pibeapi.models.vacants.entities.Vacant;
 
 @Entity
 @Table(name = "PERIODS")
@@ -30,21 +24,30 @@ public class Period extends PibeModel implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_period")
     private Integer id;
-    
+
     @Column(
-        unique = true,
-        nullable = false,
-        columnDefinition = "varchar(40)")
+            unique = true,
+            nullable = false,
+            columnDefinition = "varchar(40)")
     private String name;
-    
-    // Relationships
-    
-    // Vacants
+
+    @Column(
+            nullable = false,
+            columnDefinition = "tinyint default 1")
+    private Boolean active = true;
+
     @JsonIgnore
     @OneToMany(mappedBy = "period", cascade = {CascadeType.ALL})
     private Set<Vacant> vacants;
 
-    // Getters & Setters
+    public Period() {
+    }
+
+    public Period(String name) {
+        this.name = name;
+        this.active = true;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -69,5 +72,11 @@ public class Period extends PibeModel implements Serializable {
         this.vacants = vacants;
     }
 
-    
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
 }

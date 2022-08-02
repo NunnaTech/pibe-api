@@ -60,8 +60,9 @@ public class Certification extends PibeModel implements Serializable {
         columnDefinition = "tinyint default 1")
     private Boolean active;
 
+    // Relationships
     @ManyToOne
-    @JoinColumn(name = "resume_id", insertable = false, updatable = false)
+    @JoinColumn(name = "resume_id" )
     private Resume resume;
 
     // Getters & Setters
@@ -120,6 +121,4 @@ public class Certification extends PibeModel implements Serializable {
     public void setResume(Resume resume) {
         this.resume = resume;
     }
-
-    
 }

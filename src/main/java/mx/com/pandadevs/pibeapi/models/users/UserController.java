@@ -2,8 +2,9 @@ package mx.com.pandadevs.pibeapi.models.users;
 // Java
 import java.util.List;
 import java.util.Map;
-
 // Spring
+
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,46 +17,68 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import mx.com.pandadevs.pibeapi.models.users.dto.UserDTO;
 // Models
+import mx.com.pandadevs.pibeapi.models.contacts.dto.ContactDto;
+import mx.com.pandadevs.pibeapi.models.contacts.service.ContactService;
+import mx.com.pandadevs.pibeapi.models.notifications.dto.UserNotificationDto;
+import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
+import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
-
 @RestController
 @RequestMapping("user/")
-public class UserController implements ControllerInterface<UserDTO> {
+@Api( tags = "User")
+
+public class UserController implements ControllerInterface<UserDto, Long> {
 
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private ContactService contactService;
+
     @Override
-    @GetMapping("")
-    public ResponseEntity<List<UserDTO>> getAll() {
+    @GetMapping("/")
+    public ResponseEntity<List<UserDto>> getAll() {
         return new ResponseEntity(userService.getAll(), HttpStatus.OK);
     }
-
-    @GetMapping("a")
-    public ResponseEntity<List<User>> get() {
-        return new ResponseEntity(userService.get(), HttpStatus.OK);
-    }
-
     @Override
-    @GetMapping("/{id}")
-    public ResponseEntity<UserDTO> getOne(@PathVariable("id") Long id) {
+    public ResponseEntity<UserDto> getOne(@PathVariable("id") Long id) {
         return userService.getById(id)
                 .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
+    @GetMapping("/id/{id}")
+    public ResponseEntity<UserProfileDto> getOneById(@PathVariable("id") Long id) {
+        return userService.getByProfileById(id)
+                .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+    @GetMapping("/{username}/contacts")
+    public ResponseEntity<ContactDto> getContactsById(@PathVariable("username") String username) {
+        return new ResponseEntity(contactService.getAllByUserid(username), HttpStatus.OK);
+    }
+
+    @GetMapping("/{username}")
+    public ResponseEntity<UserProfileDto> getOneByUsername(@PathVariable("username") String username) {
+        return userService.getByUsername(username)
+                .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+
+    @GetMapping("/{username}/notifications")
+    public ResponseEntity<List<UserNotificationDto>> getNotificationsByUsername(@PathVariable("username") String username) {
+        return new ResponseEntity(userService.getNotificationsByUsername(username), HttpStatus.OK);
+    }
 
     @Override
     @PostMapping("/")
-    public ResponseEntity<UserDTO> save(@RequestBody UserDTO entity) {
+    public ResponseEntity<UserDto> save(@RequestBody UserDto entity) {
         return new ResponseEntity<>(userService.save(entity), HttpStatus.CREATED);
     }
 
     @Override
     @PutMapping("/")
-    public ResponseEntity<UserDTO> update(@RequestBody UserDTO entity) {
+    public ResponseEntity<UserDto> update(@RequestBody UserDto entity) {
         return userService.update(entity)
                 .map(updatedEntity -> new ResponseEntity<>(updatedEntity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -63,7 +86,7 @@ public class UserController implements ControllerInterface<UserDTO> {
 
     @Override
     @PatchMapping("/{id}")
-    public ResponseEntity<UserDTO> partialUpdate(@PathVariable("id") Long id, @RequestBody Map<Object, Object> fields) {
+    public ResponseEntity<UserDto> partialUpdate(@PathVariable("id") Long id, @RequestBody Map<Object, Object> fields) {
         return userService.partialUpdate(id, fields)
                 .map(entity -> new ResponseEntity<>(entity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
@@ -76,5 +99,4 @@ public class UserController implements ControllerInterface<UserDTO> {
         if (deleted) return new ResponseEntity(deleted, HttpStatus.OK);
         else return new ResponseEntity(deleted, HttpStatus.NOT_FOUND);
     }
-    
 }

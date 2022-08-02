@@ -22,9 +22,6 @@ import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 
 @Entity
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id_work_experience")
 @Table(name = "WORK_EXPERIENCES")
 public class WorkExperience extends PibeModel implements Serializable {
     private static final long serialVersionUID = 1L;
@@ -44,13 +41,13 @@ public class WorkExperience extends PibeModel implements Serializable {
         nullable = false,
         columnDefinition = "TIMESTAMP"
     )
-    private LocalDateTime startPeriode;
+    private LocalDateTime startPeriod;
 
     @Column(
         name = "end_period",
         columnDefinition = "TIMESTAMP"
     )
-    private LocalDateTime endPeriode;
+    private LocalDateTime endPeriod;
    
     @Column(
         nullable = false,
@@ -62,7 +59,66 @@ public class WorkExperience extends PibeModel implements Serializable {
         columnDefinition = "tinyint default 1")
     private Boolean active;
 
+    // Relationship
     @ManyToOne
-    @JoinColumn(name = "resume_id", insertable = false, updatable = false)
+    @JoinColumn(name = "resume_id" )
     private Resume resume;
+
+    // Getters && Setters
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
+    public LocalDateTime getStartPeriod() {
+        return startPeriod;
+    }
+
+    public void setStartPeriod(LocalDateTime startPeriod) {
+        this.startPeriod = startPeriod;
+    }
+
+    public LocalDateTime getEndPeriod() {
+        return endPeriod;
+    }
+
+    public void setEndPeriod(LocalDateTime endPeriod) {
+        this.endPeriod = endPeriod;
+    }
+
+    public String getActivities() {
+        return activities;
+    }
+
+    public void setActivities(String activities) {
+        this.activities = activities;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
+    }
+
+    public Resume getResume() {
+        return resume;
+    }
+
+    public void setResume(Resume resume) {
+        this.resume = resume;
+    }
 }
