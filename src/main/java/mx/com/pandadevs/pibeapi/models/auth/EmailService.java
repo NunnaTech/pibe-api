@@ -53,7 +53,7 @@ public class EmailService {
      * TEST DATA: (addDynamicTemplateData)
      *   "code": Codigo
      * */
-    public boolean sendEmailActiveAccount(User user)  {
+    public boolean sendEmailNewAccount(User user)  {
         boolean flag = false;
         try {
             SendGrid sg = new SendGrid(EMAIL_KEY);
@@ -174,25 +174,6 @@ public class EmailService {
             Response response = sg.api(mailRequest);
             flag = response.getStatusCode() == 202;
             userRepository.save(user.get());
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
-        return flag;
-    }
-
-    public boolean sendActivationCode(User user){
-        String token = UUID.randomUUID().toString();
-        boolean flag = false;
-        try {
-            user.setLinkActivateEmail(token);
-            SendGrid sg = new SendGrid(EMAIL_KEY);
-            Mail mail = getMail(user.getEmail());
-            mail.setTemplateId(TEMPLATE_EMAIL_ACTIVE_ACCOUNT);
-            mail.personalization.get(0).addDynamicTemplateData("code", token.substring(30));
-            Request mailRequest = getRequest(mail);
-            Response response = sg.api(mailRequest);
-            flag = response.getStatusCode() == 202;
-            userRepository.save(user);
         } catch (Exception e) {
             logger.error(e.getMessage());
         }
