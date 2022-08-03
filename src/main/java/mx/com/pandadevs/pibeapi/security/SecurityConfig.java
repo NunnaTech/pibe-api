@@ -45,7 +45,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
 
 
-        http.authorizeHttpRequests().antMatchers("/**/login", "/**/reset-password","/**/forgot-password").permitAll().anyRequest().authenticated()
+        http.authorizeHttpRequests().antMatchers("/**/login", "/**/reset-password","/**/forgot-password","/**/register").permitAll().anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
