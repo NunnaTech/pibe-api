@@ -87,7 +87,7 @@ public class Profile extends PibeModel implements Serializable {
 
 
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "state_id")
+    @JoinColumn(name = "state_id", insertable = false, updatable = false)
     private RepublicState state ;
 
     @OneToOne(cascade = {CascadeType.ALL})
@@ -206,6 +206,22 @@ public class Profile extends PibeModel implements Serializable {
         this.resumes = resumes;
     }
 
-    
-    
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", birthDate=" + birthDate +
+                ", image='" + image + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", gender=" + gender +
+                ", position='" + position + '\'' +
+                ", completed=" + completed +
+                ", state=" + state +
+                ", user=" + user +
+                ", resumes=" + resumes +
+                '}';
+    }
 }

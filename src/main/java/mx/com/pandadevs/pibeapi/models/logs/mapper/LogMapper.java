@@ -1,10 +1,7 @@
 package mx.com.pandadevs.pibeapi.models.logs.mapper;
-// Mappers
 
 import mx.com.pandadevs.pibeapi.models.logs.dto.LogDto;
 import mx.com.pandadevs.pibeapi.models.logs.entities.Log;
-import mx.com.pandadevs.pibeapi.models.periods.Period;
-import mx.com.pandadevs.pibeapi.models.periods.dto.PeriodDto;
 import mx.com.pandadevs.pibeapi.models.users.mapper.UserMapper;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;

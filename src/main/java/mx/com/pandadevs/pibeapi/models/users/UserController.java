@@ -6,6 +6,7 @@ import java.util.Map;
 
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
+import mx.com.pandadevs.pibeapi.models.users.controller.ResumeUserController;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;

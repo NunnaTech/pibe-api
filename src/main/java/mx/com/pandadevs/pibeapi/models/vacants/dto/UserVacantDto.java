@@ -7,6 +7,20 @@ public class UserVacantDto  {
     private VacantDto vacant;
     private ProcessDto process;
 
+    public UserVacantDto() {
+    }
+
+    public UserVacantDto(Integer id, VacantDto vacant, ProcessDto process) {
+        this.id = id;
+        this.vacant = vacant;
+        this.process = process;
+    }
+
+    public UserVacantDto(VacantDto vacant, ProcessDto process) {
+        this.vacant = vacant;
+        this.process = process;
+    }
+
     public Integer getId() {
         return id;
     }

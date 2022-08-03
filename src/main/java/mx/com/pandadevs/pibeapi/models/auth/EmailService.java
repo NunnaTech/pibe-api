@@ -46,20 +46,20 @@ public class EmailService {
 
     @Value("${template-email-password-recovery}")
     private String TEMPLATE_EMAIL_PASSWORD_RECOVERY;
-    @Value("${template-email-active-account}")
-    private String TEMPLATE_EMAIL_ACTIVE_ACCOUNT;
+    @Value("${template-email-new-account}")
+    private String TEMPLATE_EMAIL_NEW_ACCOUNT;
 
     /*
      * TEST DATA: (addDynamicTemplateData)
      *   "code": Codigo
      * */
-    public boolean sendEmailActiveAccount(User user)  {
+    public boolean sendEmailNewAccount(User user) {
         boolean flag = false;
         try {
             SendGrid sg = new SendGrid(EMAIL_KEY);
             Mail mail = getMail(user.getEmail());
-            mail.setTemplateId(TEMPLATE_EMAIL_ACTIVE_ACCOUNT);
-            mail.personalization.get(0).addDynamicTemplateData("code", "1234");
+            mail.setTemplateId(TEMPLATE_EMAIL_NEW_ACCOUNT);
+            mail.personalization.get(0).addDynamicTemplateData("name", "John");
             Request request = getRequest(mail);
             Response response = sg.api(request);
             flag = response.getStatusCode() == 202;
@@ -70,15 +70,13 @@ public class EmailService {
     }
 
     /*
-    * TEST DATA: (addDynamicTemplateData)
-    *   "urlImage": La URL de la imagen
-    *   "vacant": Título de la vacante o detalles
-    * */
-    public boolean sendEmailNewVacant(User user, Vacant vacant)  {
-        boolean flag = false;
+     * TEST DATA: (addDynamicTemplateData)
+     *   "urlImage": La URL de la imagen
+     *   "vacant": Título de la vacante o detalles
+     * */
+    public boolean sendEmailNewVacant(User user, Vacant vacant) {
         try {
             SendGrid sg = new SendGrid(EMAIL_KEY);
-            logger.error(user.getEmail());
             Mail mail = getMail(user.getEmail());
             mail.setTemplateId(TEMPLATE_EMAIL_NEW_VACANT);
             mail.personalization.get(0).addDynamicTemplateData("urlImage", vacant.getImage());
@@ -86,11 +84,10 @@ public class EmailService {
             mail.personalization.get(0).addDynamicTemplateData("name", user.getProfile().getName());
             Request request = getRequest(mail);
             Response response = sg.api(request);
-            flag = response.getStatusCode() == 202;
-        } catch (Exception e) {
-            logger.error(e.getMessage());
+            return response.getStatusCode() == 202;
+        } catch (IOException e) {
+            return false;
         }
-        return flag;
     }
 
     /*
@@ -101,19 +98,18 @@ public class EmailService {
      *  "title: Breve introducción
      *  "description": Mensaje de despedida del correo
      * */
-    public boolean sendEmailCurrentlyProccess(UserVacant userVacant, Boolean finalized){
+    public boolean sendEmailCurrentlyProccess(UserVacant userVacant, Boolean finalized) {
         boolean flag = false;
         try {
             SendGrid sg = new SendGrid(EMAIL_KEY);
             Mail mail = getMail(userVacant.getUser().getEmail());
-            logger.error(userVacant.getUser().getEmail());
             mail.setTemplateId(TEMPLATE_EMAIL_CURRENTLY_PROCESS);
-            if(finalized){
+            if (finalized) {
                 mail.personalization.get(0).addDynamicTemplateData("title", "Por este medio se le hace la notificación que su estado ha sido:");
                 mail.personalization.get(0).addDynamicTemplateData("state", "");
                 mail.personalization.get(0).addDynamicTemplateData("reject", userVacant.getProcess().getName());
                 mail.personalization.get(0).addDynamicTemplateData("description", "No es el final, ¡más vacantes en nuestra plataforma te esperan!");
-            }else{
+            } else {
                 mail.personalization.get(0).addDynamicTemplateData("title", "Has completado de manera satisfactoria la etapa de:");
                 mail.personalization.get(0).addDynamicTemplateData("state", userVacant.getProcess().getName());
                 mail.personalization.get(0).addDynamicTemplateData("reject", "");
@@ -123,7 +119,7 @@ public class EmailService {
             Request request = getRequest(mail);
             Response response = sg.api(request);
             flag = response.getStatusCode() == 202;
-        } catch (Exception e) {
+        } catch (IOException e) {
             logger.error(e.getMessage());
         }
         return flag;
@@ -136,7 +132,7 @@ public class EmailService {
      *  "fullName": Nombre parcial o completo de la persona
      *  "vacant: Título de la vacante o detalles
      * */
-    public boolean sendEmailShareVacant(User user){
+    public boolean sendEmailShareVacant(User user) {
         boolean flag = false;
         try {
             SendGrid sg = new SendGrid(EMAIL_KEY);
@@ -159,11 +155,11 @@ public class EmailService {
      * TEST DATA: (addDynamicTemplateData)
      *  "url": a donde redireccionará el botón
      * */
-    public boolean sendEmailPasswordRecovery(AuthRequest request){
+    public boolean sendEmailPasswordRecovery(AuthRequest request) {
         String token = UUID.randomUUID().toString();
         boolean flag = false;
         Optional<User> user = userRepository.findByEmailAndActiveTrue(request.getEmail());
-        if (user== null|| !user.get().getActive()) return  false;
+        if (user == null || !user.get().getActive()) return false;
         try {
             user.get().setLinkRestorePassword(token);
             SendGrid sg = new SendGrid(EMAIL_KEY);
@@ -180,26 +176,7 @@ public class EmailService {
         return flag;
     }
 
-    public boolean sendActivationCode(User user){
-        String token = UUID.randomUUID().toString();
-        boolean flag = false;
-        try {
-            user.setLinkActivateEmail(token);
-            SendGrid sg = new SendGrid(EMAIL_KEY);
-            Mail mail = getMail(user.getEmail());
-            mail.setTemplateId(TEMPLATE_EMAIL_ACTIVE_ACCOUNT);
-            mail.personalization.get(0).addDynamicTemplateData("code", token.substring(30));
-            Request mailRequest = getRequest(mail);
-            Response response = sg.api(mailRequest);
-            flag = response.getStatusCode() == 202;
-            userRepository.save(user);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
-        }
-        return flag;
-    }
-
-    private Mail getMail(String toEmail){
+    private Mail getMail(String toEmail) {
         return new Mail(new Email(EMAIL_ADDRESS), "SUBJECT", new Email(toEmail), new Content("text/html", "CONTENT"));
     }
 

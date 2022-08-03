@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>mx.com.pandadevs</groupId>
 	<artifactId>PIBE-API</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0</version>
 	<name>PIBE-API</name>
 	<description>Pibe rest API</description>
 	<properties>
