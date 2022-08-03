@@ -104,6 +104,26 @@ public class ProfileService implements ServiceInterface<Long,ProfileDto> {
         return Optional.empty();
     }
 
+    public Optional<ProfileDto> partialUpdate(String username, Map<Object, Object> fields) {
+        Optional<Profile> updatedEntity = Optional.empty();
+        try {
+            updatedEntity = profileRepository.findByUserUsernameAndUserActiveTrue(username);
+            return updatedEntity.map(updated -> {
+                fields.forEach((updatedfield, value) -> {
+                    // use reflection to get fields updatedfield on manager and set it to value updatedfield
+                    Field field = ReflectionUtils.findField(Profile.class, (String) updatedfield);
+                    field.setAccessible(true);
+                    ReflectionUtils.setField(field, updated, value);
+                });
+                profileRepository.saveAndFlush(updated);
+                return Optional.of(mapper.toProfileDto(updated));
+            }).orElse(Optional.empty());
+        } catch (Exception exception) {
+
+        }
+        return Optional.empty();
+    }
+
     @Override
     public Boolean delete(Long id) {
         return profileRepository.findById(id).map(entity -> {

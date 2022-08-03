@@ -4,9 +4,6 @@ package mx.com.pandadevs.pibeapi.models.profile.mapper;
 import mx.com.pandadevs.pibeapi.models.profile.Profile;
 import mx.com.pandadevs.pibeapi.models.profile.dto.ProfileDto;
 import mx.com.pandadevs.pibeapi.models.states.mapper.RepublicStateMapper;
-import mx.com.pandadevs.pibeapi.models.users.User;
-import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
-import mx.com.pandadevs.pibeapi.models.users.mapper.UserMapper;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -28,7 +25,7 @@ public interface ProfileMapper {
         @Mapping(source = "birthDate", target = "birthDate"),
         @Mapping(source = "image", target = "image"),
         @Mapping(source = "phoneNumber", target = "phoneNumber"),
-            @Mapping(source = "completed", target = "completed"),
+        @Mapping(source = "completed", target = "completed"),
         @Mapping(source = "gender", target = "gender"),
         @Mapping(source = "state", target = "state"),
         @Mapping(source = "position", target = "position"),

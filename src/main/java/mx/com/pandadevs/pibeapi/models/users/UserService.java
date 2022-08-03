@@ -22,7 +22,6 @@ import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 @Service
 public class UserService implements ServiceInterface<Long,UserDto> {
 
-
     Logger logger = LoggerFactory.getLogger(UserService.class);
 
     private final UserMapper mapper;
