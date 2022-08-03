@@ -1,0 +1,1 @@
+web: java -jar -Dspring.profiles.active=pdn -Dserver.port=$PORT target/PIBE-API-1.0.jar
