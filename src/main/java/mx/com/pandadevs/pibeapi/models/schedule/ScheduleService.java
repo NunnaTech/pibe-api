@@ -1,9 +1,14 @@
 package mx.com.pandadevs.pibeapi.models.schedule;
 
-import mx.com.pandadevs.pibeapi.models.modes.Mode;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import mx.com.pandadevs.pibeapi.models.logs.dto.LogDto;
+import mx.com.pandadevs.pibeapi.models.logs.services.LogService;
+import mx.com.pandadevs.pibeapi.models.logs.services.TableService;
 import mx.com.pandadevs.pibeapi.models.schedule.dto.ScheduleDto;
 import mx.com.pandadevs.pibeapi.models.schedule.mapper.ScheduleMapper;
-import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
+import mx.com.pandadevs.pibeapi.models.users.UserService;
+import mx.com.pandadevs.pibeapi.security.LogJwtService;
+import mx.com.pandadevs.pibeapi.utils.enums.Action;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,57 +19,71 @@ import java.util.Map;
 import java.util.Optional;
 
 @Service
-public class ScheduleService implements ServiceInterface<Integer, ScheduleDto> {
+public class ScheduleService {
 
     private final ScheduleMapper mapper;
 
     @Autowired
     private ScheduleRepository scheduleRepository;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private LogJwtService logJwtService;
+
+    @Autowired
+    private TableService tableService;
+
+    @Autowired
+    private LogService logService;
+
+    private final String TABLE_NAME = "schedule";
 
     public ScheduleService(ScheduleMapper mapper) {
         this.mapper = mapper;
     }
 
     @Transactional(readOnly = true)
-    @Override
     public List<ScheduleDto> getAll() {
         return mapper.toSchedulesDto(scheduleRepository.findAllByActiveIsTrue());
     }
 
     @Transactional(readOnly = true)
-    @Override
     public Optional<ScheduleDto> getById(Integer id) {
         Optional<Schedule> schedule = scheduleRepository.findByIdAndActiveIsTrue(id);
         return schedule.map(mapper::toScheduleDto);
     }
 
-    @Override
-    public ScheduleDto save(ScheduleDto entity) {
-        return mapper.toScheduleDto(scheduleRepository.save(mapper.toSchedule(entity)));
-    }
-
-    @Transactional
-    @Override
-    public Optional<ScheduleDto> update(ScheduleDto entity) {
-        Optional<Schedule> updatedSchedule = scheduleRepository.findByIdAndActiveIsTrue(entity.getId());
-        if (updatedSchedule.isPresent()) return Optional.of(mapper.toScheduleDto(scheduleRepository.save(mapper.toSchedule(entity))));
+    public Optional<ScheduleDto> save(ScheduleDto entity, String bearerToken) throws JsonProcessingException {
+        Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
+        if (auth.get("role").equals("ROLE_RECRUITER")) {
+            logService.save(new LogDto("{}", logJwtService.parseToJsonObeject(entity), Action.Creacion, userService.getUserByUsername(auth.get("username")), tableService.getById(TABLE_NAME).get()));
+            return Optional.of(mapper.toScheduleDto(scheduleRepository.save(mapper.toSchedule(entity))));
+        }
         return Optional.empty();
     }
 
     @Transactional
-    @Override
-    public Optional<ScheduleDto> partialUpdate(Integer id, Map<Object, Object> fields) {
+    public Optional<ScheduleDto> update(ScheduleDto entity, String bearerToken) throws JsonProcessingException {
+        Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
+        if (auth.get("role").equals("ROLE_RECRUITER")) {
+            Optional<Schedule> updatedSchedule = scheduleRepository.findByIdAndActiveIsTrue(entity.getId());
+            logService.save(new LogDto(logJwtService.parseToJsonObeject(updatedSchedule.get()), logJwtService.parseToJsonObeject(entity), Action.Actualizacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
+            return Optional.of(mapper.toScheduleDto(scheduleRepository.save(mapper.toSchedule(entity))));
+        }
         return Optional.empty();
     }
 
     @Transactional
-    @Override
-    public Boolean delete(Integer id) {
-        Optional<Schedule> deletedSchedule = scheduleRepository.findByIdAndActiveIsTrue(id);
-        if(deletedSchedule.isPresent()){
-            deletedSchedule.get().setActive(false);
-            scheduleRepository.save(deletedSchedule.get());
-            return true;
+    public Boolean delete(Integer id, String bearerToken) throws JsonProcessingException {
+        Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
+        if (auth.get("role").equals("ROLE_RECRUITER")) {
+            Optional<Schedule> deletedSchedule = scheduleRepository.findByIdAndActiveIsTrue(id);
+            if (deletedSchedule.isPresent()) {
+                logService.save(new LogDto(logJwtService.parseToJsonObeject(deletedSchedule.get()), "{}", Action.elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
+                deletedSchedule.get().setActive(false);
+                scheduleRepository.save(deletedSchedule.get());
+                return true;
+            }
         }
         return false;
     }

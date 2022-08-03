@@ -63,6 +63,9 @@ public class UserService implements ServiceInterface<Long,UserDto> {
         }).orElse(Optional.empty());
     }
 
+    public UserDto getUserByUsername(String username){
+        return mapper.toUserDto(userRepository.findByUsernameAndActiveTrue(username).get());
+    }
 
     public Profile getProfileByUsername(String username) {
         Optional<User> user = userRepository.findByUsernameAndActiveTrue(username);

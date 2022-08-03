@@ -11,6 +11,18 @@ public class PeriodDto {
     @Size(min = 5, max = 40, message = "Please provide a name with 5 - 40 characters")
     private String name;
 
+    public PeriodDto() {
+    }
+
+    public PeriodDto(String name) {
+        this.name = name;
+    }
+
+    public PeriodDto(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
+
     public Integer getId() {
         return id;
     }

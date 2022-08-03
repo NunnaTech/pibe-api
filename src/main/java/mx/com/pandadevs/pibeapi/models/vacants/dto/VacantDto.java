@@ -45,6 +45,39 @@ public class VacantDto {
     public VacantDto() {
     }
 
+    public VacantDto(String title, String description, LocalDateTime startDate, LocalDateTime endDate, String salary, Boolean isPublic, String image, ScheduleDto schedule, PeriodDto period, ModeDto mode, RepublicStateDto state, List<BenefitDto> benefits, UserDto creator) {
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.salary = salary;
+        this.isPublic = isPublic;
+        this.image = image;
+        this.schedule = schedule;
+        this.period = period;
+        this.mode = mode;
+        this.state = state;
+        this.benefits = benefits;
+        this.creator = creator;
+    }
+
+    public VacantDto(Integer id, String title, String description, LocalDateTime startDate, LocalDateTime endDate, String salary, Boolean isPublic, String image, ScheduleDto schedule, PeriodDto period, ModeDto mode, RepublicStateDto state, List<BenefitDto> benefits, UserDto creator) {
+        this.id = id;
+        this.title = title;
+        this.description = description;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.salary = salary;
+        this.isPublic = isPublic;
+        this.image = image;
+        this.schedule = schedule;
+        this.period = period;
+        this.mode = mode;
+        this.state = state;
+        this.benefits = benefits;
+        this.creator = creator;
+    }
+
     public RepublicStateDto getState() {
         return state;
     }

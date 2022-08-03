@@ -28,6 +28,13 @@ public class Tables extends PibeModel implements Serializable{
     @OneToMany(mappedBy = "table", cascade = {CascadeType.ALL})
     private Set<Log> logs;
 
+    public Tables() {
+    }
+
+    public Tables(String name) {
+        this.name = name;
+    }
+
     // Getters & Setters
     public String getName() {
         return name;

@@ -11,7 +11,17 @@ public class BenefitDto {
     @Size(min = 5, max = 40, message = "Please provide a name with 5 - 40 characters")
     private String name;
 
-    // Getters && Setters
+    public BenefitDto() {
+    }
+
+    public BenefitDto(String name) {
+        this.name = name;
+    }
+
+    public BenefitDto(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public Integer getId() {
         return id;

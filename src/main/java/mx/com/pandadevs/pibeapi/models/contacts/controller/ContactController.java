@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.contacts.controller;
 
+import io.swagger.annotations.Api;
 import mx.com.pandadevs.pibeapi.models.contacts.dto.ContactDto;
 import mx.com.pandadevs.pibeapi.models.contacts.dto.SingleContactDto;
 import mx.com.pandadevs.pibeapi.models.contacts.entity.Contact;
@@ -17,6 +18,8 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/contacts")
+@Api( tags = "Contacts")
+
 public class ContactController {
 
     @Autowired

@@ -6,23 +6,23 @@ import java.util.Optional;
 
 public class AuthResponse {
 
-    private Optional<UserProfileDto> profile;
+    private Optional<UserProfileDto> user;
     private String token;
 
     public AuthResponse() {
     }
 
-    public AuthResponse(Optional<UserProfileDto> profile, String token) {
-        this.profile = profile;
+    public AuthResponse(Optional<UserProfileDto> user, String token) {
+        this.user = user;
         this.token = token;
     }
 
-    public Optional<UserProfileDto> getProfile() {
-        return profile;
+    public Optional<UserProfileDto> getUser() {
+        return user;
     }
 
-    public void setProfile(UserProfileDto profile) {
-        this.profile = Optional.ofNullable(profile);
+    public void setUser(Optional<UserProfileDto> user) {
+        this.user = user;
     }
 
     public String getToken() {
