@@ -59,7 +59,7 @@ public class EmailService {
             SendGrid sg = new SendGrid(EMAIL_KEY);
             Mail mail = getMail(user.getEmail());
             mail.setTemplateId(TEMPLATE_EMAIL_NEW_ACCOUNT);
-            mail.personalization.get(0).addDynamicTemplateData("name", "John");
+            mail.personalization.get(0).addDynamicTemplateData("name", user.getUsername());
             Request request = getRequest(mail);
             Response response = sg.api(request);
             flag = response.getStatusCode() == 202;

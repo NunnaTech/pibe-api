@@ -87,11 +87,11 @@ public class Profile extends PibeModel implements Serializable {
 
 
     @ManyToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name = "state_id", insertable = false, updatable = false)
+    @JoinColumn(name = "state_id")
     private RepublicState state ;
 
     @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name="user_id", insertable = false, updatable = false)
+    @JoinColumn(name="user_id")
     private User user;
 
     // Relationships
