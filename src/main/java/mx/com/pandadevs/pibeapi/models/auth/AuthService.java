@@ -73,6 +73,7 @@ public class AuthService {
             user1.setActive(true);
             user1.setRoles(list);
             emailService.sendEmailNewAccount(user1);
+            userRepository.save(user1);
         }
         return  Optional.of("registrado correctamente");
     }
