@@ -57,23 +57,23 @@ public class AuthService {
         return true;
     }
 
-    public String register(AuthRequest request){
+    public Optional<String> register(AuthRequest request){
         ArrayList<Role> list = new ArrayList<>();
         Optional<Role> rol = roleRepository.findById(request.getRoleId());
-        if (!rol.isPresent()) return  "El rol seleccionado no existe";
+        if (!rol.isPresent()) return  Optional.empty();
         User user = userRepository.findByUsername(request.getUsername());
 
         if (user != null){
             if (user.getEmail().equals(request.getEmail()) || user.getUsername().equals(request.getUsername())){
-                return "Correo o usuario ya registrados";
+                return Optional.of("Correo o usuario ya registrados");
             }
         }else{
             User user1 = new User(request.getEmail(), request.getUsername(), passwordEncoder.encode(request.getPassword()));
             list.add(rol.get());
-            user1.setActive(false);
+            user1.setActive(true);
             user1.setRoles(list);
             emailService.sendEmailNewAccount(user1);
         }
-        return  "registrado correctamente";
+        return  Optional.of("registrado correctamente");
     }
 }
