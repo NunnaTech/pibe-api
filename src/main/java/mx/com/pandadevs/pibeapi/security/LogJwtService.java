@@ -2,8 +2,14 @@ package mx.com.pandadevs.pibeapi.security;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+
+import mx.com.pandadevs.pibeapi.models.users.User;
+import mx.com.pandadevs.pibeapi.models.users.UserService;
+import mx.com.pandadevs.pibeapi.models.users.dto.UserProfileDto;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -11,6 +17,8 @@ import java.util.*;
 @Service
 public class LogJwtService {
     private Logger logger = LoggerFactory.getLogger(LogJwtService.class);
+    @Autowired
+    private UserService userService;
 
     public Map<String, String> getPayload(String bearerToken) throws JsonProcessingException {
         Map<String, String> map;
@@ -55,4 +63,33 @@ public class LogJwtService {
         map.put("role", payloadString.substring(10, payloadString.length() - 2));
         return map;
     }
+    
+    public Boolean isRecruiter(String bearerToken) {
+        try {
+            Map<String, String> auth = getUsernameAndRole(bearerToken);
+            return auth.get("role").contains("ROLE_RECRUITER");
+        } catch (JsonProcessingException e) {
+            return false;
+        }
+    }
+
+    public Boolean isCandidate(String bearerToken) {
+        try {
+            Map<String, String> auth = getUsernameAndRole(bearerToken);
+            return auth.get("role").contains("ROLE_CANDIDATE");
+        } catch (JsonProcessingException e) {
+            return false;
+        }
+    }
+
+    public Boolean isOwner(String bearerToken, String owner) {
+        try {
+            Map<String, String> auth = getUsernameAndRole(bearerToken);
+            Optional<UserProfileDto> user = userService.getByUsername(auth.get("username"));
+            return user.get().getUsername().equals(owner);
+        } catch (JsonProcessingException e) {
+            return false;
+        }
+    }
+
 }

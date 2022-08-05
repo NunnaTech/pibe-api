@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/modes")
@@ -39,9 +40,9 @@ public class ModeController {
     }
 
     @PostMapping(value = "")
-    public ResponseEntity<ModeDto> save(@RequestHeader("Authorization") String bearerToken, @Valid @RequestBody ModeDto entity) {
+    public ResponseEntity<ModeDto> save(@RequestHeader("Authorization") Optional<String> bearerToken, @Valid @RequestBody ModeDto entity) {
         try {
-            return modeService.save(entity, bearerToken)
+            return modeService.save(entity, bearerToken.get())
                     .map(e -> new ResponseEntity<>(e, HttpStatus.CREATED))
                     .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {

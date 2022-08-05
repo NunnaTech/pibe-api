@@ -82,7 +82,7 @@ public class PeriodService {
         if (auth.get("role").equals("ROLE_RECRUITER")) {
             Optional<Period> deleted = repository.findByIdAndActiveIsTrue(id);
             if (deleted.isPresent()) {
-                logService.save(new LogDto(logJwtService.parseToJsonObeject(deleted.get()), "{}", Action.elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
+                logService.save(new LogDto(logJwtService.parseToJsonObeject(deleted.get()), "{}", Action.Elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
                 deleted.get().setActive(false);
                 repository.save(deleted.get());
                 return true;

@@ -93,7 +93,7 @@ public class BenefitService {
         if (auth.get("role").equals("ROLE_RECRUITER")) {
             Optional<Benefit> deletedMode = repository.findByIdAndActiveIsTrue(id);
             if (deletedMode.isPresent()) {
-                logService.save(new LogDto(logJwtService.parseToJsonObeject(deletedMode.get()), "{}", Action.elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
+                logService.save(new LogDto(logJwtService.parseToJsonObeject(deletedMode.get()), "{}", Action.Elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
                 deletedMode.get().setActive(false);
                 repository.save(deletedMode.get());
                 return true;
