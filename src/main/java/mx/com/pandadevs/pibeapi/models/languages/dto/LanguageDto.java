@@ -13,7 +13,6 @@ public class LanguageDto {
     @NotEmpty(message = "Please provide a abbreviation language")
     @Size(min = 1, max = 5)
     private String abbreviation;
-    // Getters && Setters
 
     public Integer getId() {
         return id;

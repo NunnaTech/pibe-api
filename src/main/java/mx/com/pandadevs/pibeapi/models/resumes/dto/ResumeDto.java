@@ -1,8 +1,7 @@
 package mx.com.pandadevs.pibeapi.models.resumes.dto;
-// Java
+
 import java.util.List;
 
-// Models
 import mx.com.pandadevs.pibeapi.models.aptitudes.dto.AptitudeDto;
 import mx.com.pandadevs.pibeapi.models.certifications.dto.CertificationDto;
 import mx.com.pandadevs.pibeapi.models.courses.dto.CourseDto;
@@ -12,7 +11,6 @@ import mx.com.pandadevs.pibeapi.models.studies.dto.StudyDto;
 import mx.com.pandadevs.pibeapi.models.styles.dto.StyleDto;
 import mx.com.pandadevs.pibeapi.models.work_experiences.dto.WorkExperienceDto;
 
-// Validations
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -45,9 +43,6 @@ public class ResumeDto {
     private List<CourseDto> courses;
     private List<WorkExperienceDto> experiences;
     private List<CertificationDto> certifications;
-
-
-// Getters && Setters
 
     public Boolean getActive() {
         return active;

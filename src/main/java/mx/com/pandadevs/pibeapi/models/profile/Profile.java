@@ -57,7 +57,6 @@ public class Profile extends PibeModel implements Serializable {
         name = "birth_date",
         nullable = false,
         columnDefinition = "timestamp")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime birthDate;
     
     @Column(

@@ -1,8 +1,5 @@
 package mx.com.pandadevs.pibeapi.models.notifications.dto;
 
-import mx.com.pandadevs.pibeapi.models.notifications.entities.UserNotificationPK;
-import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
-
 public class UserNotificationDto {
 
     private NotificationDto notification;
@@ -10,9 +7,6 @@ public class UserNotificationDto {
     private String content;
 
     private Boolean seen;
-
-
-    // Getters && Setters
 
     public NotificationDto getNotification() {
         return notification;

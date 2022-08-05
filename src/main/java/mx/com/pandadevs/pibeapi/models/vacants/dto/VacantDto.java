@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.vacants.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import mx.com.pandadevs.pibeapi.models.benefits.dto.BenefitDto;
 import mx.com.pandadevs.pibeapi.models.modes.dto.ModeDto;
 import mx.com.pandadevs.pibeapi.models.periods.dto.PeriodDto;
@@ -23,7 +24,9 @@ public class VacantDto {
     @NotNull(message = "Please provide a description")
     @NotBlank(message = "Please provide a description")
     private String description;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime startDate;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime endDate;
     @NotNull(message = "Please provide a salary")
     @NotBlank(message = "Please provide a salary")

@@ -5,7 +5,6 @@ import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
 public class ContactDto {
 
     private UserDto user;
-    // Getters && Setters
     private UserDto contact;
 
     public UserDto getContact() {

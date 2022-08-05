@@ -11,7 +11,6 @@ public class StyleDto {
     @NotEmpty(message = "Please provide a style name")
     @Size(min = 2, max = 40)
     private String name;
-    // Getters && Setters
 
     public Integer getId() {
         return id;
