@@ -5,10 +5,8 @@ public class ResumeLanguageDto {
 
     private Integer id;
     private LanguageDto language;
-
     private Boolean active;
     private String level;
-    // Getter && Setters
 
     public Boolean getActive() {
         return active;

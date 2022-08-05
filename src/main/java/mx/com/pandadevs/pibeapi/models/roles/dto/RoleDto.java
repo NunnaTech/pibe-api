@@ -12,8 +12,6 @@ public class RoleDto {
     @NotNull
     private String description;
 
-    // Getters & Setters
-
     public String getAuthority() {
         return authority;
     }

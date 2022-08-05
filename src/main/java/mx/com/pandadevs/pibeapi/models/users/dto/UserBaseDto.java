@@ -1,7 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.users.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -46,8 +45,6 @@ public class UserBaseDto {
     public UserBaseDto() {
     }
 
-
-    // Getters & Setters
     public Long getId() {
         return id;
     }

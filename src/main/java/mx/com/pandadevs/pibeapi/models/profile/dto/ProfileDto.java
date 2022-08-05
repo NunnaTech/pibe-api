@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.profile.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import mx.com.pandadevs.pibeapi.models.states.dto.RepublicStateDto;
 
 import javax.validation.constraints.NotBlank;
@@ -36,6 +37,7 @@ public class ProfileDto {
     private String secondName;
 
     @NotNull
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private LocalDateTime birthDate;
 
     @NotNull
@@ -53,8 +55,6 @@ public class ProfileDto {
     private RepublicStateDto state ;
 
     private String position;
-
-    // Getters && Setters
 
     public Long getId() {
         return id;

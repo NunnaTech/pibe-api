@@ -1,6 +1,5 @@
 package mx.com.pandadevs.pibeapi.models.notifications.dto;
 
-
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -17,8 +16,6 @@ public class NotificationDto {
     private String type;
 
     private String description;
-
-    // Getters & Setters
 
     public String getType() {
         return type;

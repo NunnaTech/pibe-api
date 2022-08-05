@@ -1,6 +1,5 @@
 package mx.com.pandadevs.pibeapi.models.aptitudes.dto;
 
-
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -13,8 +12,6 @@ public class AptitudeDto {
             min = 5,
             max = 40)
     private String name;
-
-    // Getters && Setters
 
     public Integer getId() {
         return id;
