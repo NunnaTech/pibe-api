@@ -3,6 +3,7 @@ package mx.com.pandadevs.pibeapi.utils;
 import mx.com.pandadevs.pibeapi.models.benefits.BenefitService;
 import mx.com.pandadevs.pibeapi.models.logs.services.TableService;
 import mx.com.pandadevs.pibeapi.models.modes.ModeService;
+import mx.com.pandadevs.pibeapi.models.notifications.services.NotificationService;
 import mx.com.pandadevs.pibeapi.models.periods.PeriodService;
 import mx.com.pandadevs.pibeapi.models.processes.ProcessService;
 import mx.com.pandadevs.pibeapi.models.schedule.ScheduleService;
@@ -27,6 +28,8 @@ public class InitialDataBase implements CommandLineRunner {
     @Autowired private ProcessService processService;
     @Autowired private TableService tableService;
 
+    @Autowired private NotificationService notificationService;
+
     @Override
     public void run(String... args) throws Exception {
         modeService.fillInitialData();
@@ -36,5 +39,6 @@ public class InitialDataBase implements CommandLineRunner {
         republicStateService.fillInitialData();
         processService.fillInitialData();
         tableService.fillInitialData();
+        notificationService.fillInitialData();
     }
 }
