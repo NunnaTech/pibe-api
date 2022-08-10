@@ -1,20 +1,19 @@
 package mx.com.pandadevs.pibeapi.models.auth;
 
-import java.util.ArrayList;
-import java.util.Optional;
-
+import mx.com.pandadevs.pibeapi.models.auth.common.AuthRequest;
 import mx.com.pandadevs.pibeapi.models.roles.Role;
 import mx.com.pandadevs.pibeapi.models.roles.RoleRepository;
-import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
+import mx.com.pandadevs.pibeapi.models.users.User;
+import mx.com.pandadevs.pibeapi.models.users.UserRepository;
 import mx.com.pandadevs.pibeapi.models.users.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import mx.com.pandadevs.pibeapi.models.auth.common.AuthRequest;
-import mx.com.pandadevs.pibeapi.models.users.User;
-import mx.com.pandadevs.pibeapi.models.users.UserRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -61,10 +60,10 @@ public class AuthService {
         ArrayList<Role> list = new ArrayList<>();
         Optional<Role> rol = roleRepository.findById(request.getRoleId());
         if (!rol.isPresent()) return  Optional.empty();
-        User user = userRepository.findByUsername(request.getUsername());
+        List<User> user = userRepository.findByUsernameOrEmail(request.getUsername(), request.getEmail());
 
         if (user != null){
-            if (user.getEmail().equals(request.getEmail()) || user.getUsername().equals(request.getUsername())){
+            if (user.size()>0){
                 return Optional.of("Correo o usuario ya registrados");
             }
         }else{
