@@ -37,7 +37,7 @@ public class ProfileDto {
     private String secondName;
 
     @NotNull
-    @JsonFormat(pattern="yyyy/MM/dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDateTime birthDate;
 
     @NotNull
