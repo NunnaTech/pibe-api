@@ -33,9 +33,9 @@ public class CourseDto {
             min = 5,
             max = 40)
     private String trainingInstitution;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy/MM/dd")
     private LocalDateTime realizationDate;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy/MM/dd")
     private LocalDateTime finishedDate;
 
     public Integer getId() {
