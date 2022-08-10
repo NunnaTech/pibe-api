@@ -76,7 +76,7 @@ public class VacantService {
     @Transactional(readOnly = true)
     public List<VacantDto> getByUsername(String username, String bearerToken) throws JsonProcessingException {
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
-        if (auth.get("role").equals("ROLE_RECRUITER") && auth.get("username").equals(username)) {
+        if (auth.get("role").contains("ROLE_RECRUITER") && auth.get("username").equals(username)) {
             List<Vacant> list = new ArrayList<>();
             User user = userRepository.findByUsername(username);
             if (user != null) list = user.getVacants();
@@ -88,7 +88,7 @@ public class VacantService {
     @Transactional
     public Optional<VacantDto> save(VacantDto entity, String bearerToken) throws JsonProcessingException {
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
-        if (auth.get("role").equals("ROLE_RECRUITER")) {
+        if (auth.get("role").contains("ROLE_RECRUITER")) {
             Vacant vacant = mapper.toVacant(entity);
             vacant.setBenefits(fillBenefits(vacant.getBenefits()));
             vacant.setUser(userRepository.findByUsername(entity.getCreator().getUsername()));
@@ -103,7 +103,7 @@ public class VacantService {
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
         Vacant vacant = mapper.toVacant(entity);
         Optional<Vacant> updated = vacantRepository.findByIdAndActiveIsTrue(vacant.getId());
-        if (auth.get("role").equals("ROLE_RECRUITER") && updated.get().getUser().getUsername().equals(auth.get("username"))) {
+        if (auth.get("role").contains("ROLE_RECRUITER") && updated.get().getUser().getUsername().equals(auth.get("username"))) {
             vacant.setBenefits(fillBenefits(vacant.getBenefits()));
             logService.save(new LogDto(logJwtService.parseToJsonObeject(mapper.toVacantDto(updated.get())), logJwtService.parseToJsonObeject(entity), Action.Actualizacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
             return Optional.of(mapper.toVacantDto(vacantRepository.save(vacant)));
@@ -116,7 +116,7 @@ public class VacantService {
         try {
             Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
             Optional<Vacant> updated = vacantRepository.findByIdAndActiveIsTrue(id);
-            if (auth.get("role").equals("ROLE_RECRUITER") && updated.get().getUser().getUsername().equals(auth.get("username"))) {
+            if (auth.get("role").contains("ROLE_RECRUITER") && updated.get().getUser().getUsername().equals(auth.get("username"))) {
                 return updated.map(e -> {
                     fields.forEach((updateField, value) -> {
                         Field field = ReflectionUtils.findField(Vacant.class, (String) updateField);
@@ -135,7 +135,7 @@ public class VacantService {
     public Boolean delete(Integer id, String bearerToken) throws JsonProcessingException {
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
         Optional<Vacant> deleted = vacantRepository.findByIdAndActiveIsTrue(id);
-        if (auth.get("role").equals("ROLE_RECRUITER") && deleted.get().getUser().getUsername().equals(auth.get("username"))) {
+        if (auth.get("role").contains("ROLE_RECRUITER") && deleted.get().getUser().getUsername().equals(auth.get("username"))) {
             logService.save(new LogDto(logJwtService.parseToJsonObeject(mapper.toVacantDto(deleted.get())), "{}", Action.elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
             deleted.get().setActive(false);
             vacantRepository.save(deleted.get());

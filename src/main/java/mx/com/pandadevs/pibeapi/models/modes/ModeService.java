@@ -60,7 +60,7 @@ public class ModeService {
     @Transactional
     public Optional<ModeDto> save(ModeDto entity, String bearerToken) throws JsonProcessingException {
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
-        if (auth.get("role").equals("ROLE_RECRUITER")) {
+        if (auth.get("role").contains("ROLE_RECRUITER")) {
             logService.save(new LogDto("{}", logJwtService.parseToJsonObeject(entity), Action.Creacion, userService.getUserByUsername(auth.get("username")), tableService.getById(TABLE_NAME).get()));
             return Optional.of(mapper.toModeDto(modeRepository.save(mapper.toMode(entity))));
         }
@@ -70,7 +70,7 @@ public class ModeService {
     @Transactional
     public Optional<ModeDto> update(ModeDto entity, String bearerToken) throws JsonProcessingException {
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
-        if (auth.get("role").equals("ROLE_RECRUITER")) {
+        if (auth.get("role").contains("ROLE_RECRUITER")) {
             Optional<Mode> updated = modeRepository.findByIdAndActiveIsTrue(entity.getId());
             logService.save(new LogDto(logJwtService.parseToJsonObeject(updated.get()), logJwtService.parseToJsonObeject(entity), Action.Actualizacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
             return Optional.of(mapper.toModeDto(modeRepository.save(mapper.toMode(entity))));
@@ -81,7 +81,7 @@ public class ModeService {
     @Transactional
     public Boolean delete(Integer id, String bearerToken) throws JsonProcessingException {
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
-        if (auth.get("role").equals("ROLE_RECRUITER")) {
+        if (auth.get("role").contains("ROLE_RECRUITER")) {
             Optional<Mode> deletedMode = modeRepository.findByIdAndActiveIsTrue(id);
             if (deletedMode.isPresent()) {
                 logService.save(new LogDto(logJwtService.parseToJsonObeject(deletedMode.get()), "{}", Action.elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
