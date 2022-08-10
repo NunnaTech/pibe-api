@@ -55,7 +55,7 @@ public class ScheduleService {
 
     public Optional<ScheduleDto> save(ScheduleDto entity, String bearerToken) throws JsonProcessingException {
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
-        if (auth.get("role").equals("ROLE_RECRUITER")) {
+        if (auth.get("role").contains("ROLE_RECRUITER")) {
             logService.save(new LogDto("{}", logJwtService.parseToJsonObeject(entity), Action.Creacion, userService.getUserByUsername(auth.get("username")), tableService.getById(TABLE_NAME).get()));
             return Optional.of(mapper.toScheduleDto(scheduleRepository.save(mapper.toSchedule(entity))));
         }
@@ -65,7 +65,7 @@ public class ScheduleService {
     @Transactional
     public Optional<ScheduleDto> update(ScheduleDto entity, String bearerToken) throws JsonProcessingException {
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
-        if (auth.get("role").equals("ROLE_RECRUITER")) {
+        if (auth.get("role").contains("ROLE_RECRUITER")) {
             Optional<Schedule> updatedSchedule = scheduleRepository.findByIdAndActiveIsTrue(entity.getId());
             logService.save(new LogDto(logJwtService.parseToJsonObeject(updatedSchedule.get()), logJwtService.parseToJsonObeject(entity), Action.Actualizacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
             return Optional.of(mapper.toScheduleDto(scheduleRepository.save(mapper.toSchedule(entity))));
@@ -76,7 +76,7 @@ public class ScheduleService {
     @Transactional
     public Boolean delete(Integer id, String bearerToken) throws JsonProcessingException {
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
-        if (auth.get("role").equals("ROLE_RECRUITER")) {
+        if (auth.get("role").contains("ROLE_RECRUITER")) {
             Optional<Schedule> deletedSchedule = scheduleRepository.findByIdAndActiveIsTrue(id);
             if (deletedSchedule.isPresent()) {
                 logService.save(new LogDto(logJwtService.parseToJsonObeject(deletedSchedule.get()), "{}", Action.elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));

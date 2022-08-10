@@ -62,7 +62,7 @@ public class UserVacantService {
     @Transactional(readOnly = true)
     public List<UserVacantDto> getVacantsByUser(String username, String bearerToken) throws JsonProcessingException {
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
-        if (auth.get("role").equals("ROLE_CANDIDATE") && auth.get("username").equals(username)) {
+        if (auth.get("role").contains("ROLE_CANDIDATE") && auth.get("username").equals(username)) {
             return mapper.toUserVacantsDto(userVacantRepository.findAllByUser_Username(username));
         }
         return new ArrayList<>();
@@ -71,7 +71,7 @@ public class UserVacantService {
     @Transactional(readOnly = true)
     public List<VacantProcessDto> getUsersByVacant(Integer id, String bearerToken) throws JsonProcessingException {
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
-        if (auth.get("role").equals("ROLE_RECRUITER")) {
+        if (auth.get("role").contains("ROLE_RECRUITER")) {
             return mapper.toVacantsProcessDto(userVacantRepository.findAllByVacant_Id(id));
         }
         return new ArrayList<>();
@@ -80,7 +80,7 @@ public class UserVacantService {
     @Transactional
     public Boolean applyToVacant(Integer id, String username, String bearerToken) throws JsonProcessingException {
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
-        if (auth.get("role").equals("ROLE_CANDIDATE") && auth.get("username").equals(username)) {
+        if (auth.get("role").contains("ROLE_CANDIDATE") && auth.get("username").equals(username)) {
             User user = userRepository.findByUsername(username);
             Optional<Vacant> vacant = vacantRepository.findByIdAndActiveIsTrue(id);
             Optional<Process> process = processRepository.findByIdAndActiveIsTrue(1);
@@ -88,8 +88,8 @@ public class UserVacantService {
             if (vacant.isPresent() && process.isPresent() && userVacant.isEmpty()) {
                 emailService.sendEmailNewVacant(user, vacant.get());
                 userVacantRepository.save(new UserVacant(user, vacant.get(), process.get()));
-                UserNotificationPK fpk = new UserNotificationPK(5,user.getId());
-                UserNotification ntf = new UserNotification(fpk,"Postulado",true);
+                UserNotificationPK fpk = new UserNotificationPK(5, user.getId());
+                UserNotification ntf = new UserNotification(fpk, "Postulado", true);
                 userNotificationRepository.save(ntf);
                 return true;
             }
@@ -99,34 +99,34 @@ public class UserVacantService {
 
     @Transactional
     public Boolean processToVacant(Integer id, ProcessDto processDto, String bearerToken) throws JsonProcessingException {
-        String message  ="";
+        String message = "";
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
-        if (auth.get("role").equals("ROLE_RECRUITER")) {
+        if (auth.get("role").contains("ROLE_RECRUITER")) {
             Optional<UserVacant> userVacant = userVacantRepository.findById(id);
             if (userVacant.isPresent()) {
                 userVacant.get().setProcess(processRepository.findByIdAndActiveIsTrue(processDto.getId()).get());
                 emailService.sendEmailCurrentlyProccess(userVacant.get(), userVacant.get().getProcess().getName().equals("Finalizado"));
                 UserNotificationPK fpk = new UserNotificationPK(5, userVacant.get().getUser().getId());
-            switch (id){
-                case 1:
-                    message ="Postulado";
-                    break;
-                case 2:
-                    message ="CV Visto";
-                    break;
-                case 3:
-                    message ="Entrevista";
-                    break;
-                case 4:
-                    message ="Idóneo";
-                    break;
-                case 5:
-                    message ="Contratado";
-                    break;
-            }
-            UserNotification ntf = new UserNotification(fpk,message,true);
-            userNotificationRepository.save(ntf);
-            userVacantRepository.save(userVacant.get());
+                switch (id) {
+                    case 1:
+                        message = "Postulado";
+                        break;
+                    case 2:
+                        message = "CV Visto";
+                        break;
+                    case 3:
+                        message = "Entrevista";
+                        break;
+                    case 4:
+                        message = "Idóneo";
+                        break;
+                    case 5:
+                        message = "Contratado";
+                        break;
+                }
+                UserNotification ntf = new UserNotification(fpk, message, true);
+                userNotificationRepository.save(ntf);
+                userVacantRepository.save(userVacant.get());
                 return true;
             }
         }
@@ -136,7 +136,7 @@ public class UserVacantService {
     @Transactional
     public Boolean deleteUserToVacant(Integer id, String bearerToken) throws JsonProcessingException {
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
-        if (auth.get("role").equals("ROLE_RECRUITER")) {
+        if (auth.get("role").contains("ROLE_RECRUITER")) {
             Optional<UserVacant> userVacant = userVacantRepository.findById(id);
             if (userVacant.isPresent()) {
                 userVacantRepository.deleteById(id);
