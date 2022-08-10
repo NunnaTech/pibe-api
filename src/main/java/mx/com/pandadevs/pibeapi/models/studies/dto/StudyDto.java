@@ -13,9 +13,9 @@ public class StudyDto {
     @Pattern(regexp = "[A-Za-zÀ-ÿ '-.0-9]*")
     @Size(min = 5, max = 40)
     private String name;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy/MM/dd")
     private LocalDateTime startPeriod;
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy/MM/dd")
     private LocalDateTime endPeriod;
 
     public Integer getId() {
