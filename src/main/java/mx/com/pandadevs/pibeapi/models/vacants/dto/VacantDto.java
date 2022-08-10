@@ -24,9 +24,9 @@ public class VacantDto {
     @NotNull(message = "Please provide a description")
     @NotBlank(message = "Please provide a description")
     private String description;
-    @JsonFormat(pattern="yyyy/MM/dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDateTime startDate;
-    @JsonFormat(pattern="yyyy/MM/dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDateTime endDate;
     @NotNull(message = "Please provide a salary")
     @NotBlank(message = "Please provide a salary")

@@ -21,9 +21,9 @@ public class CertificationDto {
     private String company;
 
     private Boolean active;
-    @JsonFormat(pattern="yyyy/MM/dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDateTime expirationDate;
-    @JsonFormat(pattern="yyyy/MM/dd")
+    @JsonFormat(pattern="yyyy-MM-dd")
     private LocalDateTime obtainedDate;
 
     public Integer getId() {
