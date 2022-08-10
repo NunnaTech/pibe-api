@@ -41,6 +41,15 @@ public class Notification extends PibeModel implements Serializable {
     @OneToMany(mappedBy = "notification", cascade = {CascadeType.ALL})
     private List<UserNotification> notifications;
 
+    public Notification() {
+    }
+
+    public Notification(String name, String description, Boolean active) {
+        this.name = name;
+        this.description = description;
+        this.active = active;
+    }
+
     // Getters & Setters
     public Integer getId() {
         return id;
