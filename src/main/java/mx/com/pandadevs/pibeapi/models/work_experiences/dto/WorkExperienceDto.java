@@ -16,9 +16,9 @@ public class WorkExperienceDto {
             min = 5,
             max = 50)
     private String position;
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startPeriod;
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endPeriod;
     @NotNull
     @Pattern(regexp = "[A-Za-zÀ-ÿ '-.0-9]*")

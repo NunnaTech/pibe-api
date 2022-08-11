@@ -37,7 +37,7 @@ public class ProfileDto {
     private String secondName;
 
     @NotNull
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime birthDate;
 
     @NotNull
