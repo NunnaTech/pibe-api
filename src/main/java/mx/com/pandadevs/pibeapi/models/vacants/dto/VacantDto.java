@@ -24,9 +24,9 @@ public class VacantDto {
     @NotNull(message = "Please provide a description")
     @NotBlank(message = "Please provide a description")
     private String description;
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startDate;
-    @JsonFormat(pattern="yyyy-MM-dd")
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endDate;
     @NotNull(message = "Please provide a salary")
     @NotBlank(message = "Please provide a salary")
@@ -62,6 +62,26 @@ public class VacantDto {
         this.state = state;
         this.benefits = benefits;
         this.creator = creator;
+    }
+
+    @Override
+    public String toString() {
+        return "VacantDto{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                ", startDate=" + startDate +
+                ", endDate=" + endDate +
+                ", salary='" + salary + '\'' +
+                ", isPublic=" + isPublic +
+                ", image='" + image + '\'' +
+                ", schedule=" + schedule +
+                ", period=" + period +
+                ", mode=" + mode +
+                ", state=" + state +
+                ", benefits=" + benefits +
+                ", creator=" + creator +
+                '}';
     }
 
     public VacantDto(Integer id, String title, String description, LocalDateTime startDate, LocalDateTime endDate, String salary, Boolean isPublic, String image, ScheduleDto schedule, PeriodDto period, ModeDto mode, RepublicStateDto state, List<BenefitDto> benefits, UserDto creator) {
