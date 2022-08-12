@@ -52,6 +52,10 @@ public class UserVacantContoller {
             if (service.applyToVacant(id, username, bearerToken)) return new ResponseEntity<>(true, HttpStatus.OK);
             else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.error(e.toString());
+            logger.error(e.getLocalizedMessage());
+            logger.error(e.getCause().getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -64,6 +68,10 @@ public class UserVacantContoller {
             if (service.processToVacant(id, processDto, bearerToken)) return new ResponseEntity<>(true, HttpStatus.OK);
             else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.error(e.toString());
+            logger.error(e.getLocalizedMessage());
+            logger.error(e.getCause().getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -75,6 +83,10 @@ public class UserVacantContoller {
             if (service.deleteUserToVacant(id, bearerToken)) return new ResponseEntity<>(true, HttpStatus.OK);
             else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.error(e.toString());
+            logger.error(e.getLocalizedMessage());
+            logger.error(e.getCause().getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
