@@ -59,6 +59,10 @@ public class VacantController {
                     .map(e -> new ResponseEntity<>(e, HttpStatus.CREATED))
                     .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.error(e.toString());
+            logger.error(e.getLocalizedMessage());
+            logger.error(e.getCause().getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -70,6 +74,10 @@ public class VacantController {
                     .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
                     .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.error(e.toString());
+            logger.error(e.getLocalizedMessage());
+            logger.error(e.getCause().getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -91,6 +99,10 @@ public class VacantController {
             if (service.delete(id, bearerToken)) return new ResponseEntity<>(true, HttpStatus.OK);
             else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.error(e.toString());
+            logger.error(e.getLocalizedMessage());
+            logger.error(e.getCause().getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
