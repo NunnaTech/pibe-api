@@ -62,10 +62,8 @@ public class AuthService {
         if (!rol.isPresent()) return  Optional.empty();
         List<User> user = userRepository.findByUsernameOrEmail(request.getUsername(), request.getEmail());
 
-        if (user != null){
-            if (user.size()>0){
+        if (user.size()>0){
                 return Optional.of("Correo o usuario ya registrados");
-            }
         }else{
             User user1 = new User(request.getEmail(), request.getUsername(), passwordEncoder.encode(request.getPassword()));
             list.add(rol.get());
