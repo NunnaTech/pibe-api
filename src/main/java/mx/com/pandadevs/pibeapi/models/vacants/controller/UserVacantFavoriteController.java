@@ -26,6 +26,8 @@ public class UserVacantFavoriteController {
         try {
             return new ResponseEntity<>(service.getAll(username, bearerToken), HttpStatus.OK);
         } catch (Exception e) {
+            logger.error(e.toString());
+            logger.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -37,6 +39,8 @@ public class UserVacantFavoriteController {
                     .map(e -> new ResponseEntity<>(e, HttpStatus.OK))
                     .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
         } catch (Exception e) {
+            logger.error(e.toString());
+            logger.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -47,6 +51,8 @@ public class UserVacantFavoriteController {
             if (service.save(username, id, bearerToken)) return new ResponseEntity<>(true, HttpStatus.CREATED);
             else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
+            logger.error(e.toString());
+            logger.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
@@ -57,6 +63,8 @@ public class UserVacantFavoriteController {
             if (service.delete(username, id, bearerToken)) return new ResponseEntity<>(true, HttpStatus.OK);
             else return new ResponseEntity<>(false, HttpStatus.NOT_FOUND);
         } catch (Exception e) {
+            logger.error(e.toString());
+            logger.error(e.getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
