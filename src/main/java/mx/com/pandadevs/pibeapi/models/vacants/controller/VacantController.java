@@ -28,6 +28,10 @@ public class VacantController {
         try {
             return new ResponseEntity<>(service.getByUsername(username, bearerToken), HttpStatus.OK);
         } catch (Exception e) {
+            logger.error(e.getMessage());
+            logger.error(e.toString());
+            logger.error(e.getLocalizedMessage());
+            logger.error(e.getCause().getMessage());
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }

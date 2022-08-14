@@ -79,7 +79,13 @@ public class VacantService {
         if (auth.get("role").contains("ROLE_RECRUITER") && auth.get("username").equals(username)) {
             List<Vacant> list = new ArrayList<>();
             User user = userRepository.findByUsername(username);
-            if (user != null) list = user.getVacants();
+            if (user != null) {
+                for (Vacant v : user.getVacants()) {
+                    if (v.getActive()) {
+                        list.add(v);
+                    }
+                }
+            }
             return mapper.toVacantsDto(list);
         }
         return new ArrayList<>();
