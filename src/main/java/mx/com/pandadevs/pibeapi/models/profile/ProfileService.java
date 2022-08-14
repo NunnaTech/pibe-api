@@ -94,10 +94,9 @@ public class ProfileService implements ServiceInterface<Long, ProfileDto> {
     @Transactional
     public Optional<ProfileDto> update(String username, ProfileDto entity) {
         try {
-            Optional<Profile> updatedEntity = profileRepository.findById(entity.getId());
+            Optional<Profile> updatedEntity = profileRepository.findByUserUsernameAndUserActiveTrue(username);
             if (updatedEntity.isPresent()) {
                 if (username.equals(updatedEntity.get().getUser().getUsername())) {
-                    logger.error(updatedEntity.get().getId().toString());
                     Profile profile = mapper.toProfile(entity);
                     updatedEntity.get().setName(profile.getName());
                     updatedEntity.get().setFirstName(profile.getFirstName());
