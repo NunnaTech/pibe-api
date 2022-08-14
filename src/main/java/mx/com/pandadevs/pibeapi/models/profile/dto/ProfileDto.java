@@ -28,12 +28,10 @@ public class ProfileDto {
     @Pattern(regexp = "^[a-zA-Z]*$", message = "Special characters are not allowed")
     private String firstName;
 
-    @NotNull
-    @NotBlank
     @Size(
             min = 2,
             max = 40)
-    @Pattern(regexp = "^[a-zA-Z]*$", message = "Special characters are not allowed")
+    @Pattern(regexp = "^[a-zA-Zñ]*$", message = "Special characters are not allowed")
     private String secondName;
 
     @NotNull
