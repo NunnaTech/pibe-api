@@ -1,6 +1,5 @@
 package mx.com.pandadevs.pibeapi.models.aptitudes;
 
-import mx.com.pandadevs.pibeapi.models.styles.Style;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

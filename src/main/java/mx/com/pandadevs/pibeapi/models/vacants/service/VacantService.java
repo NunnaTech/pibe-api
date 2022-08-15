@@ -141,8 +141,8 @@ public class VacantService {
     public Boolean delete(Integer id, String bearerToken) throws JsonProcessingException {
         Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
         Optional<Vacant> deleted = vacantRepository.findByIdAndActiveIsTrue(id);
-        if (auth.get("role").contains("ROLE_RECRUITER") && deleted.get().getUser().getUsername().equals(auth.get("username"))) {
-            logService.save(new LogDto(logJwtService.parseToJsonObeject(mapper.toVacantDto(deleted.get())), "{}", Action.elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
+            if (auth.get("role").equals("ROLE_RECRUITER") && deleted.get().getUser().getUsername().equals(auth.get("username"))) {
+                logService.save(new LogDto(logJwtService.parseToJsonObeject(mapper.toVacantDto(deleted.get())), "{}", Action.Elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
             deleted.get().setActive(false);
             vacantRepository.save(deleted.get());
             return true;
