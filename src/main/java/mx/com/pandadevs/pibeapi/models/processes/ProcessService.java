@@ -82,7 +82,7 @@ public class ProcessService {
         if (auth.get("role").contains("ROLE_RECRUITER")) {
             Optional<Process> deleted = repository.findByIdAndActiveIsTrue(id);
             if (deleted.isPresent()) {
-                logService.save(new LogDto(logJwtService.parseToJsonObeject(deleted.get()), "{}", Action.elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
+                logService.save(new LogDto(logJwtService.parseToJsonObeject(deleted.get()), "{}", Action.Elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
                 deleted.get().setActive(false);
                 repository.save(deleted.get());
                 return true;

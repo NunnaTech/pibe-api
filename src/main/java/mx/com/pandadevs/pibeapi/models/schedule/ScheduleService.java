@@ -79,7 +79,7 @@ public class ScheduleService {
         if (auth.get("role").contains("ROLE_RECRUITER")) {
             Optional<Schedule> deletedSchedule = scheduleRepository.findByIdAndActiveIsTrue(id);
             if (deletedSchedule.isPresent()) {
-                logService.save(new LogDto(logJwtService.parseToJsonObeject(deletedSchedule.get()), "{}", Action.elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
+                logService.save(new LogDto(logJwtService.parseToJsonObeject(deletedSchedule.get()), "{}", Action.Elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
                 deletedSchedule.get().setActive(false);
                 scheduleRepository.save(deletedSchedule.get());
                 return true;
