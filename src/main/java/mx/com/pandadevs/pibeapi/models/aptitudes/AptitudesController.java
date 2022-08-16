@@ -27,7 +27,6 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 // Models
 import mx.com.pandadevs.pibeapi.models.aptitudes.dto.AptitudeDto;
-import mx.com.pandadevs.pibeapi.utils.interfaces.ControllerInterface;
 
 @RestController
 @RequestMapping("aptitudes/")
@@ -87,7 +86,7 @@ public class AptitudesController {
 
     @DeleteMapping("{id}")
     public ResponseEntity delete(@RequestHeader("Authorization") String bearerToken,@PathVariable("id") Integer id) {
-        boolean deleted;
+        boolean deleted = false;
         try {
             deleted = aptitudeService.delete(id, bearerToken);
             if (deleted) return new ResponseEntity(deleted, HttpStatus.OK);
