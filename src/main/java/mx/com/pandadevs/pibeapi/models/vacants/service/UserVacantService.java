@@ -123,6 +123,9 @@ public class UserVacantService {
                     case 5:
                         message = "Contratado";
                         break;
+                    default:
+                        message = "Finalizado";
+                        break;
                 }
                 UserNotification ntf = new UserNotification(fpk, message, true);
                 userNotificationRepository.save(ntf);
