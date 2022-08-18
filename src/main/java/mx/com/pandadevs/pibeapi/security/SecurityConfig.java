@@ -43,18 +43,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http.cors().configurationSource(request -> corsConfig);
 
-
-
-        http.authorizeHttpRequests().antMatchers("/**/login", "/**/reset-password","/**/forgot-password","/**/register").permitAll().anyRequest().authenticated()
+        http.authorizeHttpRequests().antMatchers(
+                        "/**/login",
+                        "/**/reset-password",
+                        "/**/forgot-password",
+                        "/**/register",
+                        "/**/vacants",
+                        "/**/vacants/{id}"
+                )
+                .permitAll().anyRequest().authenticated()
                 .and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
     }
+
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers("/v2/api-docs", "/configuration/ui",
                 "/swagger-resources/**", "/configuration/security",
-                "/swagger-ui.html", "/webjars/**","/swagger-ui/**");
+                "/swagger-ui.html", "/webjars/**", "/swagger-ui/**");
     }
 
     @Override
