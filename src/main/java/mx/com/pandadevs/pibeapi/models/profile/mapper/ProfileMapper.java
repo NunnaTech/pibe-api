@@ -4,6 +4,7 @@ package mx.com.pandadevs.pibeapi.models.profile.mapper;
 import mx.com.pandadevs.pibeapi.models.profile.Profile;
 import mx.com.pandadevs.pibeapi.models.profile.dto.ProfileDto;
 import mx.com.pandadevs.pibeapi.models.states.mapper.RepublicStateMapper;
+import mx.com.pandadevs.pibeapi.models.users.mapper.UserMapper;
 import org.mapstruct.InheritInverseConfiguration;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -12,7 +13,7 @@ import org.mapstruct.factory.Mappers;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring", uses = {RepublicStateMapper.class})
+@Mapper(componentModel = "spring", uses = {RepublicStateMapper.class, UserMapper.class})
 public interface ProfileMapper {
 
     ProfileMapper MAPPER = Mappers.getMapper( ProfileMapper.class );
