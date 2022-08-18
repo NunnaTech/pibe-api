@@ -28,9 +28,10 @@ public class ProfileService implements ServiceInterface<Long, ProfileDto> {
     private final RepublicStateMapper republicStateMapper;
     @Autowired
     private ProfileRepository profileRepository;
-
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private ResumeService resumeService;
 
     public ProfileService(ProfileMapper profileMapper, RepublicStateMapper republicStateMapper) {
         this.mapper = profileMapper;
@@ -48,8 +49,12 @@ public class ProfileService implements ServiceInterface<Long, ProfileDto> {
             return Optional.of(mapper.toProfileDto(entity));
         }).orElse(Optional.empty());
     }
-
-
+    public Optional<Profile> getProfileByUsername(String username) {
+        return profileRepository.findByUserUsernameAndUserActiveTrue(username);
+    }
+    public Long getUserByProfileId(Long profileId) {
+        return userRepository.findByProfileId(profileId).getId();
+    }
     @Override
     public Optional<ProfileDto> getById(Long id) {
         Optional<Profile> user = profileRepository.findById(id);
@@ -57,12 +62,14 @@ public class ProfileService implements ServiceInterface<Long, ProfileDto> {
             return Optional.of(mapper.toProfileDto(entity));
         }).orElse(Optional.empty());
     }
-
     public Optional<Profile> getProfileById(Long id) {
         Optional<Profile> user = profileRepository.findById(id);
         return user.map(entity -> {
             return Optional.of(entity);
         }).orElse(Optional.empty());
+    }
+    public void updatePatch(Long userId,Long profileId) {
+        profileRepository.updateResume(userId,profileId);
     }
 
     @Override
@@ -78,6 +85,8 @@ public class ProfileService implements ServiceInterface<Long, ProfileDto> {
         user.get().setProfile(profile);
         profile.setUser(user.get());
         userRepository.save(user.get());
+        // Save first Resume
+        resumeService.saveFirstResume(user.get().getProfile().getId());
         return mapper.toProfileDto(profile);
     }
 

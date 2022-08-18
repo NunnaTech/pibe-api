@@ -37,7 +37,7 @@ public class ResumeUserController {
     })
     @PostMapping("/{username}/resume")
     public ResponseEntity<ResumeDto> save(@RequestBody ResumeDto entity) {
-        return resumeService.update(entity)
+        return resumeService.update(entity, entity.getProfile())
                 .map(updatedEntity -> new ResponseEntity<>(updatedEntity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -48,7 +48,7 @@ public class ResumeUserController {
     })
     @PutMapping("/{username}/resume")
     public ResponseEntity<ResumeDto> update(@RequestBody ResumeDto entity) {
-        return resumeService.update(entity)
+        return resumeService.update(entity, entity.getProfile())
                 .map(updatedEntity -> new ResponseEntity<>(updatedEntity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
