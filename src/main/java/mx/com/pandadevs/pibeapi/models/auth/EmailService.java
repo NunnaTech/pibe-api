@@ -9,6 +9,7 @@ import com.sendgrid.helpers.mail.objects.Content;
 import com.sendgrid.helpers.mail.objects.Email;
 
 import mx.com.pandadevs.pibeapi.models.auth.common.AuthRequest;
+import mx.com.pandadevs.pibeapi.models.profile.Profile;
 import mx.com.pandadevs.pibeapi.models.users.User;
 import mx.com.pandadevs.pibeapi.models.users.UserRepository;
 import mx.com.pandadevs.pibeapi.models.vacants.entities.UserVacant;
@@ -49,10 +50,6 @@ public class EmailService {
     @Value("${template-email-new-account}")
     private String TEMPLATE_EMAIL_NEW_ACCOUNT;
 
-    /*
-     * TEST DATA: (addDynamicTemplateData)
-     *   "code": Codigo
-     * */
     public boolean sendEmailNewAccount(User user) {
         boolean flag = false;
         try {
@@ -69,11 +66,6 @@ public class EmailService {
         return flag;
     }
 
-    /*
-     * TEST DATA: (addDynamicTemplateData)
-     *   "urlImage": La URL de la imagen
-     *   "vacant": Título de la vacante o detalles
-     * */
     public boolean sendEmailNewVacant(User user, Vacant vacant) {
         try {
             SendGrid sg = new SendGrid(EMAIL_KEY);
@@ -90,14 +82,6 @@ public class EmailService {
         }
     }
 
-    /*
-     * TEST DATA: (addDynamicTemplateData)
-     *  "state": Estado actual
-     *  "reject": Si fue rechazado colocar es
-     *  "vacant": Título de la vacante o detalles
-     *  "title: Breve introducción
-     *  "description": Mensaje de despedida del correo
-     * */
     public boolean sendEmailCurrentlyProccess(UserVacant userVacant, Boolean finalized) {
         boolean flag = false;
         try {
@@ -125,23 +109,17 @@ public class EmailService {
         return flag;
     }
 
-    /*
-     * TEST DATA: (addDynamicTemplateData)
-     *  "urlImage": URL de la imagen de la vacante
-     *  "urlBtn": URL a donde redireccionará el botón
-     *  "fullName": Nombre parcial o completo de la persona
-     *  "vacant: Título de la vacante o detalles
-     * */
-    public boolean sendEmailShareVacant(User user) {
+    public boolean sendEmailShareVacant(Profile toUser, Profile forUser, String url, Vacant vacant) {
         boolean flag = false;
         try {
             SendGrid sg = new SendGrid(EMAIL_KEY);
-            Mail mail = getMail(user.getEmail());
+            Mail mail = getMail(forUser.getUser().getEmail());
             mail.setTemplateId(TEMPLATE_EMAIL_SHARE_VACANT);
-            mail.personalization.get(0).addDynamicTemplateData("urlImage", "");
-            mail.personalization.get(0).addDynamicTemplateData("urlBtn", "");
-            mail.personalization.get(0).addDynamicTemplateData("fullName", "");
-            mail.personalization.get(0).addDynamicTemplateData("vacant", "");
+            mail.personalization.get(0).addDynamicTemplateData("urlImage", vacant.getImage());
+            mail.personalization.get(0).addDynamicTemplateData("urlBtn", url);
+            mail.personalization.get(0).addDynamicTemplateData("toName", toUser.getName());
+            mail.personalization.get(0).addDynamicTemplateData("vacant", vacant.getTitle());
+            mail.personalization.get(0).addDynamicTemplateData("forName", forUser.getName());
             Request request = getRequest(mail);
             Response response = sg.api(request);
             flag = response.getStatusCode() == 202;
@@ -151,10 +129,6 @@ public class EmailService {
         return flag;
     }
 
-    /*
-     * TEST DATA: (addDynamicTemplateData)
-     *  "url": a donde redireccionará el botón
-     * */
     public boolean sendEmailPasswordRecovery(AuthRequest request) {
         String token = UUID.randomUUID().toString();
         boolean flag = false;
