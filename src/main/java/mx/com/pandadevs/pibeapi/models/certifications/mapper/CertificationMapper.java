@@ -38,5 +38,6 @@ public interface CertificationMapper {
             @Mapping(target = "resume", ignore = true)
     })
     Certification toCertification(CertificationDto certificationDto);
+    List<Certification> toCertifications(List<CertificationDto> certifications);
 
 }

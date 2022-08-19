@@ -2,10 +2,12 @@ package mx.com.pandadevs.pibeapi.models.work_experiences;
 
 // Java
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 // Spring
+import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -41,7 +43,16 @@ public class WorkExperienceService implements ServiceInterface<Integer, WorkExpe
         WorkExperience workExperience = mapper.toWorkExperience(entity);
         return mapper.toWorkExperienceDto(workExperienceRepository.saveAndFlush(workExperience));
     }
-
+    public void saveInResume(List<WorkExperienceDto> experiences, Resume resume) {
+        List<WorkExperience> cast = new ArrayList<>();
+        for (WorkExperienceDto entity: experiences) {
+            WorkExperience saved = mapper.toWorkExperience(entity);
+            saved.setResume(resume);
+            if(saved.getId() == null) saved = workExperienceRepository.save(saved);
+            cast.add(saved);
+        }
+        workExperienceRepository.saveAll(cast);
+    }
     @Override
     public Optional<WorkExperienceDto> update(WorkExperienceDto entity) {
         Optional<WorkExperience> updatedEntity = workExperienceRepository.findById(entity.getId());
