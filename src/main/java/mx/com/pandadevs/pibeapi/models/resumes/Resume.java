@@ -47,18 +47,15 @@ public class Resume extends PibeModel implements Serializable {
     private String curricularTitle;
 
     @Column(
-        nullable = false,
         columnDefinition = "varchar(255)")
     private String description; 
 
     @Column(
-        nullable = false,
         insertable = false,
         columnDefinition = "tinyint default 0")
     private Boolean completed;
 
     @Column(
-        nullable = false,
         columnDefinition = "tinyint default 1")
     private Boolean active;
 
@@ -98,9 +95,10 @@ public class Resume extends PibeModel implements Serializable {
         CascadeType.PERSIST,
         CascadeType.MERGE
     })
-    @JoinTable(name = "RESUME_APTITUDES",
-            joinColumns = @JoinColumn(name = "aptitude_id"),
-            inverseJoinColumns = @JoinColumn(name = "resume_id"))
+    @JoinTable(
+            name = "RESUME_APTITUDES",
+            joinColumns = @JoinColumn(name = "resume_id"),
+            inverseJoinColumns = @JoinColumn(name = "aptitude_id"))
     private List<Aptitude> aptitudes;
 
     public void addAptitude(Aptitude aptitude) {

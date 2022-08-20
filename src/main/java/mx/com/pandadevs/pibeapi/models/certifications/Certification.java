@@ -32,13 +32,11 @@ public class Certification extends PibeModel implements Serializable {
     private Integer id;
     
     @Column(
-        nullable = false,
         columnDefinition = "varchar(40)")
     private String name;
     
 
     @Column(
-        nullable = false,
         columnDefinition = "varchar(40)")
     private String company;
 
@@ -56,7 +54,6 @@ public class Certification extends PibeModel implements Serializable {
     private LocalDateTime expirationDate;
     
     @Column(
-        nullable = false,
         columnDefinition = "tinyint default 1")
     private Boolean active;
 

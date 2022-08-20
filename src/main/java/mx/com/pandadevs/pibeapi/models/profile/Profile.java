@@ -38,7 +38,6 @@ public class Profile extends PibeModel implements Serializable {
     private Long id;
     
     @Column(
-        nullable = false,
         columnDefinition = "varchar(40)")
     private String name;
     
@@ -76,12 +75,10 @@ public class Profile extends PibeModel implements Serializable {
     private String gender;
 
     @Column(
-        nullable = false,
         columnDefinition = "varchar(70)")
     private String position;
 
     @Column(
-        nullable = false,
         columnDefinition = "tinyint default 0")
     private Boolean completed;
 
