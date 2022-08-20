@@ -129,11 +129,13 @@ public class ResumeService {
               styleMapper.toStyle(entity.getStyle())
             );
             // Save Aptitudes
-            resume.setAptitudes(aptitudeMapper.toAptitudes(entity.getAptitudes()));
+            //resume.setAptitudes(aptitudeMapper.toAptitudes(entity.getAptitudes()));
 
-            entity.setAptitudes(aptitudeService.save(entity.getAptitudes()));
+            //entity.setAptitudes(aptitudeService.save(entity.getAptitudes()));
             /// Save languages
             languageService.save(entity.getLanguages(),entity);
+            //
+            entity.setAptitudes(aptitudeService.checkNames(entity.getAptitudes()));
             // set blank
             entity.setLanguages(new ArrayList<>());
             entity.setCertifications(new ArrayList<>());

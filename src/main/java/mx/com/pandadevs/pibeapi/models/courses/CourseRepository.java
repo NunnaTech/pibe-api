@@ -14,7 +14,7 @@ public interface CourseRepository extends JpaRepository<Course, Integer> {
 
 
     @Modifying
-    @Query(value = "UPDATE pibe.courses t SET t.active = ?, t.finished_date = ?, t.hours = ?," +
+    @Query(value = "UPDATE courses t SET t.active = ?, t.finished_date = ?, t.hours = ?," +
             "t.name = ?, t.realization_date = ?, t.training_institution = ?, t.resume_id = ? " +
             "WHERE t.id_course = ?;"
             ,nativeQuery = true)

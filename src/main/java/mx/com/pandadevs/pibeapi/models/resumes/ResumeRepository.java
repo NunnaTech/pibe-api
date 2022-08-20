@@ -17,7 +17,7 @@ public interface ResumeRepository extends JpaRepository<Resume, Integer> {
 
 
     @Modifying
-    @Query(value = "INSERT INTO pibe.resumes (created_at, updated_at, active, completed, curricular_title," +
+    @Query(value = "INSERT INTO resumes (created_at, updated_at, active, completed, curricular_title," +
             "description, profile_id,style_id) VALUES (DEFAULT, DEFAULT, DEFAULT, DEFAULT, ' ', ' ', ?, 1);"
             ,nativeQuery = true)
     void saveFirstResume(Long profileId);

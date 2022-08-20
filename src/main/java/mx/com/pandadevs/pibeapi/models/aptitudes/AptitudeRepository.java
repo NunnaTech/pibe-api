@@ -10,4 +10,6 @@ import java.util.Optional;
 public interface AptitudeRepository extends JpaRepository<Aptitude, Integer> {
     List<Aptitude> findAllByActiveTrueOrderByCreatedAtAsc();
     Optional<Aptitude> findStyleByIdAndActiveTrue(Integer id);
+
+    Optional<Aptitude> findByName(String name);
 }
