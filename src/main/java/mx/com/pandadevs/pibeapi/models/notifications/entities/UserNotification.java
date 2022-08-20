@@ -20,12 +20,10 @@ public class UserNotification extends PibeModel implements Serializable {
     private UserNotificationPK id;
 
     @Column(
-        nullable = false,
         columnDefinition = "TEXT")
     private String action;
 
     @Column(
-        nullable = false,
         columnDefinition = "tinyint default 0")
     private Boolean seen;
 

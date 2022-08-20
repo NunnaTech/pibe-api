@@ -44,12 +44,10 @@ public class User extends PibeModel implements Serializable {
     private String username;
 
     @Column(
-        nullable = false,
         columnDefinition = "varchar(100)")
     private String password;
 
     @Column(
-        nullable = false,
         columnDefinition = "tinyint default 1")
     private Boolean active;
 

@@ -2,7 +2,6 @@ package mx.com.pandadevs.pibeapi.models.resumes;
 // Java
 import java.io.Serializable;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 // Persistence
@@ -48,18 +47,15 @@ public class Resume extends PibeModel implements Serializable {
     private String curricularTitle;
 
     @Column(
-        nullable = false,
         columnDefinition = "varchar(255)")
     private String description; 
 
     @Column(
-        nullable = false,
         insertable = false,
         columnDefinition = "tinyint default 0")
     private Boolean completed;
 
     @Column(
-        nullable = false,
         columnDefinition = "tinyint default 1")
     private Boolean active;
 
@@ -73,6 +69,16 @@ public class Resume extends PibeModel implements Serializable {
     // Constructor
 
     public Resume() {
+    }
+
+    public Resume(Integer id, String curricularTitle, String description, Boolean completed, Boolean active, Profile profile, Style style) {
+        this.id = id;
+        this.curricularTitle = curricularTitle;
+        this.description = description;
+        this.completed = completed;
+        this.active = active;
+        this.profile = profile;
+        this.style = style;
     }
 
     public Resume(String curricularTitle, String description, Boolean completed, Boolean active, Profile profile) {
@@ -89,9 +95,10 @@ public class Resume extends PibeModel implements Serializable {
         CascadeType.PERSIST,
         CascadeType.MERGE
     })
-    @JoinTable(name = "RESUME_APTITUDES",
-            joinColumns = @JoinColumn(name = "aptitude_id"),
-            inverseJoinColumns = @JoinColumn(name = "resume_id"))
+    @JoinTable(
+            name = "RESUME_APTITUDES",
+            joinColumns = @JoinColumn(name = "resume_id"),
+            inverseJoinColumns = @JoinColumn(name = "aptitude_id"))
     private List<Aptitude> aptitudes;
 
     public void addAptitude(Aptitude aptitude) {
@@ -107,27 +114,27 @@ public class Resume extends PibeModel implements Serializable {
     // Resume Lenguage
     @JsonIgnore
     @OneToMany(mappedBy = "resume", cascade = {CascadeType.ALL})
-    private Set<ResumeLanguage> languages;
+    private List<ResumeLanguage> languages;
 
     // Studies
     @JsonIgnore
     @OneToMany(mappedBy = "resume", cascade = {CascadeType.ALL})
-    private Set<Study> studies;
+    private List<Study> studies;
 
     // Courses
     @JsonIgnore
     @OneToMany(mappedBy = "resume", cascade = {CascadeType.ALL})
-    private Set<Course> courses;
+    private List<Course> courses;
     
     // Work Experiences
     @JsonIgnore
     @OneToMany(mappedBy = "resume", cascade = {CascadeType.ALL})
-    private Set<WorkExperience> experiences;
+    private List<WorkExperience> experiences;
 
     // Certifications
     @JsonIgnore
     @OneToMany(mappedBy = "resume", cascade = {CascadeType.ALL})
-    private Set<Certification> certifications;
+    private List<Certification> certifications;
 
     // Getters & Setters
     public Integer getId() {
@@ -194,43 +201,43 @@ public class Resume extends PibeModel implements Serializable {
         this.aptitudes = aptitudes;
     }
 
-    public Set<ResumeLanguage> getLanguages() {
+    public List<ResumeLanguage> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(Set<ResumeLanguage> languages) {
+    public void setLanguages(List<ResumeLanguage> languages) {
         this.languages = languages;
     }
 
-    public Set<Study> getStudies() {
+    public List<Study> getStudies() {
         return studies;
     }
 
-    public void setStudies(Set<Study> studies) {
+    public void setStudies(List<Study> studies) {
         this.studies = studies;
     }
 
-    public Set<Course> getCourses() {
+    public List<Course> getCourses() {
         return courses;
     }
 
-    public void setCourses(Set<Course> courses) {
+    public void setCourses(List<Course> courses) {
         this.courses = courses;
     }
 
-    public Set<WorkExperience> getExperiences() {
+    public List<WorkExperience> getExperiences() {
         return experiences;
     }
 
-    public void setExperiences(Set<WorkExperience> experiences) {
+    public void setExperiences(List<WorkExperience> experiences) {
         this.experiences = experiences;
     }
 
-    public Set<Certification> getCertifications() {
+    public List<Certification> getCertifications() {
         return certifications;
     }
 
-    public void setCertifications(Set<Certification> certifications) {
+    public void setCertifications(List<Certification> certifications) {
         this.certifications = certifications;
     }
 

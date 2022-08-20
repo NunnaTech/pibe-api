@@ -1,6 +1,7 @@
 package mx.com.pandadevs.pibeapi.models.aptitudes;
 // Java
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -54,6 +55,21 @@ public class AptitudeService {
         return aptitude.map(entity -> {
             return Optional.of(mapper.toAptitudeDto(entity));
         }).orElse(Optional.empty());
+    }
+
+    public Optional<Aptitude> findByName(String name) {
+        return aptitudeRepository.findByName(name);
+    }
+    public List<AptitudeDto> checkNames(List<AptitudeDto> aptitudes) {
+        List<AptitudeDto> response = new ArrayList<>();
+        for (AptitudeDto aptitude: aptitudes) {
+            Optional<Aptitude> found = findByName(aptitude.getName());
+            if(found.isPresent()) response.add(mapper.toAptitudeDto(found.get()));
+            else {
+                response.add(aptitude);
+            }
+        }
+        return  response;
     }
 
     public AptitudeDto save(AptitudeDto entity, String bearerToken) throws JsonProcessingException {

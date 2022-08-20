@@ -2,10 +2,12 @@ package mx.com.pandadevs.pibeapi.models.certifications;
 
 // Java
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 // Spring
+import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -29,7 +31,16 @@ public class CertificationService implements ServiceInterface<Integer, Certifica
     public List<CertificationDto> getAll() {
         return mapper.toCertificationsDto(certificationRepository.findAll());
     }
-
+    public void saveInResume(List<CertificationDto> certifications, Resume resume) {
+        List<Certification> cast = new ArrayList<>();
+        for (CertificationDto certification: certifications) {
+            Certification entity = mapper.toCertification(certification);
+            entity.setResume(resume);
+            if(entity.getId() == null) entity = certificationRepository.save(entity);
+            cast.add(entity);
+        }
+        certificationRepository.saveAll(cast);
+    }
     @Override
     public Optional<CertificationDto> getById(Integer id) {
         Optional<Certification> aptitude = certificationRepository.findById(id);

@@ -32,7 +32,6 @@ public class WorkExperience extends PibeModel implements Serializable {
     private Integer id;
     
     @Column(
-        nullable = false,
         columnDefinition = "varchar(50)")
     private String position;
     
@@ -50,12 +49,10 @@ public class WorkExperience extends PibeModel implements Serializable {
     private LocalDateTime endPeriod;
    
     @Column(
-        nullable = false,
         columnDefinition = "TEXT")
     private String activities;
     
     @Column(
-        nullable = false,
         columnDefinition = "tinyint default 1")
     private Boolean active;
 

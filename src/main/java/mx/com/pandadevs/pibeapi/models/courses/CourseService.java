@@ -1,6 +1,7 @@
 package mx.com.pandadevs.pibeapi.models.courses;
 // Java
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -12,6 +13,8 @@ import org.springframework.util.ReflectionUtils;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 import mx.com.pandadevs.pibeapi.models.courses.dto.CourseDto;
 import mx.com.pandadevs.pibeapi.models.courses.mapper.CourseMapper;
+import mx.com.pandadevs.pibeapi.models.resumes.Resume;
+
 @Service
 public class CourseService implements ServiceInterface<Integer, CourseDto> {
     private final CourseMapper mapper;
@@ -41,7 +44,26 @@ public class CourseService implements ServiceInterface<Integer, CourseDto> {
         Course course = mapper.toCourse(entity);
         return mapper.toCourseDto(courseRepository.saveAndFlush(course));
     }
-
+    public void saveInResume(List<CourseDto> courses, Resume resume) {
+        for (CourseDto entity: courses) {
+            Course saved = mapper.toCourse(entity);
+            saved.setResume(resume);
+            if(entity.getId() == null){
+                 courseRepository.save(saved);
+            }else{
+                courseRepository.updateCourse(
+                        saved.getActive(),
+                        saved.getFinishedDate(),
+                        saved.getHours(),
+                        saved.getName(),
+                        saved.getRealizationDate(),
+                        saved.getTrainingInstitution(),
+                        saved.getResume().getId(),
+                        saved.getId()
+                );
+            }
+        }
+    }
     @Override
     public Optional<CourseDto> update(CourseDto entity) {
         Optional<Course> updatedEntity = courseRepository.findById(entity.getId());
