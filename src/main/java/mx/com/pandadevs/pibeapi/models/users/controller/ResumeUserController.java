@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.Map;
 
 @RestController
@@ -47,8 +48,19 @@ public class ResumeUserController {
             @ApiResponse(code = 404, message = "Resume not found")
     })
     @PutMapping("/{username}/resume")
-    public ResponseEntity<ResumeDto> update(@RequestBody ResumeDto entity) {
+    public ResponseEntity<ResumeDto> update(@Valid @RequestBody ResumeDto entity) {
         return resumeService.update(entity, entity.getProfile())
+                .map(updatedEntity -> new ResponseEntity<>(updatedEntity, HttpStatus.OK))
+                .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
+    }
+    @ApiOperation("Change a style")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "OK" ),
+            @ApiResponse(code = 404, message = "Resume not found")
+    })
+    @PutMapping("/{username}/resume/style/{id}")
+    public ResponseEntity<ResumeDto> changeStyle(@Valid @RequestBody ResumeDto entity,@PathVariable("id")Integer id) {
+        return resumeService.changeStyle(entity, id)
                 .map(updatedEntity -> new ResponseEntity<>(updatedEntity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
