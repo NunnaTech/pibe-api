@@ -18,6 +18,8 @@ import mx.com.pandadevs.pibeapi.models.resumes.dto.ResumeDto;
 import mx.com.pandadevs.pibeapi.models.resumes.mapper.ResumeMapper;
 import mx.com.pandadevs.pibeapi.models.studies.StudyService;
 import mx.com.pandadevs.pibeapi.models.studies.dto.StudyDto;
+import mx.com.pandadevs.pibeapi.models.styles.StyleService;
+import mx.com.pandadevs.pibeapi.models.styles.dto.StyleDto;
 import mx.com.pandadevs.pibeapi.models.styles.mapper.StyleMapper;
 import mx.com.pandadevs.pibeapi.models.users.User;
 import mx.com.pandadevs.pibeapi.models.vacants.controller.UserVacantContoller;
@@ -38,9 +40,6 @@ public class ResumeService {
     private final ResumeMapper mapper;
     private final ProfileMapper profileMapper;
     private final StyleMapper styleMapper;
-    private final AptitudeMapper aptitudeMapper;
-
-    private final CertificationMapper certificationMapper;
 
     @Autowired
     private ResumeRepository resumeRepository;
@@ -58,13 +57,12 @@ public class ResumeService {
     private ResumeLanguageService languageService;
     @Autowired
     private ProfileService profileService;
-
-    public ResumeService(ResumeMapper mapper, ProfileMapper profileMapper, StyleMapper styleMapper, AptitudeMapper aptitudeMapper, CertificationMapper certificationMapper) {
+    @Autowired
+    private StyleService styleService;
+    public ResumeService(ResumeMapper mapper, ProfileMapper profileMapper, StyleMapper styleMapper) {
         this.mapper = mapper;
         this.profileMapper = profileMapper;
         this.styleMapper = styleMapper;
-        this.aptitudeMapper = aptitudeMapper;
-        this.certificationMapper = certificationMapper;
     }
 
     public List<ResumeDto> getAll() {
@@ -84,6 +82,13 @@ public class ResumeService {
     public Optional<ResumeDto> getByUsername(String username) {
         Optional<Resume> resume = resumeRepository.findResumeByProfileUserUsernameAndActiveTrue(username);
         return resume.map(entity ->{return Optional.of(mapper.toResumeDto(entity));}).orElse(Optional.empty());
+    }
+    public Optional<ResumeDto> changeStyle(ResumeDto entity,Integer id) {
+        Optional<StyleDto> style = styleService.getById(id);
+        if(style.isPresent()){
+            resumeRepository.changeStyle(id,entity.getId());
+        }
+        return getById(entity.getId());
     }
 
 

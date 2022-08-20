@@ -21,4 +21,8 @@ public interface ResumeRepository extends JpaRepository<Resume, Integer> {
             "description, profile_id,style_id) VALUES (DEFAULT, DEFAULT, DEFAULT, DEFAULT, ' ', ' ', ?, 1);"
             ,nativeQuery = true)
     void saveFirstResume(Long profileId);
+
+    @Modifying
+    @Query(value = "UPDATE resumes t SET t.style_id = ? WHERE t.id_resume = ?;",nativeQuery = true)
+    void changeStyle(int styleId, int resumeId);
 }
