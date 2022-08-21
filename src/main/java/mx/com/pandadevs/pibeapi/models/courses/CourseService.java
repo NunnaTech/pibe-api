@@ -48,7 +48,7 @@ public class CourseService implements ServiceInterface<Integer, CourseDto> {
         for (CourseDto entity: courses) {
             Course saved = mapper.toCourse(entity);
             saved.setResume(resume);
-            if(entity.getId() == null){
+            if(entity.getId() == null  || entity.getId() == 0){
                  courseRepository.save(saved);
             }else{
                 courseRepository.updateCourse(
