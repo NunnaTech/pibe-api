@@ -16,6 +16,9 @@ public class WorkExperienceDto {
             min = 5,
             max = 50)
     private String position;
+    @NotNull
+    private Boolean active;
+
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startPeriod;
     @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
@@ -34,6 +37,14 @@ public class WorkExperienceDto {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getPosition() {

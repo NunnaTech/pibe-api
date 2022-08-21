@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 // Spring
+import mx.com.pandadevs.pibeapi.models.courses.Course;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,7 +30,9 @@ public class WorkExperienceService implements ServiceInterface<Integer, WorkExpe
     public List<WorkExperienceDto> getAll() {
         return mapper.toWorkExperiencesDto(workExperienceRepository.findAll());
     }
-
+    public List<WorkExperience> getAllByResume(Integer resumeId) {
+        return workExperienceRepository.findAllByResumeIdAndActiveTrueOrderByCreatedAtAsc(resumeId);
+    }
     @Override
     public Optional<WorkExperienceDto> getById(Integer id) {
         Optional<WorkExperience> workExperience = workExperienceRepository.findById(id);

@@ -2,6 +2,7 @@ package mx.com.pandadevs.pibeapi.models.studies;
 
 import mx.com.pandadevs.pibeapi.models.courses.Course;
 import mx.com.pandadevs.pibeapi.models.courses.dto.CourseDto;
+import mx.com.pandadevs.pibeapi.models.languages.entity.ResumeLanguage;
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 import mx.com.pandadevs.pibeapi.models.studies.dto.StudyDto;
 import mx.com.pandadevs.pibeapi.models.studies.mapper.StudyMapper;
@@ -28,7 +29,9 @@ public class StudyService implements ServiceInterface<Integer, StudyDto> {
     public List<StudyDto> getAll() {
         return mapper.toStudiesDto(studyRepository.findAll());
     }
-
+    public List<Study> getAllByResume(Integer resumeId) {
+        return studyRepository.findAllByResumeIdAndActiveTrueOrderByCreatedAtAsc(resumeId);
+    }
     @Override
     public Optional<StudyDto> getById(Integer id) {
         Optional<Study> study = studyRepository.findById(id);

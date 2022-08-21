@@ -23,6 +23,7 @@ public interface WorkExperienceMapper {
         @Mapping(source = "position", target = "position"),
         @Mapping(source = "startPeriod", target = "startPeriod"),
         @Mapping(source = "endPeriod", target = "endPeriod"),
+        @Mapping(source = "active", target = "active"),
         @Mapping(source = "activities", target = "activities"),
     })
     WorkExperienceDto toWorkExperienceDto(WorkExperience workExperience);
@@ -30,8 +31,7 @@ public interface WorkExperienceMapper {
 
     @InheritInverseConfiguration
     @Mappings({
-            @Mapping(target = "resume", ignore = true),
-            @Mapping(target = "active", ignore = true)
+            @Mapping(target = "resume", ignore = true)
     })
     WorkExperience toWorkExperience(WorkExperienceDto workExperienceDto);
 

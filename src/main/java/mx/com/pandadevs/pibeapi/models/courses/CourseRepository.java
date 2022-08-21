@@ -7,12 +7,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Repository
 @Transactional
 public interface CourseRepository extends JpaRepository<Course, Integer> {
 
-
+    List<Course> findAllByResumeIdAndActiveTrueOrderByCreatedAtAsc(Integer id);
     @Modifying
     @Query(value = "UPDATE courses t SET t.active = ?, t.finished_date = ?, t.hours = ?," +
             "t.name = ?, t.realization_date = ?, t.training_institution = ?, t.resume_id = ? " +

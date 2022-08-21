@@ -23,5 +23,6 @@ public interface ResumeLanguageRepository extends JpaRepository<ResumeLanguage, 
             @Param("resume") Integer resumeId);
 
     List<ResumeLanguage> findAllByResumeId(Integer id);
+    List<ResumeLanguage> findAllByResumeIdAndActiveTrueOrderByCreatedAtAsc(Integer id);
 
 }

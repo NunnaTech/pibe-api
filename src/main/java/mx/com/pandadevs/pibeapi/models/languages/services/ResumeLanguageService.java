@@ -6,6 +6,7 @@ import java.util.Map;
 import java.util.Optional;
 // Spring
 
+import mx.com.pandadevs.pibeapi.models.aptitudes.dto.AptitudeDto;
 import mx.com.pandadevs.pibeapi.models.languages.dto.LanguageDto;
 import mx.com.pandadevs.pibeapi.models.languages.entity.Language;
 import mx.com.pandadevs.pibeapi.models.languages.mapper.LanguageMapper;
@@ -49,7 +50,9 @@ public class ResumeLanguageService implements ServiceInterface<Integer, ResumeLa
     public List<ResumeLanguageDto> getAll() {
         return mapper.toResumeLanguagesDto(languageRepository.findAll());
     }
-
+    public List<ResumeLanguage> getAllByResume(Integer resumeId) {
+        return languageRepository.findAllByResumeIdAndActiveTrueOrderByCreatedAtAsc(resumeId);
+    }
     @Override
     public Optional<ResumeLanguageDto> getById(Integer id) {
         Optional<ResumeLanguage> resumeLanguage = languageRepository.findById(id);

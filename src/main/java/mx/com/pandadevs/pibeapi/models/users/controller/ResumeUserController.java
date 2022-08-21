@@ -37,8 +37,8 @@ public class ResumeUserController {
             @ApiResponse(code = 404, message = "Resume not found")
     })
     @PostMapping("/{username}/resume")
-    public ResponseEntity<ResumeDto> save(@RequestBody ResumeDto entity) {
-        return resumeService.update(entity, entity.getProfile())
+    public ResponseEntity<ResumeDto> save(@Valid @RequestBody ResumeDto entity,@PathVariable("username") String username) {
+        return resumeService.update(entity, entity.getProfile(),username)
                 .map(updatedEntity -> new ResponseEntity<>(updatedEntity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
@@ -48,8 +48,8 @@ public class ResumeUserController {
             @ApiResponse(code = 404, message = "Resume not found")
     })
     @PutMapping("/{username}/resume")
-    public ResponseEntity<ResumeDto> update(@Valid @RequestBody ResumeDto entity) {
-        return resumeService.update(entity, entity.getProfile())
+    public ResponseEntity<ResumeDto> update(@Valid @RequestBody ResumeDto entity,@PathVariable("username") String username) {
+        return resumeService.update(entity, entity.getProfile(), username)
                 .map(updatedEntity -> new ResponseEntity<>(updatedEntity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }
