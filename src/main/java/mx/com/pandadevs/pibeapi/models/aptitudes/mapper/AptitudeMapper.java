@@ -23,14 +23,14 @@ public interface AptitudeMapper {
     @Mappings({
         @Mapping(source = "id", target = "id"),
         @Mapping(source = "name", target = "name"),
+        @Mapping(source = "active", target = "active"),
     })
     AptitudeDto toAptitudeDto(Aptitude aptitude);
     List<AptitudeDto> toAptitudesDto(List<Aptitude> aptitudes);
 
     @InheritInverseConfiguration
     @Mappings({
-            @Mapping(target = "resumes", ignore = true),
-            @Mapping(target = "active", ignore = true)
+            @Mapping(target = "resumes", ignore = true)
     })
     Aptitude toAptitude(AptitudeDto aptitudeDto);
     List<Aptitude> toAptitudes(List<AptitudeDto> aptitudes);

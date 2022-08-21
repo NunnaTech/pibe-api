@@ -9,6 +9,7 @@ import java.util.Optional;
 // Spring
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -45,6 +46,7 @@ public class AptitudeService {
     public AptitudeService(AptitudeMapper mapper){
         this.mapper = mapper;
     }
+    @Transactional(readOnly = true)
 
     public List<AptitudeDto> getAll() {
         return mapper.toAptitudesDto(aptitudeRepository.findAllByActiveTrueOrderByCreatedAtAsc());
@@ -94,7 +96,6 @@ public class AptitudeService {
     public List<AptitudeDto> save(List<AptitudeDto> entities) {
         return mapper.toAptitudesDto(aptitudeRepository.saveAll(mapper.toAptitudes(entities)));
     }
-
     public Optional<AptitudeDto> update(AptitudeDto entity, String bearerToken) throws JsonProcessingException {
         Optional<Aptitude> updatedEntity = aptitudeRepository.findById(entity.getId());
         return updatedEntity.map(updated -> {

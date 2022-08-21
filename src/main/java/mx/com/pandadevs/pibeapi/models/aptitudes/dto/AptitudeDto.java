@@ -13,6 +13,9 @@ public class AptitudeDto {
             max = 40)
     private String name;
 
+
+    @NotNull
+    private Boolean active;
     public Integer getId() {
         return id;
     }
@@ -27,5 +30,13 @@ public class AptitudeDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 }

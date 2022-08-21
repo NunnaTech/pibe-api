@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 // Spring
+import mx.com.pandadevs.pibeapi.models.studies.Study;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -30,7 +31,9 @@ public class CourseService implements ServiceInterface<Integer, CourseDto> {
     public List<CourseDto> getAll() {
         return mapper.toCoursesDto(courseRepository.findAll());
     }
-
+    public List<Course> getAllByResume(Integer resumeId) {
+        return courseRepository.findAllByResumeIdAndActiveTrueOrderByCreatedAtAsc(resumeId);
+    }
     @Override
     public Optional<CourseDto> getById(Integer id) {
         Optional<Course> aptitude = courseRepository.findById(id);
@@ -49,7 +52,8 @@ public class CourseService implements ServiceInterface<Integer, CourseDto> {
             Course saved = mapper.toCourse(entity);
             saved.setResume(resume);
             if(entity.getId() == null  || entity.getId() == 0){
-                 courseRepository.save(saved);
+                saved.setActive(true);
+                courseRepository.save(saved);
             }else{
                 courseRepository.updateCourse(
                         saved.getActive(),

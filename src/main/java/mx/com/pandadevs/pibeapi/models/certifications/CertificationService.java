@@ -8,6 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 // Spring
 import mx.com.pandadevs.pibeapi.models.resumes.Resume;
+import mx.com.pandadevs.pibeapi.models.work_experiences.WorkExperience;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -30,6 +31,9 @@ public class CertificationService implements ServiceInterface<Integer, Certifica
     @Override
     public List<CertificationDto> getAll() {
         return mapper.toCertificationsDto(certificationRepository.findAll());
+    }
+    public List<Certification> getAllByResume(Integer resumeId) {
+        return certificationRepository.findAllByResumeIdAndActiveTrueOrderByCreatedAtAsc(resumeId);
     }
     public void saveInResume(List<CertificationDto> certifications, Resume resume) {
         List<Certification> cast = new ArrayList<>();

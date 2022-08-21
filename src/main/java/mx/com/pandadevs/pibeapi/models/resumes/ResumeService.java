@@ -30,6 +30,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
@@ -64,6 +65,7 @@ public class ResumeService {
         this.profileMapper = profileMapper;
         this.styleMapper = styleMapper;
     }
+    @Transactional(readOnly = true)
 
     public List<ResumeDto> getAll() {
         return mapper.toResumesDto(resumeRepository.findAll());
@@ -71,6 +73,7 @@ public class ResumeService {
     public void saveFirstResume(Long profileId) {
         resumeRepository.saveFirstResume(profileId);
     }
+    @Transactional(readOnly = true)
 
     public Optional<ResumeDto> getById(Integer id) {
         Optional<Resume> resume  = resumeRepository.findById(id);
@@ -78,10 +81,23 @@ public class ResumeService {
             return Optional.of(mapper.toResumeDto(entity));
         }).orElse(Optional.empty());
     }
-
+    @Transactional(readOnly = true)
     public Optional<ResumeDto> getByUsername(String username) {
         Optional<Resume> resume = resumeRepository.findResumeByProfileUserUsernameAndActiveTrue(username);
-        return resume.map(entity ->{return Optional.of(mapper.toResumeDto(entity));}).orElse(Optional.empty());
+        if(resume.isPresent()){
+            // Languages
+            resume.get().setLanguages(languageService.getAllByResume(resume.get().getId()));
+            // Studies
+            resume.get().setStudies(studyService.getAllByResume(resume.get().getId()));
+            // Courses
+            resume.get().setCourses(courseService.getAllByResume(resume.get().getId()));
+            // Work Experiences
+            resume.get().setExperiences(workExperienceService.getAllByResume(resume.get().getId()));
+            // Certifications
+            resume.get().setCertifications(certificationService.getAllByResume(resume.get().getId()));
+            return Optional.of(mapper.toResumeDto(resume.get()));
+        }
+        return Optional.empty();
     }
     public Optional<ResumeDto> changeStyle(ResumeDto entity,Integer id) {
         Optional<StyleDto> style = styleService.getById(id);
@@ -105,7 +121,7 @@ public class ResumeService {
         return mapper.toResumeDto(resumeRepository.save(resume));
     }
 
-    public Optional<ResumeDto> update(ResumeDto entity, ProfileDto profileDto) {
+    public Optional<ResumeDto> update(ResumeDto entity, ProfileDto profileDto, String username) {
 
         if(entity.getId() == null) {
             if(checkExistence(entity.getProfile().getId()))
@@ -133,13 +149,9 @@ public class ResumeService {
               profileMapper.toProfile(entity.getProfile()),
               styleMapper.toStyle(entity.getStyle())
             );
-            // Save Aptitudes
-            //resume.setAptitudes(aptitudeMapper.toAptitudes(entity.getAptitudes()));
-
-            //entity.setAptitudes(aptitudeService.save(entity.getAptitudes()));
             /// Save languages
             languageService.save(entity.getLanguages(),entity);
-            //
+            // check repeated Aptitudes
             entity.setAptitudes(aptitudeService.checkNames(entity.getAptitudes()));
             // set blank
             entity.setLanguages(new ArrayList<>());
