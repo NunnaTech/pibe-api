@@ -56,7 +56,8 @@ public class UserNotificationService implements ServiceInterface<UserNotificatio
     }
 
     public List<UserNotificationDto> getAllByUser(String username) {
-        return mapper.toNotificationsDto(repository.findByUserUsernameAndUserActiveTrue(username));
+        List<UserNotification> notifications = repository.findByUserUsernameAndUserActiveTrue(username);
+        return mapper.toNotificationsDto(notifications);
     }
 
     public Boolean shareVacant(Map<Object, Object> fields) {
