@@ -56,14 +56,14 @@ public class CourseService implements ServiceInterface<Integer, CourseDto> {
                 courseRepository.save(saved);
             }else{
                 courseRepository.updateCourse(
-                        saved.getActive(),
-                        saved.getFinishedDate(),
-                        saved.getHours(),
-                        saved.getName(),
-                        saved.getRealizationDate(),
-                        saved.getTrainingInstitution(),
+                        entity.getActive(),
+                        entity.getFinishedDate(),
+                        entity.getHours(),
+                        entity.getName(),
+                        entity.getRealizationDate(),
+                        entity.getTrainingInstitution(),
                         saved.getResume().getId(),
-                        saved.getId()
+                        entity.getId()
                 );
             }
         }
