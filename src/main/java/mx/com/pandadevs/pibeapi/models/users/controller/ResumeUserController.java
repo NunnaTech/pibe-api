@@ -59,8 +59,8 @@ public class ResumeUserController {
             @ApiResponse(code = 404, message = "Resume not found")
     })
     @PutMapping("/{username}/resume/style/{id}")
-    public ResponseEntity<ResumeDto> changeStyle(@Valid @RequestBody ResumeDto entity,@PathVariable("id")Integer id) {
-        return resumeService.changeStyle(entity, id)
+    public ResponseEntity<ResumeDto> changeStyle(@PathVariable("username") String username, @PathVariable("id")Integer id) {
+        return resumeService.changeStyle(username, id)
                 .map(updatedEntity -> new ResponseEntity<>(updatedEntity, HttpStatus.OK))
                 .orElse(new ResponseEntity<>(HttpStatus.NOT_FOUND));
     }

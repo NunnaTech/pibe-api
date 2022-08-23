@@ -99,12 +99,15 @@ public class ResumeService {
         }
         return Optional.empty();
     }
-    public Optional<ResumeDto> changeStyle(ResumeDto entity,Integer id) {
-        Optional<StyleDto> style = styleService.getById(id);
-        if(style.isPresent()){
-            resumeRepository.changeStyle(id,entity.getId());
+    public Optional<ResumeDto> changeStyle(String username,Integer styleId) {
+        Optional<StyleDto> style = styleService.getById(styleId);
+        Optional<ResumeDto> resumeDto = getByUsername(username);
+        if(style.isPresent() && resumeDto.isPresent()){
+            Optional<Resume> resume = resumeRepository.findById(resumeDto.get().getId());
+            resume.get().setStyle(styleService.getStyleById(styleId).get());
+            return Optional.ofNullable(mapper.toResumeDto(resumeRepository.save(resume.get())));
         }
-        return getById(entity.getId());
+        return Optional.empty();
     }
 
 
