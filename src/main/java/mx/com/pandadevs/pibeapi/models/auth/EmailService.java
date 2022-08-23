@@ -135,7 +135,7 @@ public class EmailService {
         Optional<User> user = userRepository.findByEmailAndActiveTrue(request.getEmail());
         if (user == null || !user.get().getActive()) return false;
         try {
-            user.get().setLinkRestorePassword(token);
+            user.get().setLinkRestorePassword(token.substring(30));
             SendGrid sg = new SendGrid(EMAIL_KEY);
             Mail mail = getMail(user.get().getEmail());
             mail.setTemplateId(TEMPLATE_EMAIL_PASSWORD_RECOVERY);
