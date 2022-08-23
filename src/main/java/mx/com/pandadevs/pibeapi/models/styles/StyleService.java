@@ -58,6 +58,9 @@ public class StyleService {
             return Optional.of(mapper.toStyleDto(entity));
         }).orElse(Optional.empty());
     }
+    public Optional<Style> getStyleById(Integer id) {
+        return styleRepository.findById(id);
+    }
     @Transactional
     public Optional<StyleDto> save(StyleDto entity, String bearerToken) throws JsonProcessingException {
         if (logJwtService.isRecruiter(bearerToken)) {
