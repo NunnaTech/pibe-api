@@ -1,20 +1,19 @@
 package mx.com.pandadevs.pibeapi.models.auth;
 
-import java.util.ArrayList;
-import java.util.Optional;
-
+import mx.com.pandadevs.pibeapi.models.auth.common.AuthRequest;
 import mx.com.pandadevs.pibeapi.models.roles.Role;
 import mx.com.pandadevs.pibeapi.models.roles.RoleRepository;
-import mx.com.pandadevs.pibeapi.models.users.dto.UserDto;
+import mx.com.pandadevs.pibeapi.models.users.User;
+import mx.com.pandadevs.pibeapi.models.users.UserRepository;
 import mx.com.pandadevs.pibeapi.models.users.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import mx.com.pandadevs.pibeapi.models.auth.common.AuthRequest;
-import mx.com.pandadevs.pibeapi.models.users.User;
-import mx.com.pandadevs.pibeapi.models.users.UserRepository;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AuthService {
@@ -57,23 +56,22 @@ public class AuthService {
         return true;
     }
 
-    public String register(AuthRequest request){
+    public Optional<String> register(AuthRequest request){
         ArrayList<Role> list = new ArrayList<>();
         Optional<Role> rol = roleRepository.findById(request.getRoleId());
-        if (!rol.isPresent()) return  "El rol seleccionado no existe";
-        User user = userRepository.findByUsername(request.getUsername());
+        if (!rol.isPresent()) return  Optional.empty();
+        List<User> user = userRepository.findByUsernameOrEmail(request.getUsername(), request.getEmail());
 
-        if (user != null){
-            if (user.getEmail().equals(request.getEmail()) || user.getUsername().equals(request.getUsername())){
-                return "Correo o usuario ya registrados";
-            }
+        if (user.size()>0){
+                return Optional.of("Correo o usuario ya registrados");
         }else{
             User user1 = new User(request.getEmail(), request.getUsername(), passwordEncoder.encode(request.getPassword()));
             list.add(rol.get());
-            user1.setActive(false);
+            user1.setActive(true);
             user1.setRoles(list);
-            emailService.sendActivationCode(user1);
+            emailService.sendEmailNewAccount(user1);
+            userRepository.save(user1);
         }
-        return  "registrado correctamente";
+        return  Optional.of("registrado correctamente");
     }
 }

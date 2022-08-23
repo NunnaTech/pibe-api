@@ -33,12 +33,10 @@ public class Course extends PibeModel implements Serializable {
     private Integer id;
     
     @Column(
-        nullable = false,
         columnDefinition = "varchar(40)")
     private String name;
     
     @Column(
-        nullable = false,
         columnDefinition = "int")
     private Integer hours;
 
@@ -62,7 +60,6 @@ public class Course extends PibeModel implements Serializable {
     private LocalDateTime finishedDate;
    
     @Column(
-        nullable = false,
         columnDefinition = "tinyint default 1")
     private Boolean active;
 

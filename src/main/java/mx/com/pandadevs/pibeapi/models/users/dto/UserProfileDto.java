@@ -9,8 +9,6 @@ public class UserProfileDto extends UserBaseDto {
     private ProfileDto profile;
     private List<RoleDto> authorities;
 
-    // Getters & Setters
-
     public ProfileDto getProfile() {
         return profile;
     }

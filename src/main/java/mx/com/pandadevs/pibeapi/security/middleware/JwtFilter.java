@@ -38,7 +38,7 @@ public class JwtFilter extends OncePerRequestFilter {
             String encodedToken = authHeader.substring(7);
             String username =  jwtAuth.getUsername(encodedToken);
 
-            //idk what the heck is securityContexHolder
+            //securityContexHolder
             if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
                 UserDetails userDetails = authDetailService.loadUserByUsername(username);
 

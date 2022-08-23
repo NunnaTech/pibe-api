@@ -1,10 +1,12 @@
 package mx.com.pandadevs.pibeapi.models.courses;
 // Java
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 // Spring
+import mx.com.pandadevs.pibeapi.models.studies.Study;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
@@ -12,6 +14,8 @@ import org.springframework.util.ReflectionUtils;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 import mx.com.pandadevs.pibeapi.models.courses.dto.CourseDto;
 import mx.com.pandadevs.pibeapi.models.courses.mapper.CourseMapper;
+import mx.com.pandadevs.pibeapi.models.resumes.Resume;
+
 @Service
 public class CourseService implements ServiceInterface<Integer, CourseDto> {
     private final CourseMapper mapper;
@@ -27,7 +31,9 @@ public class CourseService implements ServiceInterface<Integer, CourseDto> {
     public List<CourseDto> getAll() {
         return mapper.toCoursesDto(courseRepository.findAll());
     }
-
+    public List<Course> getAllByResume(Integer resumeId) {
+        return courseRepository.findAllByResumeIdAndActiveTrueOrderByCreatedAtAsc(resumeId);
+    }
     @Override
     public Optional<CourseDto> getById(Integer id) {
         Optional<Course> aptitude = courseRepository.findById(id);
@@ -41,7 +47,27 @@ public class CourseService implements ServiceInterface<Integer, CourseDto> {
         Course course = mapper.toCourse(entity);
         return mapper.toCourseDto(courseRepository.saveAndFlush(course));
     }
-
+    public void saveInResume(List<CourseDto> courses, Resume resume) {
+        for (CourseDto entity: courses) {
+            Course saved = mapper.toCourse(entity);
+            saved.setResume(resume);
+            if(entity.getId() == null  || entity.getId() == 0){
+                saved.setActive(true);
+                courseRepository.save(saved);
+            }else{
+                courseRepository.updateCourse(
+                        entity.getActive(),
+                        entity.getFinishedDate(),
+                        entity.getHours(),
+                        entity.getName(),
+                        entity.getRealizationDate(),
+                        entity.getTrainingInstitution(),
+                        saved.getResume().getId(),
+                        entity.getId()
+                );
+            }
+        }
+    }
     @Override
     public Optional<CourseDto> update(CourseDto entity) {
         Optional<Course> updatedEntity = courseRepository.findById(entity.getId());

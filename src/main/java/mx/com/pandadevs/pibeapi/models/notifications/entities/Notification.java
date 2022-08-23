@@ -31,7 +31,6 @@ public class Notification extends PibeModel implements Serializable {
     private String description;
 
     @Column(
-        nullable = false,
         columnDefinition = "tinyint default 1")
     private Boolean active;
 
@@ -40,6 +39,15 @@ public class Notification extends PibeModel implements Serializable {
     // Notifications
     @OneToMany(mappedBy = "notification", cascade = {CascadeType.ALL})
     private List<UserNotification> notifications;
+
+    public Notification() {
+    }
+
+    public Notification(String name, String description, Boolean active) {
+        this.name = name;
+        this.description = description;
+        this.active = active;
+    }
 
     // Getters & Setters
     public Integer getId() {

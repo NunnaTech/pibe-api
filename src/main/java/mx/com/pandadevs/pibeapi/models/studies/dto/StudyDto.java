@@ -1,7 +1,8 @@
 package mx.com.pandadevs.pibeapi.models.studies.dto;
 
-// Validations
+import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
@@ -13,9 +14,12 @@ public class StudyDto {
     @Pattern(regexp = "[A-Za-zÀ-ÿ '-.0-9]*")
     @Size(min = 5, max = 40)
     private String name;
+    @NotNull
+    private Boolean active;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startPeriod;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endPeriod;
-    // Getters && Setters
 
     public Integer getId() {
         return id;
@@ -31,6 +35,14 @@ public class StudyDto {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public LocalDateTime getStartPeriod() {

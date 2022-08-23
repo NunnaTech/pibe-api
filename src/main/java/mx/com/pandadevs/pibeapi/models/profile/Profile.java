@@ -38,7 +38,6 @@ public class Profile extends PibeModel implements Serializable {
     private Long id;
     
     @Column(
-        nullable = false,
         columnDefinition = "varchar(40)")
     private String name;
     
@@ -76,12 +75,10 @@ public class Profile extends PibeModel implements Serializable {
     private String gender;
 
     @Column(
-        nullable = false,
         columnDefinition = "varchar(70)")
     private String position;
 
     @Column(
-        nullable = false,
         columnDefinition = "tinyint default 0")
     private Boolean completed;
 
@@ -91,7 +88,7 @@ public class Profile extends PibeModel implements Serializable {
     private RepublicState state ;
 
     @OneToOne(cascade = {CascadeType.ALL})
-    @JoinColumn(name="user_id", insertable = false, updatable = false)
+    @JoinColumn(name="user_id")
     private User user;
 
     // Relationships
@@ -206,6 +203,22 @@ public class Profile extends PibeModel implements Serializable {
         this.resumes = resumes;
     }
 
-    
-    
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", birthDate=" + birthDate +
+                ", image='" + image + '\'' +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", gender=" + gender +
+                ", position='" + position + '\'' +
+                ", completed=" + completed +
+                ", state=" + state +
+                ", user=" + user +
+                ", resumes=" + resumes +
+                '}';
+    }
 }

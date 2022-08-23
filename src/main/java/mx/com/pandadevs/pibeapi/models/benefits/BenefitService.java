@@ -6,69 +6,80 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import mx.com.pandadevs.pibeapi.models.periods.Period;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import mx.com.pandadevs.pibeapi.models.logs.dto.LogDto;
+import mx.com.pandadevs.pibeapi.models.logs.services.LogService;
+import mx.com.pandadevs.pibeapi.models.logs.services.TableService;
+import mx.com.pandadevs.pibeapi.models.users.UserService;
+import mx.com.pandadevs.pibeapi.security.LogJwtService;
+import mx.com.pandadevs.pibeapi.utils.enums.Action;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 import mx.com.pandadevs.pibeapi.models.benefits.dto.BenefitDto;
 import mx.com.pandadevs.pibeapi.models.benefits.mapper.BenefitMapper;
-import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
 
 @Service
-public class BenefitService implements ServiceInterface<Integer, BenefitDto> {
+public class BenefitService {
 
     private final BenefitMapper mapper;
     @Autowired
     private BenefitRepository repository;
 
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private LogJwtService logJwtService;
+
+    @Autowired
+    private TableService tableService;
+
+    @Autowired
+    private LogService logService;
+
+    private final String TABLE_NAME = "benefits";
+
     public BenefitService(BenefitMapper mapper) {
         this.mapper = mapper;
     }
 
-    @Override
+    @Transactional(readOnly = true)
     public List<BenefitDto> getAll() {
         return mapper.toBenefitsDto(repository.findAllByActiveIsTrue());
     }
 
-    @Override
+    @Transactional(readOnly = true)
     public Optional<BenefitDto> getById(Integer id) {
         Optional<Benefit> benefit = repository.findByIdAndActiveIsTrue(id);
         return benefit.map(mapper::toBenefitDto);
     }
 
-    @Override
-    public BenefitDto save(BenefitDto entity) {
-        Benefit benefit = mapper.toBenefit(entity);
-        return mapper.toBenefitDto(repository.saveAndFlush(benefit));
+    @Transactional
+    public Optional<BenefitDto> save(BenefitDto entity, String bearerToken) throws JsonProcessingException {
+        Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
+        if (auth.get("role").contains("ROLE_RECRUITER")) {
+            logService.save(new LogDto("{}", logJwtService.parseToJsonObeject(entity), Action.Creacion, userService.getUserByUsername(auth.get("username")), tableService.getById(TABLE_NAME).get()));
+            Benefit benefit = mapper.toBenefit(entity);
+            return Optional.of(mapper.toBenefitDto(repository.saveAndFlush(benefit)));
+        }
+        return Optional.empty();
+
     }
 
-    @Override
-    public Optional<BenefitDto> update(BenefitDto entity) {
-        Optional<Benefit> updated = repository.findByIdAndActiveIsTrue(entity.getId());
-        if (updated.isPresent()) {
+    @Transactional
+    public Optional<BenefitDto> update(BenefitDto entity, String bearerToken) throws JsonProcessingException {
+        Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
+        if (auth.get("role").contains("ROLE_RECRUITER")) {
+            Optional<Benefit> updated = repository.findByIdAndActiveIsTrue(entity.getId());
+            logService.save(new LogDto(logJwtService.parseToJsonObeject(updated.get()), logJwtService.parseToJsonObeject(entity), Action.Actualizacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
             return Optional.of(mapper.toBenefitDto(repository.save(mapper.toBenefit(entity))));
         }
         return Optional.empty();
     }
 
-    @Override
-    public Optional<BenefitDto> partialUpdate(Integer id, Map<Object, Object> fields) {
-        try {
-            Optional<Benefit> updatedEntity = repository.findByIdAndActiveIsTrue(id);
-            return updatedEntity.map(updated -> {
-                fields.forEach((updatedfield, value) -> {
-                    Field field = ReflectionUtils.findField(Benefit.class, (String) updatedfield);
-                    field.setAccessible(true);
-                    ReflectionUtils.setField(field, updated, value);
-                });
-                return Optional.of(mapper.toBenefitDto(repository.saveAndFlush(updated)));
-            }).orElse(Optional.empty());
-        } catch (Exception ignored) {
-
-        }
-        return Optional.empty();
-    }
-
+    @Transactional
     public Optional<Benefit> getOrSave(String name) {
         String _name = name.substring(0, 1).toUpperCase() + name.substring(1);
         Optional<Benefit> finded = repository.findByNameLikeIgnoreCase(_name);
@@ -76,13 +87,19 @@ public class BenefitService implements ServiceInterface<Integer, BenefitDto> {
         return Optional.of(repository.save(new Benefit(_name)));
     }
 
-    @Override
-    public Boolean delete(Integer id) {
-        return repository.findByIdAndActiveIsTrue(id).map(entity -> {
-            entity.setActive(false);
-            repository.save(entity);
-            return true;
-        }).orElse(false);
+    @Transactional
+    public Boolean delete(Integer id, String bearerToken) throws JsonProcessingException {
+        Map<String, String> auth = logJwtService.getUsernameAndRole(bearerToken);
+        if (auth.get("role").contains("ROLE_RECRUITER")) {
+            Optional<Benefit> deletedMode = repository.findByIdAndActiveIsTrue(id);
+            if (deletedMode.isPresent()) {
+                logService.save(new LogDto(logJwtService.parseToJsonObeject(deletedMode.get()), "{}", Action.Elminacion, userService.getUserByUsername(auth.get("username")), tableService.getByName(TABLE_NAME)));
+                deletedMode.get().setActive(false);
+                repository.save(deletedMode.get());
+                return true;
+            }
+        }
+        return false;
     }
 
     public void fillInitialData() {

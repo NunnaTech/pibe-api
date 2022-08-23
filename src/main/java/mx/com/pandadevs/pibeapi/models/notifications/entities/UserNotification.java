@@ -1,9 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.notifications.entities;
 
-// Java
 import java.io.Serializable;
-
-// Persistence
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -11,11 +8,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.MapsId;
 import javax.persistence.Table;
-
-import mx.com.pandadevs.pibeapi.models.notifications.entities.UserNotificationPK;
-import mx.com.pandadevs.pibeapi.models.notifications.entities.Notification;
 import mx.com.pandadevs.pibeapi.models.users.User;
-// Models
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 
 @Entity
@@ -27,24 +20,18 @@ public class UserNotification extends PibeModel implements Serializable {
     private UserNotificationPK id;
 
     @Column(
-        nullable = false,
         columnDefinition = "TEXT")
     private String action;
 
     @Column(
-        nullable = false,
         columnDefinition = "tinyint default 0")
     private Boolean seen;
 
-    // Relationship
-    
-    // User
     @ManyToOne
     @MapsId("user_id")
     @JoinColumn(name = "user_id" )
     private User user;
 
-    // Notification
     @ManyToOne
     @JoinColumn(name = "notification_id", insertable = false, updatable = false)
     private Notification notification;
@@ -56,6 +43,13 @@ public class UserNotification extends PibeModel implements Serializable {
         this.id = id;
         this.action = action;
         this.seen = seen;
+    }
+
+    public UserNotification(String action, Boolean seen, User user, Notification notification) {
+        this.action = action;
+        this.seen = seen;
+        this.user = user;
+        this.notification = notification;
     }
 
     // Getters & Setters

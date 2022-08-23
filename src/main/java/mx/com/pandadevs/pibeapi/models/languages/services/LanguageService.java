@@ -35,11 +35,17 @@ public class LanguageService implements ServiceInterface<Integer, LanguageDto> {
             return Optional.of(mapper.toLanguageDto(entity));
         }).orElse(Optional.empty());
     }
-
+    public Optional<Language> getByName(String name) {
+        return languageRepository.findByName(name);
+    }
     @Override
     public LanguageDto save(LanguageDto entity) {
         Language language = mapper.toLanguage(entity);
         return mapper.toLanguageDto(languageRepository.saveAndFlush(language));
+    }
+    public LanguageDto save(String name, String abbreviation) {
+        languageRepository.saveLanguage(abbreviation, name);
+        return mapper.toLanguageDto(getByName(name).get());
     }
 
     @Override

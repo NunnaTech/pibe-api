@@ -8,6 +8,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ResumeLanguageRepository extends JpaRepository<ResumeLanguage, Integer> {
@@ -22,4 +23,6 @@ public interface ResumeLanguageRepository extends JpaRepository<ResumeLanguage, 
             @Param("resume") Integer resumeId);
 
     List<ResumeLanguage> findAllByResumeId(Integer id);
+    List<ResumeLanguage> findAllByResumeIdAndActiveTrueOrderByCreatedAtAsc(Integer id);
+
 }

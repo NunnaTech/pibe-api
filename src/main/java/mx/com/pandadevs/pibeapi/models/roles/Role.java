@@ -34,7 +34,6 @@ public class Role extends PibeModel implements Serializable {
     private String description;
 
     @Column(
-        nullable = false,
         columnDefinition = "tinyint default 1")
     private Boolean active;
 

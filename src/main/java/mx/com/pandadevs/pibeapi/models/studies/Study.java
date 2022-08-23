@@ -27,8 +27,6 @@ public class Study extends PibeModel implements Serializable {
     private Integer id;
     
     @Column(
-        unique = true,
-        nullable = false,
         columnDefinition = "varchar(40)")
     private String name;
 
@@ -46,7 +44,6 @@ public class Study extends PibeModel implements Serializable {
     private LocalDateTime endPeriod;
 
     @Column(
-        nullable = false,
         columnDefinition = "tinyint default 1")
     private Boolean active;
 

@@ -1,8 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.logs.entities;
-// Java
 import java.io.Serializable;
 
-// Persistence
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -14,8 +12,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-// Models
-import mx.com.pandadevs.pibeapi.models.logs.entities.Tables;
 import mx.com.pandadevs.pibeapi.utils.PibeModel;
 import mx.com.pandadevs.pibeapi.utils.enums.Action;
 import mx.com.pandadevs.pibeapi.models.users.User;
@@ -34,18 +30,17 @@ public class Log extends PibeModel implements Serializable {
     @Column(
         name = "old_data",
         columnDefinition = "json")
-    private String oldData;
+    private String oldData = "{}";
 
     @Column(
         name = "new_data",
-        nullable = false,
         columnDefinition = "json")
-    private String newData;
+    private String newData = "{}";
 
     @Column(
         name="action",
         nullable = false,
-        length = 12 
+        length = 15
         )
     @Enumerated(value = EnumType.STRING)
     private Action action;
@@ -58,7 +53,6 @@ public class Log extends PibeModel implements Serializable {
     @JoinColumn(name = "table_id" )
     private Tables table;
 
-    // Getters & Setters
     public Long getId() {
         return id;
     }

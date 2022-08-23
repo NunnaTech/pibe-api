@@ -1,5 +1,9 @@
 package mx.com.pandadevs.pibeapi.models.studies;
 
+import mx.com.pandadevs.pibeapi.models.courses.Course;
+import mx.com.pandadevs.pibeapi.models.courses.dto.CourseDto;
+import mx.com.pandadevs.pibeapi.models.languages.entity.ResumeLanguage;
+import mx.com.pandadevs.pibeapi.models.resumes.Resume;
 import mx.com.pandadevs.pibeapi.models.studies.dto.StudyDto;
 import mx.com.pandadevs.pibeapi.models.studies.mapper.StudyMapper;
 import mx.com.pandadevs.pibeapi.utils.interfaces.ServiceInterface;
@@ -8,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -24,7 +29,9 @@ public class StudyService implements ServiceInterface<Integer, StudyDto> {
     public List<StudyDto> getAll() {
         return mapper.toStudiesDto(studyRepository.findAll());
     }
-
+    public List<Study> getAllByResume(Integer resumeId) {
+        return studyRepository.findAllByResumeIdAndActiveTrueOrderByCreatedAtAsc(resumeId);
+    }
     @Override
     public Optional<StudyDto> getById(Integer id) {
         Optional<Study> study = studyRepository.findById(id);
@@ -38,7 +45,16 @@ public class StudyService implements ServiceInterface<Integer, StudyDto> {
         Study study = mapper.toStudy(entity);
         return mapper.toStudyDto(studyRepository.saveAndFlush(study));
     }
-
+    public void saveInResume(List<StudyDto> studies, Resume resume) {
+        List<Study> cast = new ArrayList<>();
+        for (StudyDto entity: studies) {
+            Study saved = mapper.toStudy(entity);
+            saved.setResume(resume);
+            if(saved.getId() == null) saved = studyRepository.save(saved);
+            cast.add(saved);
+        }
+        studyRepository.saveAll(cast);
+    }
     @Override
     public Optional<StudyDto> update(StudyDto entity) {
         Optional<Study> updatedEntity = studyRepository.findById(entity.getId());

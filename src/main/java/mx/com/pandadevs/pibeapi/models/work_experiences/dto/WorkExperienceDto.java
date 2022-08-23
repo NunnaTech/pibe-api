@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.work_experiences.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
@@ -15,7 +16,12 @@ public class WorkExperienceDto {
             min = 5,
             max = 50)
     private String position;
+    @NotNull
+    private Boolean active;
+
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startPeriod;
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endPeriod;
     @NotNull
     @Pattern(regexp = "[A-Za-zÀ-ÿ '-.0-9]*")
@@ -25,14 +31,20 @@ public class WorkExperienceDto {
             max = 255)
     private String activities;
 
-    // Getters && Setters
-
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Boolean getActive() {
+        return active;
+    }
+
+    public void setActive(Boolean active) {
+        this.active = active;
     }
 
     public String getPosition() {

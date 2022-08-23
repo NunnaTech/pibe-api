@@ -1,12 +1,12 @@
 package mx.com.pandadevs.pibeapi.models.courses.dto;
-// Validations
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
-// Java
 import java.time.LocalDateTime;
 
 public class CourseDto {
@@ -33,12 +33,10 @@ public class CourseDto {
             min = 5,
             max = 40)
     private String trainingInstitution;
-
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime realizationDate;
-
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime finishedDate;
-
-    // Getters && Setters
 
     public Integer getId() {
         return id;

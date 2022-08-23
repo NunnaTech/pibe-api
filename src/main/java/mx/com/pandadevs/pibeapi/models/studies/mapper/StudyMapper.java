@@ -23,6 +23,7 @@ public interface StudyMapper {
     @Mappings({
             @Mapping(source = "id", target = "id"),
             @Mapping(source = "name", target = "name"),
+            @Mapping(source = "active", target = "active"),
             @Mapping(source = "startPeriod", target = "startPeriod"),
             @Mapping(source = "endPeriod", target = "endPeriod"),
     })
@@ -31,7 +32,6 @@ public interface StudyMapper {
 
     @InheritInverseConfiguration
     @Mappings({
-            @Mapping(target = "active", ignore = true),
             @Mapping(target = "resume", ignore = true),
     })
     Study toStudy(StudyDto studyDto);

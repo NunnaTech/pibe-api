@@ -1,5 +1,7 @@
 package mx.com.pandadevs.pibeapi.models.certifications.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
@@ -19,12 +21,11 @@ public class CertificationDto {
     private String company;
 
     private Boolean active;
-
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime expirationDate;
-
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime obtainedDate;
 
-    // Getters && Setters
     public Integer getId() {
         return id;
     }

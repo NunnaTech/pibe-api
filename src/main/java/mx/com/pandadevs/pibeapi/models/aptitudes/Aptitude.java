@@ -29,6 +29,7 @@ public class Aptitude extends PibeModel implements Serializable {
         columnDefinition = "varchar(40)")
     private String name;
 
+
     @Column(
             columnDefinition = "tinyint default 1")
     private Boolean active;

@@ -1,5 +1,6 @@
 package mx.com.pandadevs.pibeapi.models.profile.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import mx.com.pandadevs.pibeapi.models.states.dto.RepublicStateDto;
 
 import javax.validation.constraints.NotBlank;
@@ -27,15 +28,14 @@ public class ProfileDto {
     @Pattern(regexp = "^[a-zA-Z]*$", message = "Special characters are not allowed")
     private String firstName;
 
-    @NotNull
-    @NotBlank
     @Size(
             min = 2,
             max = 40)
-    @Pattern(regexp = "^[a-zA-Z]*$", message = "Special characters are not allowed")
+    @Pattern(regexp = "^[a-zA-Zñ]*$", message = "Special characters are not allowed")
     private String secondName;
 
     @NotNull
+    @JsonFormat(shape=JsonFormat.Shape.STRING, pattern="yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime birthDate;
 
     @NotNull
@@ -53,8 +53,6 @@ public class ProfileDto {
     private RepublicStateDto state ;
 
     private String position;
-
-    // Getters && Setters
 
     public Long getId() {
         return id;
@@ -141,5 +139,19 @@ public class ProfileDto {
 
     public void setPosition(String position) {
         this.position = position;
+    }
+
+    @Override
+    public String toString() {
+        return "ProfileDto{" +
+                "name='" + name + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", secondName='" + secondName + '\'' +
+                ", birthDate=" + birthDate +
+                ", completed=" + completed +
+                ", phoneNumber='" + phoneNumber + '\'' +
+                ", state=" + state +
+                ", position='" + position + '\'' +
+                '}';
     }
 }

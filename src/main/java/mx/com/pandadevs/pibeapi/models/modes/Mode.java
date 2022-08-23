@@ -32,7 +32,6 @@ public class Mode extends PibeModel implements Serializable {
     private String name;
 
     @Column(
-            nullable = false,
             columnDefinition = "tinyint default 1")
     private Boolean active = true;
 
