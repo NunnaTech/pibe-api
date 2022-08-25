@@ -23,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ReflectionUtils;
 
 import java.lang.reflect.Field;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -64,7 +65,8 @@ public class VacantService {
 
     @Transactional(readOnly = true)
     public List<VacantDto> getAll() {
-        return mapper.toVacantsDto(vacantRepository.findAllByActiveIsTrueAndIsPublicIsTrue());
+        LocalDateTime nowTime = LocalDateTime.now();
+        return mapper.toVacantsDto(vacantRepository.findAllByActiveIsTrueAndIsPublicIsTrueAndEndDateGreaterThanEqual(nowTime));
     }
 
     @Transactional(readOnly = true)
